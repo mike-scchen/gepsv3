@@ -1,0 +1,6 @@
+7,8c7,8
+<       use rmachine , only : kind_phys
+<       use rmodule_microphysics , only : gsmconst
+---
+>       use machine , only : kind_phys
+>       use module_microphysics , only : gsmconst

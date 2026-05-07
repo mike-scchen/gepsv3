@@ -1,0 +1,4 @@
+312c312
+<       call getptb(grid,rqb(1,1,nc),wsltb,levr)
+---
+> !     call getptb(grid,rqb(1,1,nc),wsltb,levr)

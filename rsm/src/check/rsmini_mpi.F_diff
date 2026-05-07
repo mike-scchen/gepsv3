@@ -1,0 +1,16 @@
+183c183
+< #if defined(CWBSUM) || defined(CWB_MPMD)
+---
+> #ifdef CWB_MPMD
+193c193
+<         open(unit=n0,file='rsm_idate',convert='little_endian' &
+---
+>         open(unit=n0,file='rsm_idate'                                &
+441,443d440
+< #ifdef CPL_TIMCOM
+<       cpl_field = 0.0
+< #endif
+474c471
+< #if defined(CWBSUM) || defined(CWB_MPMD)
+---
+> #ifdef CWB_MPMD

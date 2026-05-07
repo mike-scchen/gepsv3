@@ -1,0 +1,2 @@
+63d62
+<         if( mype.eq.master ) print*,'check kdt=1:',secphy, fhswr, fhlwr

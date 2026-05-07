@@ -1,0 +1,454 @@
+#!/bin/sh
+
+# directory
+export USERID=${USERID:-` whoami `}
+export DISK=${DISK:-` cd .. ; pwd `}     		#working top directory
+#export DISK=/IFS6/data2/datagfs/xb127/mpmd_gfs_rsm/rsm_yj.v9    #working top directory
+export WORK=${WORK:-$DISK/run/rsm2msm}         		#working directory
+export EXPN=${EXPN:-rsm2msm}                     	#experimental subdirectory
+export TEMP=${TEMP:-$DISK/wrk}
+export SRCDIR=${SRCDIR:-$DISK/src}
+export UTLDIR=${UTLDIR:-$DISK/utl}
+export SHSDIR=${SHSDIR:-$DISK/script}
+#yj#export JSHDIR=${JSHDIR:-$DISK/jsh}
+#yj#export USHDIR=${USHDIR:-$DISK/ush}
+export FIXDIR=${FIXDIR:-$DISK/fix}
+export AERDIR=${AERDIR:-$DISK/fix}
+export EXEDIR=${EXEDIR:-$DISK/utl}
+export RUNDIR=${RUNDIR:-$TEMP/$SDATE}
+export EXPDIR=${EXPDIR:-$DISK/run}
+export EXPEXE=${EXPEXE:-$EXPDIR/exe}
+export CMPDIR=${CMPDIR:-$TEMP/dir_cmp}
+export INCDIR=${INCDIR:-$CMPDIR/include}
+export BASEDIR=${BASEDIR:-/global/noscrub/wx24yz/data/gfs/$sdate}      # data directory
+
+# machine dependent
+export MACHINE=${MACHINE:-ibm_xlf}
+export RUNENV=${RUNENV:-}                                # execute command
+export MARCH=${MARCH:-mpi}                               # no use now
+export LAMMPI=${LAMMPI:-no}
+export MPICH=${MPICH:-yes}                               # define mpikind for linux mpich and aix pe
+export MPICH4=${MPICH4:-no}                           
+export NCPUS=${NCPUS:-1}                                 # only 1 now
+export NCOL=${NCOL:-4}
+export NROW=${NROW:-8}
+export NPES=${NPES:-` expr $NCOL \* $NROW `}                #equal to the total_task in run.q
+export NODES=${NODES:-1}                                    
+export TASKPERNODE=${TASKPERNODE:-` expr $NPES / $NODES `}  
+
+# machine dependent cpp
+export MP=${MP:-yes}                                       # mpi
+export MPIO=${MPIO:-no}
+if [ $MACHINE = ibm_xlf ] ; then
+   export IBMSP=yes
+else
+   export IBMSP=no
+fi
+export CRA=${CRA:-no}
+export DEC=${DEC:-no}
+export ORIGIN=${ORIGIN:-no}
+export THREAD=${THREAD:-no}                                # openmp
+export HYBRID=${HYBRID:-no}
+export SINGLE=${SINGLE:-no}
+export FFT99M=${FFT99M:-yes}
+export DCRFT=${DCRFT:-no}
+
+# debug related
+# cpp flag A T Q U V P 
+export CNT=${CNT:-no}
+export CNT_1=${CNT_1:-no}
+export CNT_2=${CNT_2:-no}
+export CNT_5=${CNT_5:-no}
+export CNT_6=${CNT_6:-no}
+export DBG=${DBG:-no}
+
+# model parameter
+export JCAP=${JCAP:-62}                                   # use it if input global data
+export LEVS=${LEVS:-47}                                   # input data level
+export LONF=${LONF:-192}                                  # use it if input global data
+export LATG=${LATG:-94}                                   # use it if input global data
+export CIGRD1=${CIGRD1:-199}                              # use it if input regional data
+export CJGRD1=${CJGRD1:-91}                               # use it if input regional data
+export IGRD=${IGRD:-64}
+export JGRD=${JGRD:-64} 
+export LEVR=${LEVR:-42}                                   # model level
+export PGBRES=${PGBRES:-0.5}                              # pressure input file resolution
+export BGF=${BGF:-1}                                      # add bgf #yj20170831
+#--------------------------------
+#
+# after merge rinp and fcst
+#
+#### rsmlocation
+export  IGRD=${IGRD:-128}
+export  JGRD=${JGRD:-128}
+export  LEVR=${LEVR:-42}
+export  RPROJ=${RPROJ:-0.}
+export  RTRUTH=${RTRUTH:-23.65}
+export  RORIENT=${RORIENT:-120.7}
+export  RDELX=${RDELX:-5000.}
+export  RDELY=${RDELY:-5000.}
+export  RCENLAT=${RCENLAT:-23.65}
+export  RCENLON=${RCENLON:-120.7}
+export  RLFTGRD=${RLFTGRD:-64.}
+export  RBTMGRD=${RBTMGRD:-64.}
+#### rsmlocation1
+export  BIGRD=${BIGRD:-64}
+export  BJGRD=${BJGRD:-64}
+export  BLEVR=${BLEVR:-42}
+export  BRPROJ=${BRPROJ:-0.}
+export  BRTRUTH=${BRTRUTH:-23.65}
+export  BRORIENT=${BRORIENT:-120.7}
+export  BRDELX=${BRDELX:-25000.}
+export  BRDELY=${BRDELY:-25000.}
+export  BRCENLAT=${BRCENLAT:-23.65}
+export  BRCENLON=${BRCENLON:-120.7}
+export  BRLFTGRD=${BRLFTGRD:-32.}
+export  BRBTMGRD=${BRBTMGRD:-32.}
+# from gfsp2rsm
+export  LEVS=${BLEVR}
+export  CIGRD1=$(echo "$BIGRD+1" | bc)
+export  CJGRD1=$(echo "$BJGRD+1" | bc)
+export  CPROJ=${BRPROJ}
+export  CTRUTH=${BRTRUTH}
+export  CORIENT=${BRORIENT}
+export  CDELX=${BRDELX}
+export  CDELY=${BRDELY}
+export  CCENLAT=${BRCENLAT}
+export  CCENLON=${BRCENLON}
+export  CLFTGRD=$(echo "$BRLFTGRD+1" | bc)
+export  CBTMGRD=$(echo "$BRBTMGRD+1" | bc)
+export  CLAT1=${CLAT1:-0.} 
+export  CLAT2=${CLAT2:-0.}
+export  CLON1=${CLON1:-0.}
+export  CLON2=${CLON2:-0.}
+# from CWBGFS
+export  BCPROJ=${BCPROJ:-4.}
+export  BCLAT1=${BCLAT1:-5.0}
+export  BCLAT2=${BCLAT2:-45.0}
+export  BCLON1=${BCLON1:-90.0}
+export  BCLON2=${BCLON2:-150.0}
+export  BLEVS=${BLEVS:-47}
+export  BPGBRES=${BPGBRES:-0.25}        # 0.50 or 0.25
+export  INCBASE=${INCBASE:-6}           # 3 or 6 hours
+export  BCIGRD1=$(echo "($BCLON2-($BCLON1))/$BPGBRES+1" | bc)
+export  BCJGRD1=$(echo "($BCLAT2-($BCLAT1))/$BPGBRES+1" | bc)
+
+
+
+
+#--------------------------------
+
+
+# compile model option
+export NEST=${NEST:-P2R}                  # G2R C2R P2R N2R
+# G2R means preprocess global sigma data into RSM
+# P2R means preprocess global pressure data into RSM
+# C2R means preprocess RSM coarse data into RSM
+# N2R means preprocess MSM coarse data into RSM
+if [ do$NEST = doG2R ] ; then
+   export G2R=yes
+else
+   export G2R=no 
+fi
+if [ do$NEST = doC2R ] ; then
+   export C2R=yes
+else
+   export C2R=no 
+fi
+if [ do$NEST = doP2R ] ; then
+   export P2R=yes
+   export C2R=yes
+else
+   export P2R=no 
+fi
+if [ do$NEST = doN2R ] ; then
+   export N2R=yes
+   export C2R=yes
+else
+   export N2R=no 
+fi
+
+export NONHYD=${NONHYD:-no}
+export INTDTB=${INTDTB:-no}                # internal evolved base-field T, for NONHYD (MSM)
+export HYDPHY=${HYDPHY:-no}                 # hydrostatic physics heating for MSM
+
+export SIGP=${SIGP:-yes}                   # use sigma p hybrid vertical coordinate
+
+export RKN=${RKN:-no} 
+
+#-----physics parameterization-----
+#
+# run or not options
+#
+export DCYC2=${DCYC2:-yes}                 # run initialize dtdt with heating rate from dcyc2 and get radsl for progtm
+export LSM=${LSM:-yes}                     # run land surface model
+export OZPHYS=${OZPHYS:-yes}               # run ozone physices
+export GWDPS=${GWDPS:-yes}                 # run gwdps (now only kim and arakawa gravity wave drags)
+#
+export do3DRT=${do3DRT:-no}                # adjust surface albedo by accounting for 3-D topography effect on surface solar radiation (from Dr. Lee Wei-Liang)
+export CONCNV=${CONCNV:-yes}               # run deep convection
+export SCONCNV=${SCONCNV:-yes}             # run shallow convection scheme
+export LRGSCL=${LRGSCL:-yes}               # run large scale precipitation
+#
+export LTN=${LTN:-no}                      # lightning parameterization
+export wind_fitch=${wind_fitch:-no}        # fitch wind turbine module
+#
+# schemes to choose
+#
+# convection
+export RAS=${RAS:-no}                      # RAS convection
+export SAS=${SAS:-no}                      # SAS convection
+export NSAS=${NSAS:-no}                    # new SAS convection (cwb version before 2018)
+export SCASAS=${SCASAS:-no}                # scale-awareness SAS convection scheme
+export SAMFSAS=${SAMFSAS:-yes}             # scaleawareness SAS from NCEP physics, 2019.Sept.16
+export NTDK=${NTDK:-no}                    # new Tiedtke
+#
+# land surface model
+export NOAHLSM=${NOAHLSM:-yes}             # noah land surface model
+export LSMDATAREP=${LSMDATAREP:-no}           # use reproduced landuse,soiltyp,vegfrac from high resolution source data
+export PROGTM=${PROGTM:-no}                # osu land surface model
+export PROGT2=${PROGT2:-no}                # run-off scheme (only run with PROGTM=yes)
+#
+# PBL schemes
+export YSU=${YSU:-yes}                     # YSU
+export MONI_N=${MONI_N:-no}                # monin edmf from fv3 (bad preformances, maybe it was not installed properly?)
+export MONINP=${MONINP:-no}                # origin moninp
+#
+# microphysics
+export NUMP3D=${NUMP3D:-3}                 # 3 ferrier 4 zhao
+export NUMP2D=${NUMP2D:-1}                 # 1 ferrier 3 zhao
+#
+export NEW_WSM3=${NEW_WSM3:-yes}           # compile new version of WSM3
+export NEW_WSM6=${NEW_WSM6:-yes}           # compile new version of WSM6
+#
+#-----end of physics parameterization-----
+export GMTED2010=${GMTED2010:-yes}         # Topography data source. If GMTED2010 is chosen, MTNRES should be 30 (Supported by the new "rsm_terrain" program)
+export GTOPO30=${GTOPO30:-no}              # Topography data source. If GTOPO30 is chosen, MTNRES should be 30 (Supported by both the new "rsm_terrain" and the legacy "rsm_rmtn" programs)
+export SRTM1ARC=${SRTM1ARC:-no}            # Topography data source. If SRTM1ARC is chosen, MTNRES should be 1 (Supported by the legacy "rsm_rmtn" program)
+export CHGTLEV=${CHGTLEV:-no}              # top level damping
+export MBC=${MBC:-yes}                     # mean bias correction
+export LBC=${LBC:-no}                      # lateral boundary correction (not very effective)
+export ENERGYRD=${ENERGYRD:-no}            # redistribute the energy from the long waves to short waves (only testint, shall not turn on)
+export SQK=${SQK:-yes}
+export SPT=${SPT:-no}
+export SEMI=${SEMI:-yes}
+# NDSL
+export Salpha=${Salpha:-0.5}     # semi-implicit: uncentered coefficients (0.5 is centered scheme)
+export T0SI=${T0SI:-300.0}       # semi-implicit: reference temperature
+export NDSL=${NDSL:-yes}         # NDSL, tracer part
+export NDSLDYN=${NDSLDYN:-yes}   # dynamic part of NDSL
+export NDSLPPM=${NDSLPPM:-no}    # no:PLM, yes:PPM in horizontal
+export NDSLPPMV=${NDSLPPMV:-no}  # no:PLM, yes:PPM in vertical
+export UPDAMP=${UPDAMP:-no}      # extra upper damping
+export DIVDIF=${DIVDIF:-no}      # extra divergent diffusion
+export TSDIVDIF=${TSDIVDIF:-3.0} # times of strength of extra divergent diffusion (only effective when DIVDIF=yes)
+export dediff=${dediff:-no}      # de-diffusion (don't use)
+export UPDIFF=${UPDIFF:-no}      # using stronger 2nd diffusion on the top $LEVTOP layers of the model, the reset levs use $NHDIFORD*2 order
+export NHDIFORD=${NHDIFORD:-2}   #half number of diffusion order (if NHDIFORD=2, then it's 4th order diffusion)
+export LEVTOP=${LEVTOP:-2}       #number of top levels using 2nd diffusion.
+export SECDIFF=${SECDIFF:-no}    # do second time horizontal diffusion, order and wave# range are given in the code rdeldif_twice.F!
+export DIFFSW=${DIFFSW:-no}      #only diffuse wave number larger than 0.5 times of iwav1 or 0.5 times of jwav1
+export RAYLEIFR=${RAYLEIFR:-no}  # if RAYLEIFR=yes, rayleigh friction will apply on top 4 layers u and v
+export NEWLTB=${NEWLTB:-no}      #set broader, smoother slope for lateral relaxation coefficients (like half Gaussian), performances are bad, don't use this option
+export STPLTB=${STPLTB:-no}      #set steep slope for lateral relaxation coefficients (pow-51). If STPLTB=no, pow-15 slope is used.
+export DOINDEX=${DOINDEX:-no}    # zero out the nearest 2 points to the boundary of the perturbation tendency, perfornaces are bad, don't use this option
+export MULPHYS=${MULPHYS:-no}    # do multiple times physics in a dycore timestep
+export KEO=${KEO:-no}   # if KEO=yes, output the kinetic energy-zonal wavenumber
+export DIFDZ=${DIFDZ:-yes} # if DIFDZ=yes, diffusion on div/vor, otherwise on u/v
+
+# compile exec option
+export RMTN=${RMTN:-yes}
+export RSMTERRAIN=${RSMTERRAIN:-yes}
+export RINP=${RINP:-yes}
+export RLSMDATA=${RLSMDATA:-no}    # reproduce landuse,soiltyp,vegfrac from high resolution source data
+export R3DRTDATA=${R3DRTDATA:-no}  # adjust surface albedo by accounting for 3-D topography effect on surface solar radiation
+export FCST=${FCST:-yes} 
+if [ $RSMTERRAIN = yes ] ; then
+    # The "rsm_terrain" program depends on the "rsm_rmtn" program to do spectral truncation and lanczos filtering. Of course it is not ideal, but it is what it is currently.
+    export RMTN=yes
+    export RMTN_STUB_ONLY=yes
+fi
+
+# model run parameter
+export JOBS=${JOBS:-hindcast}
+export SDATE=${SDATE:-2008100100}
+export CLASS=${CLASS:-dev}
+#export CASE=${CASE:-05}             ## ensemble member  number
+export LENMON=${LENMON:-1}          # if without ENDHOUR
+#export ENDHOUR=${ENDHOUR:-48} 
+export TIMESTEP=${TIMESTEP:-60}
+export DELTAT_REG=${TIMESTEP:-120}
+export INCHOUR=${INCHOUR:-6}
+export INCBASE=${INCBASE:-6}
+export PRTHOUR=${PRTHOUR:-6}                         # output interval
+export FHMAX=${FHMAX:-10000}
+export IMDLPHY=${IMDLPHY:-1}                         # I/O of physics
+export IGRIBVERSION=${IGRIBVERSION:-2}               # input pgb gribversion
+export IQVAR=${IQVAR:-1}                             # input q is rh (2) or spfh (1)
+export IVS=${IVS:-1997}                              # input gfs io version
+# 1997 2000 200501 200509
+export CLIM=${CLIM:-0}                               # use climatology surface data
+export KO=${KO:-26}
+export NEWSLM=${NEWSLM:-0}
+export NEWSST=${NEWSST:-.FALSE.}
+export DELX=${DELX:-26}
+if [ $GMTED2010 = yes ] || [ $GTOPO30 = yes ] ; then
+   export MTNRES=30                                  # terrain resolution
+else
+   if [ $SRTM1ARC = yes ] ; then
+     export MTNRES=1                                 # terrain resolution
+   else
+   export MTNRES=${MTNRES:-4}                        # terrain resolution
+   fi
+fi
+# (MTNRES=1(sec),30(sec), 2(min), 4(min) and 8(min)) orography resolution 
+export RSFC_MERGE=${RSFC_MERGE:-yes}
+if [ $LEVR = $LEVS ] ; then
+#yj   export NEWSIG=.FALSE.
+   export NEWSIG=.TRUE.   #yj---for mpmd---: lev changes from 47-p to 42-sigma
+else
+   export NEWSIG=.TRUE.
+fi
+export NCLDB=${NCLDB:-1}                             # coarse model cloud
+export NCLD=${NCLD:-1}                               # model cloud
+#  ncldb should be 0 or equal ncld
+#  when ncld = 2,4,5, use num_p3d=4 num_p2d=3 
+#
+export PERCMTN=${PERCMTN:-0.0}  # terrain blending percentage of domain, if =0.0, then close the terrain blending, old default=0.2
+export POSTTYPE=${POSTTYPE:-sync}                    # do pgb sync or async
+export RUNRMTN=${RUNRMTN:-no}                        # run rsm_rmtn
+export RUNRSMTERRAIN=${RUNRSMTERRAIN:-yes}           # run rsm_terrain
+export RUNRINP=${RUNRINP:-yes}                       # run rinp at 00
+export RUNRINP2=${RUNRINP2:-yes}                     # run rinp at $fh
+export RUNLSMDATA=${RUNLSMDATA:-no}                  # produce new LSM data from high resolution WRF data base
+export RUN3DRTDATA=${RUN3DRTDATA:-no}                # produce parameter for adjusting surface albedo by accounting for 3-D topography effect on surface solar radiation
+export RUNFCST=${RUNFCST:-yes}                       # run fcst
+
+# rsmlocation
+#export  RPROJ=${RPROJ:-0.}
+#export  RTRUTH=${RTRUTH:--37.0}
+#export  RORIENT=${RORIENT:--118.0}
+#export  RDELX=${RDELX:-26000.}
+#export  RDELY=${RDELY:-26000.}
+#export  RCENLAT=${RCENLAT:-37.0}
+#export  RCENLON=${RCENLON:--118.0}
+#export  RLFTGRD=${RLFTGRD:-33.}
+#export  RBTMGRD=${RBTMGRD:-33.}
+#export  CPROJ=${CPROJ:-4.}                           # 4 means latlon grid
+#export  CTRUTH=${CTRUTH:-0.}
+#export  CORIENT=${CORIENT:-0.}
+#export  CDELX=${CDELX:-0.}
+#export  CDELY=${CDELY:-0.}
+#export  CCENLAT=${CCENLAT:-0.}
+#export  CCENLON=${CCENLON:-0.}
+#export  CLFTGRD=${CLFTGRD:-0.}
+#export  CBTMGRD=${CBTMGRD:-0.}
+#export  CLAT1=${CLAT1:-13}
+#export  CLAT2=${CLAT2:-58}
+#export  CLON1=${CLON1:--148}
+#export  CLON2=${CLON2:--49}
+
+# DIFFUSION AND OTHER SETTINGS #yj#from rsm_fcst.sh
+export  sfc_freq=${sfc_freq:-24}
+export  RSWRHOUR=${RSWRHOUR:-1}
+export  RLWRHOUR=${RLWRHOUR:-1}
+export  RDFISEC=${RDFISEC:-0.}
+export  RLXHSEC=${RLXHSEC:-1800.}
+export  RLXMSEC=${RLXMSEC:-1800.}
+export  DIFH=${DIFH:-3}
+export  DIFM=${DIFM:-2}
+export  ISEMIMP=${ISEMIMP:-1}
+export  IIMPRLX=${IIMPRLX:-1}
+export  IDMPJET=${IDMPJET:-0}
+export  IOUTNHR=${IOUTNHR:-1}                         # output frequency unit, 1: hour; 0: minutes
+export  RESTRHR=${RESTRHR:-0}                         # restart hour (zero means NOT restart)
+
+
+# fix filename
+export CO2CON=${CO2CON:-$FIXDIR/global_co2con.l$LEVR.f77}
+export TUNE1=${TUNE1:-$FIXDIR/global_cldtune.f77}
+export O3CLIM=${O3CLIM:-$FIXDIR/global_o3clim.txt}
+export O3PROD=${O3PROD:-$FIXDIR/global_o3prod.f77}
+export O3LOSS=${O3LOSS:-$FIXDIR/global_o3loss.f77}
+export STTPRM=${STTPRM:-$FIXDIR/nam_staids.parm}
+export GRIBKPDS5=${GRIBKPDS5:-$FIXDIR/clim_grib1.kpds5.vsn21}
+export GRIBKPDS6=${GRIBKPDS6:-$FIXDIR/clim_grib1.kpds6.vsn21}
+export FNZORC=${FNZORC:-igbp}
+       #|___ read fix file global_zorclim.1x1.grb; or let zor depends on veg.type igbp(16types), sib(9types)
+export FNALBC=${FNALBC:-global_albedo4.1x1.grb}
+export FNTG3C=${FNTG3C:-global_tg3clim.2.6x1.5.grb}
+export FNMSKH=${FNMSKH:-seaice_newland.grb}
+       #|___ file global_vegfrac.0.144.decpercent.grb
+# for Noah LSM:
+#     $FNSLPC, $FNABSC, $FNVMNC, $FNVMXC are needed
+export FNSLPC=${FNSLPC:-global_slope.1x1.grb}
+export FNABSC=${FNABSC:-global_snoalb.1x1.grb}
+export FNVMNC=${FNVMNC:-global_shdmin.0.144x0.144.grb}
+export FNVMXC=${FNVMXC:-global_shdmax.0.144x0.144.grb}
+
+if [ do$NOAHLSM = doyes ]&&[ do$LSMDATAREP = doyes ]; then
+# use hires data from $LSMDATAREP
+  export FNVETC=${FNVETC:-out_landuse.bin}
+  export FNSOTC=${FNSOTC:-out_soiltype.bin}
+  export FNVEGC=${FNVEGC:-out_vegfrac.bin}
+elif [ do$NOAHLSM = doyes ]; then
+# for Noah LSM:
+#     FNVETC=global_vegtype.igbp.t1534.3072.1536.grb
+#     FNSOTC=global_soiltype.statsgo.t1534.3072.1536.grb
+  export FNVETC=${FNVETC:-global_vegtype.igbp.t1534.3072.1536.grb}
+  export FNSOTC=${FNSOTC:-global_soiltype.statsgo.t1534.3072.1536.grb}
+  export FNVEGC=${FNVEGC:-global_vegfrac.0.144.decpercent.grb}
+else
+# for OSU LSM:
+#     FNVETC=global_vegtype.1x1.grb
+#     FNSOTC=global_soiltype.1x1.grb
+  export FNVETC=${FNVETC:-global_vegtype.1x1.grb}
+  export FNSOTC=${FNSOTC:-global_soiltype.1x1.grb}
+  export FNVEGC=${FNVEGC:-global_vegfrac.0.144.decpercent.grb}
+
+fi
+
+#
+# add some check condition
+#yj#if [ do$NEST = doP2R ] ; then
+#yj#   ci1=$(echo "($CLON2-($CLON1))/$PGBRES+1" | bc)
+#yj#   cj1=$(echo "($CLAT2-($CLAT1))/$PGBRES+1" | bc)
+#yj#   if [ $ci1 -ne $CIGRD1 ] ; then
+#yj#      echo 'CIGRD1 didnot consistent with CLON1 and CLON2'
+#yj#      exit
+#yj#   fi
+#yj#   if [ $cj1 -ne $CJGRD1 ] ; then
+#yj#      echo 'CJGRD1 didnot consistent with CLAT1 and CLAT2'
+#yj#      exit
+#yj#   fi
+#yj#fi
+if [ $NCLDB -ne $NCLD ] ; then
+   if [ $NCLDB -ne 0 ] ; then
+      echo ' NCLDB should be 0 or equal NCLD '
+      exit
+   fi
+fi
+if [ $NMMIPH = 2 ] ; then
+   export NUMP3D=4
+   export NUMP2D=3
+fi
+if [ $NMMIPH = 3 ] ; then
+   export NUMP3D=4
+   export NUMP2D=3
+fi
+if [ $NMMIPH = 6 ] ; then
+   export NUMP3D=4
+   export NUMP2D=3
+fi
+if [ $NMMIPH = 11 ] ; then
+   export NUMP3D=5
+   export NUMP2D=1
+fi
+
+  if [ $NDSLDYN = yes ]&&[ $NONHYD = yes ]; then
+    export HYDOT=${HYDOT:-no}    # use hydrostatic method to calculate sigma dot
+    export wwEU=${wwEU:-no}      # use EU's finite difference to calculate ww's vertical advection
+  fi
+  if [ $MULPHYS = yes ]; then
+    export NPHYS=${NPHYS:-2}     # run physics multiple times in a dycore timestep 
+  fi

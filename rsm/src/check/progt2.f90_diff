@@ -1,0 +1,6 @@
+12,13c12,13
+<       use rmachine , only : kind_phys
+< ! use rmachine_rad , only : kind_phys
+---
+>       use machine , only : kind_phys
+> ! use machine_rad , only : kind_phys

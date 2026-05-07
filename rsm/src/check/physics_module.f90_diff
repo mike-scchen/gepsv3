@@ -1,0 +1,4 @@
+145c145
+<       call rset_soilveg(me, isot, ivegsrc, idummy)
+---
+>       call set_soilveg(me, isot, ivegsrc, idummy)

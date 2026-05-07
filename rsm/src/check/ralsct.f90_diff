@@ -1,0 +1,4 @@
+16c16
+<       use rmachine , only : kind_rad
+---
+>       use machine , only : kind_rad

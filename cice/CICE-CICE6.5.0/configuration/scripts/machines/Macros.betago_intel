@@ -1,0 +1,55 @@
+#==============================================================================
+# Makefile macros for generic test machine, intel compiler
+#==============================================================================
+
+CPP        := fpp
+CPPDEFS    := -DFORTRANUNDERSCORE ${ICE_CPPDEFS}
+CFLAGS     := -c -O2 -fp-model precise   -xHost
+
+FIXEDFLAGS := -132
+FREEFLAGS  := -FR
+FFLAGS     := -fp-model precise -convert big_endian -assume byterecl -ftz -traceback   -xHost
+FFLAGS_NOOPT:= -O0
+
+ifeq ($(ICE_BLDDEBUG), true)
+  FFLAGS     += -O0 -g -check uninit -check bounds -check pointers -fpe0 -check noarg_temp_created
+else
+  FFLAGS     += -O2
+endif
+
+SCC   := icc 
+SFC   := ifort
+MPICC := mpiicc
+MPIFC := mpiifort
+
+ifeq ($(ICE_COMMDIR), mpi)
+  FC := $(MPIFC)
+  CC := $(MPICC)
+else
+  FC := $(SFC)
+  CC := $(SCC)
+endif
+LD:= $(FC)
+
+NETCDF_PATH := /cluster/intel-2021.5/intelmpi/netcdf-4.8.0-hdf5-1.12.0
+
+#PIO_CONFIG_OPTS:= --enable-filesystem-hints=gpfs 
+
+#PNETCDF_PATH := $(PNETCDF)
+PNETCDF_PATH := /home/opd_timcom/pkg/intel-2021.5/pnetcdf/1.12.3
+
+INCLDIR := $(INCLDIR) -I$(NETCDF_PATH)/include -I$(PNETCDF_PATH)/include
+
+LIB_NETCDF := $(NETCDF_PATH)/lib
+LIB_PNETCDF := $(PNETCDF_PATH)/lib
+LIB_MPI := $(IMPILIBDIR)
+
+SLIBS   := -L$(LIB_NETCDF) -lnetcdf -lnetcdff -L$(LIB_PNETCDF) -lpnetcdf 
+#-lgptl
+
+ifeq ($(ICE_THREADED), true) 
+   LDFLAGS += -qopenmp 
+   CFLAGS += -qopenmp 
+   FFLAGS += -qopenmp 
+endif
+

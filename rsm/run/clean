@@ -1,0 +1,19 @@
+#!/bin/ksh
+
+set -x
+. ./configure
+
+rm -rf ${TEMP}/rmtn_base
+rm -rf ${TEMP}/rmtn_init
+rm -rf ${TEMP}/rsm_terrain_base
+rm -rf ${TEMP}/rsm_terrain_init
+rm -rf ${TEMP}/r_3drtdata
+rm -rf ${TEMP}/rlsmdata
+rm -rf $CMPDIR
+
+cd $EXPEXE
+rm *.x
+rm *.exe
+
+echo "NORMAL END"
+exit

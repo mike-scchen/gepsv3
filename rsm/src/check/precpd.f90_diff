@@ -1,0 +1,12 @@
+1c1
+<        subroutine rprecpd (im,ix,km,dt,del,prsl,ps,q,cwm,t,rn &
+---
+>        subroutine precpd (im,ix,km,dt,del,prsl,ps,q,cwm,t,rn &
+46,48c46,48
+<       use rmachine , only : kind_phys
+<       use rfuncphys , only : fpvs
+<       use rphyscons, grav => con_g, hvap => con_hvap, hfus => con_hfus &
+---
+>       use machine , only : kind_phys
+>       use funcphys , only : fpvs
+>       use physcons, grav => con_g, hvap => con_hvap, hfus => con_hfus &

@@ -1,0 +1,6 @@
+110,111c110,111
+<       use rmachine , only : kind_phys,kind_rad
+<       use rphyscons, rocp => con_rocp, grav => con_g, rd => con_rd &
+---
+>       use machine , only : kind_phys,kind_rad
+>       use physcons, rocp => con_rocp, grav => con_g, rd => con_rd &

@@ -1,0 +1,24 @@
+14c14
+<       use rmachine, only: kind_grid => kind_io8
+---
+>       use machine, only: kind_grid => kind_io8
+89a90
+> ! parameter(nmmiph = 2)
+94a96
+> ! parameter(nmmiph = 3)
+96a99,109
+> !
+> ! for new wsm6 microphysics
+> ! parameter(nmmiph = 6)
+> ! parameter(num_p3d = 3)
+> ! parameter(num_p2d = 1)
+> !
+> ! for GFDL microphysics
+> ! parameter(nmmiph = 11)
+> ! parameter(num_p3d = 5)
+> ! parameter(num_p2d = 1)
+> !
+279c292
+<         call rvertical_cell_advect(1,1,levr,nvars, &
+---
+>         call vertical_cell_advect(1,1,levr,nvars, &

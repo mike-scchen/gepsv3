@@ -1,0 +1,12 @@
+3,5c3,5
+<       use rmachine , only : kind_phys,kind_rad
+<       use rfuncphys , only : fpkap
+<       use rphyscons, rocp => con_rocp,fv => con_fvirt &
+---
+>       use machine , only : kind_phys,kind_rad
+>       use funcphys , only : fpkap
+>       use physcons, rocp => con_rocp,fv => con_fvirt &
+13c13
+<       use rmodule_radlw_main, only : rlwinit
+---
+>       use module_radlw_main, only : rlwinit

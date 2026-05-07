@@ -1,0 +1,12 @@
+1c1
+<       SUBROUTINE RSASCNV(IM,IX,KM,JCAP,DELT,DEL,PRSL,PS,PHIL,QL, &
+---
+>       SUBROUTINE SASCNV(IM,IX,KM,JCAP,DELT,DEL,PRSL,PS,PHIL,QL, &
+11,13c11,13
+<       use rmachine , ONLY : kind_phys
+<       use rfuncphys , ONLY : fpvs
+<       use rphyscons, grav => con_g, CP => con_CP, HVAP => con_HVAP &
+---
+>       USE MACHINE , ONLY : kind_phys
+>       USE FUNCPHYS , ONLY : fpvs
+>       USE PHYSCONS, grav => con_g, CP => con_CP, HVAP => con_HVAP &

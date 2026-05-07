@@ -1,0 +1,37 @@
+52,53c52,53
+<       use rmachine , only : kind_io4
+<       use rphyscons, pi => con_pi
+---
+>       use machine , only : kind_io4
+>       use physcons, pi => con_pi
+137a138
+> ! parameter(nmmiph = 2)
+142a144
+> ! parameter(nmmiph = 3)
+144a147,157
+> !
+> ! for new wsm6 microphysics
+> ! parameter(nmmiph = 6)
+> ! parameter(num_p3d = 3)
+> ! parameter(num_p2d = 1)
+> !
+> ! for GFDL microphysics
+> ! parameter(nmmiph = 11)
+> ! parameter(num_p3d = 5)
+> ! parameter(num_p2d = 1)
+> !
+404d416
+<      & ssu(igrd1p,jgrd1p), ssv(igrd1p,jgrd1p), &
+446,447d457
+<       common /rcomgd6/ &
+<      & cpl_field(igrd1p,jgrd1p,9)
+461c471
+<      & deltim,dt2,dtltb,zhour,phour,fhour,odt_cpl, &
+---
+>      & deltim,dt2,dtltb,zhour,phour,fhour, &
+465c475
+<      & kdt,limlow,numsum,nummax,ncldb1,irclim,kdt_cpl
+---
+>      & kdt,limlow,numsum,nummax,ncldb1,irclim
+834d843
+<       cpl_field = 0.0

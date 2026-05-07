@@ -1,0 +1,161 @@
++ export MACHINE=Fujitsu_frtpx10
++ MACHINE=Fujitsu_frtpx10
++ export MACHINE=Fujitsu_frtpx10
++ MACHINE=Fujitsu_frtpx10
++ . ../opt/compile.option
+++ export DEBUG=no
+++ DEBUG=no
+++ '[' Fujitsu_frtpx10 = ibm_xlf ']'
+++ '[' Fujitsu_frtpx10 = mac_intel ']'
+++ '[' Fujitsu_frtpx10 = linux_intel ']'
+++ '[' Fujitsu_frtpx10 = mac_gfortran ']'
+++ '[' Fujitsu_frtpx10 = mac_absoft ']'
+++ '[' Fujitsu_frtpx10 = mac_xlf ']'
+++ '[' Fujitsu_frtpx10 = linux_pgi ']'
+++ '[' Fujitsu_frtpx10 = linux_gfortran ']'
+++ '[' Fujitsu_frtpx10 = Fujitsu_frtpx10 ']'
+++ export F_SUBF=f90
+++ F_SUBF=f90
+++ export 'C_PREP_RMTN=cpp -C'
+++ C_PREP_RMTN='cpp -C'
+++ export F_COMP_RMTN=frtpx
+++ F_COMP_RMTN=frtpx
+++ export 'F_FLAG_RMTN=-O3 -Kfast -CcdRR8'
+++ F_FLAG_RMTN='-O3 -Kfast -CcdRR8'
+++ export 'F_LINK_RMTN=-O3 -Kfast -CcdRR8'
+++ F_LINK_RMTN='-O3 -Kfast -CcdRR8'
+++ export F_LIBS_RMTN=
+++ F_LIBS_RMTN=
+++ export 'C_PREP_RINP=cpp -C'
+++ C_PREP_RINP='cpp -C'
+++ export F_COMP_RINP=frtpx
+++ F_COMP_RINP=frtpx
+++ export F_COMP_RINP90=frtpx
+++ F_COMP_RINP90=frtpx
+++ export 'F_FLAG_RINP=-O3 -Kfast -CcdRR8 -I${DISKSYS}/lib/incmod/g2_4'
+++ F_FLAG_RINP='-O3 -Kfast -CcdRR8 -I${DISKSYS}/lib/incmod/g2_4'
+++ export 'F_LINK_RINP=-O3 -Kfast -CcdRR8'
+++ F_LINK_RINP='-O3 -Kfast -CcdRR8'
+++ export 'F_LIBS_RINP=-L${DISKSYS}/lib -lg2_4 -lw3_d -lbacio_4 -ljasper -lpng -lz'
+++ F_LIBS_RINP='-L${DISKSYS}/lib -lg2_4 -lw3_d -lbacio_4 -ljasper -lpng -lz'
+++ export 'C_PREP_FCST=cpp -C'
+++ C_PREP_FCST='cpp -C'
+++ export F_COMP_FCST=mpifrtpx
+++ F_COMP_FCST=mpifrtpx
+++ export F_COMP_FCST90=mpifrtpx
+++ F_COMP_FCST90=mpifrtpx
+++ export 'F_FLAG_FCST=-O3 -Kfast,parallel -CcdRR8'
+++ F_FLAG_FCST='-O3 -Kfast,parallel -CcdRR8'
+++ export 'F_LINK_FCST=-O3 -Kfast,parallel -CcdRR8'
+++ F_LINK_FCST='-O3 -Kfast,parallel -CcdRR8'
+++ export F_LIBS_FCST=
+++ F_LIBS_FCST=
+++ export 'C_PREP_POST=cpp -C'
+++ C_PREP_POST='cpp -C'
+++ export F_COMP_POST=frtpx
+++ F_COMP_POST=frtpx
+++ export 'F_FLAG_POST=-O3 -Kfast'
+++ F_FLAG_POST='-O3 -Kfast'
+++ export 'F_LINK_POST=-O3 -Kfast'
+++ F_LINK_POST='-O3 -Kfast'
+++ export F_LIBS_POST=
+++ F_LIBS_POST=
+++ export 'C_PREP=cpp -C'
+++ C_PREP='cpp -C'
+++ export F_COMP=frtpx
+++ F_COMP=frtpx
+++ export 'F_FLAG_r8=-O3 -Kfast -CcdRR8'
+++ F_FLAG_r8='-O3 -Kfast -CcdRR8'
+++ export 'F_FLAG=-g -O3 -Kfast'
+++ F_FLAG='-g -O3 -Kfast'
+++ '[' no = yes ']'
+++ export 'F_LIBS=-llapack -lblas'
+++ F_LIBS='-llapack -lblas'
++ ./fhour.s
++ export MACHINE=Fujitsu_frtpx10
++ MACHINE=Fujitsu_frtpx10
++ . ../opt/compile.option
+++ export DEBUG=no
+++ DEBUG=no
+++ '[' Fujitsu_frtpx10 = ibm_xlf ']'
+++ '[' Fujitsu_frtpx10 = mac_intel ']'
+++ '[' Fujitsu_frtpx10 = linux_intel ']'
+++ '[' Fujitsu_frtpx10 = mac_gfortran ']'
+++ '[' Fujitsu_frtpx10 = mac_absoft ']'
+++ '[' Fujitsu_frtpx10 = mac_xlf ']'
+++ '[' Fujitsu_frtpx10 = linux_pgi ']'
+++ '[' Fujitsu_frtpx10 = linux_gfortran ']'
+++ '[' Fujitsu_frtpx10 = Fujitsu_frtpx10 ']'
+++ export F_SUBF=f90
+++ F_SUBF=f90
+++ export 'C_PREP_RMTN=cpp -C'
+++ C_PREP_RMTN='cpp -C'
+++ export F_COMP_RMTN=frtpx
+++ F_COMP_RMTN=frtpx
+++ export 'F_FLAG_RMTN=-O3 -Kfast -CcdRR8'
+++ F_FLAG_RMTN='-O3 -Kfast -CcdRR8'
+++ export 'F_LINK_RMTN=-O3 -Kfast -CcdRR8'
+++ F_LINK_RMTN='-O3 -Kfast -CcdRR8'
+++ export F_LIBS_RMTN=
+++ F_LIBS_RMTN=
+++ export 'C_PREP_RINP=cpp -C'
+++ C_PREP_RINP='cpp -C'
+++ export F_COMP_RINP=frtpx
+++ F_COMP_RINP=frtpx
+++ export F_COMP_RINP90=frtpx
+++ F_COMP_RINP90=frtpx
+++ export 'F_FLAG_RINP=-O3 -Kfast -CcdRR8 -I${DISKSYS}/lib/incmod/g2_4'
+++ F_FLAG_RINP='-O3 -Kfast -CcdRR8 -I${DISKSYS}/lib/incmod/g2_4'
+++ export 'F_LINK_RINP=-O3 -Kfast -CcdRR8'
+++ F_LINK_RINP='-O3 -Kfast -CcdRR8'
+++ export 'F_LIBS_RINP=-L${DISKSYS}/lib -lg2_4 -lw3_d -lbacio_4 -ljasper -lpng -lz'
+++ F_LIBS_RINP='-L${DISKSYS}/lib -lg2_4 -lw3_d -lbacio_4 -ljasper -lpng -lz'
+++ export 'C_PREP_FCST=cpp -C'
+++ C_PREP_FCST='cpp -C'
+++ export F_COMP_FCST=mpifrtpx
+++ F_COMP_FCST=mpifrtpx
+++ export F_COMP_FCST90=mpifrtpx
+++ F_COMP_FCST90=mpifrtpx
+++ export 'F_FLAG_FCST=-O3 -Kfast,parallel -CcdRR8'
+++ F_FLAG_FCST='-O3 -Kfast,parallel -CcdRR8'
+++ export 'F_LINK_FCST=-O3 -Kfast,parallel -CcdRR8'
+++ F_LINK_FCST='-O3 -Kfast,parallel -CcdRR8'
+++ export F_LIBS_FCST=
+++ F_LIBS_FCST=
+++ export 'C_PREP_POST=cpp -C'
+++ C_PREP_POST='cpp -C'
+++ export F_COMP_POST=frtpx
+++ F_COMP_POST=frtpx
+++ export 'F_FLAG_POST=-O3 -Kfast'
+++ F_FLAG_POST='-O3 -Kfast'
+++ export 'F_LINK_POST=-O3 -Kfast'
+++ F_LINK_POST='-O3 -Kfast'
+++ export F_LIBS_POST=
+++ F_LIBS_POST=
+++ export 'C_PREP=cpp -C'
+++ C_PREP='cpp -C'
+++ export F_COMP=frtpx
+++ F_COMP=frtpx
+++ export 'F_FLAG_r8=-O3 -Kfast -CcdRR8'
+++ F_FLAG_r8='-O3 -Kfast -CcdRR8'
+++ export 'F_FLAG=-g -O3 -Kfast'
+++ F_FLAG='-g -O3 -Kfast'
+++ '[' no = yes ']'
+++ export 'F_LIBS=-llapack -lblas'
+++ F_LIBS='-llapack -lblas'
++ FILEENV='/bin/rm -rf fort.*'
++ ASSIGN='ln -s'
++ FILEFORM=' '
++ UNIT=fort.
++ '[' '!' -s fhour.x ']'
++ cat
++ frtpx -O3 -Kfast -CcdRR8 -o fhour.x date.f
+Fortran diagnostic messages: program name(datech)
+  jwd2004i-i  "date.f", line 5: 'label' is set but never used.
++ cd src/ndate.fd
++ make
+frtpx -g -O3 -Kfast -o ../../ndate ndate.f -L../../../lib -lw3_4
++ cd ../nhour.fd
++ make
+frtpx -g -O3 -Kfast -o ../../nhour nhour.f -L../../../lib -lw3_4
++ cd ../../

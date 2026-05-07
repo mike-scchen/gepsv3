@@ -1,0 +1,8 @@
+55c55
+<         call rvertical_cell_advect(lonlens,igrd1p,levr,nvars,          &
+---
+>         call vertical_cell_advect(lonlens,igrd1p,levr,nvars,          &
+69c69
+<         call rvertical_cell_advect(1,1,levr,nvars,                     &
+---
+>         call vertical_cell_advect(1,1,levr,nvars,                     &

@@ -1,0 +1,6 @@
+56c56
+<      !call mpi_init(info)
+---
+>      call mpi_init(info)
+58d57
+<      info=0

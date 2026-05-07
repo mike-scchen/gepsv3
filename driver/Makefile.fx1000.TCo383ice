@@ -1,0 +1,94 @@
+COUPLERPATH=/data/common/gfs/GEPSv3_lib/coupler/fx1000
+TIMCOMLIBPATH=../timcom_glb/build_fx1000/src
+CICEPATH=/data/common/gfs/GEPSv3_lib/cice/cpl_lib_musoac
+CWBGFSLIBPATH=../tco639l72/src
+TAILIBPATH=../rsm/src/timcom.fd
+RSMLIBPATH=../rsm/run/exe
+MCTPATH=/data/common/gfs/GEPSv3_lib/$(MACHINE)/MCT
+HDF5=/package/$(MACHINE)/hdf5-1.10.7
+#ZLIB=/nwpr/gfs/xb124/package/$(MACHINE)/zlib-1.2.8
+ZLIB=/users/xa09/pkg/fx1000/zlib-1.2.11_fastest
+PNETCDF=/data/common/gfs/GEPSv3_lib/$(MACHINE)/pnetcdf-1.12.3
+
+PPATH=/package/fx1000//libpng-1.6.37/lib -lpng
+JPATH=/package/fx1000/jasper-1.900.1/lib -ljasper
+NPATH=/package/fx1000/g2lib-1.4.0_cwb/lib -lg2
+WPATH=/data/common/gfs/GEPSv3_lib/NCEPLIB/lib -lw3emc_d -lw3nco_d -lw3nco_4 -lbacio_4
+
+# -------------------Compiler & Flags------------------------------------------
+F90COMPILER = ${COMP_MPI}
+F90LINKER   = ${COMP_MPI} 
+#/package/fx1000/dms/bin/dmsmpif90
+
+INCLUDE = -I${FFTW_INC} -I${NETCDF_INC} -I${COUPLERPATH} -I${MCTPATH}/include
+
+LIBS =-L${NPATH} -L${PPATH} -L${JPATH} -L${WPATH} -L${PNETCDF}/lib -lpnetcdf ${NETCDF_LIB} ${W3LIB_LIB} ${DMS_LIB} ${OPERLIB_LIB} ${FFTW_LIB} ${LIBS_COM} ${MPMD_LIB} -L${HDF5}/lib -L${ZLIB}/lib -L$(MCTPATH)/lib
+
+FFLAGS_COM = -g -X9 -Ncheck_intrfunc,check_global -CcdRR8 -Cpp -Kfast,parallel,ocl,autoobjstack -x- -fw -Knofp_relaxed -SSL2BLAMP
+F90COMPILEOPTS = ${FFLAGS_COM} ${LIBS_COM} ${OMP_COM} ${DEFINE_FLAGS} ${MSG_COM}
+F90COMPILEPATHS= $(INCLUDE)
+F90COMPILECPPFLAGS=
+F90LINKOPTS=${FFLAGS_COM} ${LIBS_COM} ${OMP_COM} ${DEFINE_FLAGS} ${MSG_COM} 
+
+ifeq ($(FRAME), 4cpl_CICE)
+    F90LINKPATHS = -L${TIMCOMLIBPATH} -ltimcom \
+		   -L${CICEPATH} -lcice \
+                   -L${CWBGFSLIBPATH} -ltco \
+                   -L${RSMLIBPATH} -lrsm4cpl \
+                   -L${TAILIBPATH} -ltimcom_tai \
+                   -L${COUPLERPATH} -lcpl ${LIBS}
+    DRIVER_SRC = driver_4cpl.F90
+else ifeq ($(FRAME), 2cpl_CICE)
+    F90LINKPATHS = -L${TIMCOMLIBPATH} -ltimcom \
+		   -L${CICEPATH} -lcice \
+                   -L${CWBGFSLIBPATH} -ltco \
+                   -L${COUPLERPATH} -lcpl ${LIBS}
+    DRIVER_SRC = driver_2cpl.F90
+else
+    $(error "Unsupported FRAME value: $(FRAME). Use 4cpl or 2cpl")
+endif
+
+F90LINKLIBS= -lmct -lmpeu -lhdf5_hl -lhdf5 -lz
+
+# === 資料夾與規則 ===
+SRCDIR =  src
+OBJDIR =  obj
+LOGDIR =  log
+
+VPATH= $(SRCDIR)
+
+.SUFFIXES: .F .f .f90 .F90
+
+%.o : %.f90
+	$(F90COMPILER) -c $(F90COMPILEOPTS) $(F90COMPILEPATHS) $<
+
+%.o : %.F90
+	$(F90COMPILER) -c $(F90COMPILEOPTS) $(F90COMPILEPATHS) $(F90COMPILECPPFLAGS) $<
+
+%.o : %.f
+	$(F90COMPILER) -c $(F90COMPILEOPTS) $(F90COMPILEPATHS) $<
+
+%.o : %.F
+	$(F90COMPILER) -c $(F90COMPILEOPTS) $(F90COMPILEPATHS) $(F90COMPILECPPFLAGS) $<
+
+SHELL:=/bin/bash
+
+# === 主要目標 ===
+all: TCoTIMCOM_$(FRAME)_$(MACHINE)_$(atmres) move
+
+TCoTIMCOM_$(FRAME)_$(MACHINE)_$(atmres): $(DRIVER_SRC:.F90=.o)
+	$(F90LINKER) -o $@ $^ $(F90LINKOPTS) $(F90LINKPATHS) $(F90LINKLIBS)
+
+move:
+	test -d ${OBJDIR} || mkdir ${OBJDIR}
+	mv *.lst *.o ./$(OBJDIR)
+
+# === 清理區 ===
+.PHONY: dust clean distclean
+dust:
+	rm -f *.exe
+
+clean:
+	rm -f ./obj/*.o ./obj/*.mod *.log TCoTIMCOM_$(FRAME)_$(MACHINE)_$(atmres)
+
+distclean: dust clean

@@ -1,0 +1,882 @@
+
+ Fujitsu Fortran Version 4.6.1  Mon Oct 27 15:44:43 2025
+
+ Compilation information
+   Current directory : /IFS/nwpr/gfs/xb157/CICE/GEPSv3/coupler
+   Source file       : cpl_smat.F90
+
+ Option information
+   Command line options : -Kident_mpi -f2004 -c -X9 -Free -CcdRR8 -Cpp -Kfast,parallel,openmp,ocl -Ksimd=1 -SSL2BLAMP -x- -fw -Ec -Nlst=a,lst=d,lst=i,lst=p,lst=t,lst=x -Koptmsg=2 -Ncheck_intrfunc -I/data/common/gfs/GEPSv3_lib/fx1000/MCT/include -I/data/common/gfs/GEPSv3_lib/fx1000/netcdf-4.7.4/include -I/opt/FJSVxtclanga/.common/MELI025/include/mpi/fujitsu -I/opt/FJSVxtclanga/.common/MELI025/lib64 -Knointentopt
+   Cpp options          : -I/data/common/gfs/GEPSv3_lib/fx1000/MCT/include -I/data/common/gfs/GEPSv3_lib/fx1000/netcdf-4.7.4/include -I/opt/FJSVxtclanga/.common/MELI025/include/mpi/fujitsu -I/opt/FJSVxtclanga/.common/MELI025/lib64 -Dunix -Dlinux -D__FUJITSU -D__FRT_major__=4 -D__FRT_minor__=6 -D__FRT_patchlevel__=1 -D__FRT_version__="4.6.1" -D__aarch64__ -D__unix -D_OPENMP=201511 -D__frt_version=800 -D__ARM_ARCH=8 -D__ARM_FEATURE_SVE -D__ELF__ -D__unix__ -D__linux__ -D__linux -Asystem(unix) -otmp
+   Effective options    : -fw -g0 -AE -Ec -Free -O3 -X9
+                          -CcdRR8 -x- -xaccept=nomodule_allocatable
+                          -KA64FX -KARMV8_3_A -KSVE -Kalign_commons
+                          -Kalign_loops -Knoarray_declaration_opt
+                          -Kassume=noshortloop -Kassume=nomemory_bandwidth
+                          -Kassume=notime_saving_compilation -Kauto
+                          -Kautoobjstack -Knocalleralloc -Kcmodel=small
+                          -Keval -Keval_noconcurrent -Knoextract_stride_store
+                          -Knofenv_access -Kfp_contract -Kfp_relaxed
+                          -Kfsimple -Kfz -Khpctag -Kilfunc=procedure
+                          -Knointentopt -Klargepage -Kloop_blocking
+                          -Kloop_fission -Kloop_nofission_stripmining
+                          -Kloop_fission_threshold=50 -Kloop_fusion
+                          -Kloop_interchange -Kloop_part_parallel
+                          -Kloop_part_simd -Kloop_perfect_nest
+                          -Kloop_noversioning -Knolto -Kmfunc=1 -Kocl
+                          -Komitfp -Knooptlib_string -Koptmsg=2
+                          -Knopc_relative_literal_loads -Kplt -Knopreex
+                          -Kprefetch_noconditional -Kprefetch_noindirect
+                          -Kprefetch_sequential=auto -Kprefetch_nostride
+                          -Kprefetch_cache_level=all -Kprefetch_noinfer
+                          -Kprefetch_strong -Kprefetch_strong_L2 -Knopreload
+                          -Ksch_post_ra -Ksch_pre_ra -Ksibling_calls -Ksimd=1
+                          -Ksimd_packed_promotion -Ksimd_reduction_product
+                          -Ksimd_reg_size=512 -Ksimd_nouncounted_loop
+                          -Ksimd_use_multiple_structures -Knostriping
+                          -Knosubscript_opt -Kswp -Kswp_freg_rate=100
+                          -Kswp_ireg_rate=100 -Kswp_preg_rate=100
+                          -Kswp_policy=auto -Ktemparraystack -Kunroll
+                          -Knounroll_and_jam -Knozfill
+                          -Kopenmp -Kopenmp_noassume_norecurrence
+                          -Kopenmp_nocollapse_except_innermost
+                          -Kopenmp_noordered_reduction -Knoopenmp_simd
+                          -Kthreadsafe -Kparallel -Kparallel_nofp_precision
+                          -Knoarray_private -Knodynamic_iteration -Kreduction
+                          -Kregion_extension
+                          -Nallextput -Nnoalloc_assign
+                          -Ncancel_overtime_compilation -Nnocheck_global
+                          -Ncheck_intrfunc -Nnocoarray -Nnocompdisp
+                          -Nnocopyarg -Nnocoverage -Nfjprof -Nfreealloc
+                          -Nf90move -Nnohook_func -Nnohook_time -Nlibomp
+                          -Nline -Nlst -Nlst=a -Nlst=d -Nlst=i -Nlst=p
+                          -Nlst=t -Nlst=x -Nnomallocfree -Nnoobsfun
+                          -Nnoprivatealloc -Nquickdbg=noargchk
+                          -Nquickdbg=nosubchk -Nquickdbg=noundef -NRnotrap
+                          -Nnorecursive -Nnoreordered_variable_stack
+                          -Nrt_notune -Nnosave -Nsetvalue=noheap
+                          -Nsetvalue=nostack -Nsetvalue=noscalar
+                          -Nsetvalue=noarray -Nsetvalue=nostruct -Nuse_rodata
+
+ Module "cpl_smat"
+  (inc)(line-no.)(nest)(optimize)
+               1                     module cpl_smat
+               2                       use m_SparseMatrix,     only: SparseMatrix
+               3                       use m_SparseMatrix,     only: SparseMatrix_init => init
+               4                       use m_SparseMatrix,     only: SparseMatrix_importGRowInd => importGlobalRowIndices
+               5                       use m_SparseMatrix,     only: SparseMatrix_importGColInd => importGlobalColumnIndices
+               6                       use m_SparseMatrix,     only: SparseMatrix_importMatElts => importMatrixElements
+               7                       use m_SparseMatrixPlus, only: SparseMatrixPlus
+               8                       use m_SparseMatrixPlus, only: SparseMatrixPlus_init  => init
+               9                       use m_SparseMatrixPlus, only: SparseMatrixPlus_clean => clean
+              10                       use m_SparseMatrixPlus, only: Xonly
+              11                       use cpl_rank
+              12                       implicit none
+              13                     
+              14                       type(SparseMatrix), target ::   gfs2rsm_sMat
+              15                       type(SparseMatrix), target ::  gfs2gocn_sMat
+              16                       type(SparseMatrix), target ::  gocn2gfs_sMat
+              17                       type(SparseMatrix), target ::  rsm2rocn_sMat
+              18                       type(SparseMatrix), target ::  rocn2rsm_sMat
+              19                       type(SparseMatrix), target :: gocn2rocn_sMat
+              20                     
+              21                       type(SparseMatrixPlus), target ::   gfs2rsm_sMatP
+              22                       type(SparseMatrixPlus), target ::  gfs2gocn_sMatP
+              23                       type(SparseMatrixPlus), target ::  gocn2gfs_sMatP
+              24                       type(SparseMatrixPlus), target ::  rsm2rocn_sMatP
+              25                       type(SparseMatrixPlus), target ::  rocn2rsm_sMatP
+              26                       type(SparseMatrixPlus), target :: gocn2rocn_sMatP
+              27                     
+              28                     contains
+              29                     subroutine cpl_smat_init(myrank, rank_root, id_src, id_dst, mpi_comm_mct, SCRIP_file)
+              30                       use m_GlobalSegMap, only: GlobalSegMap
+              31                       use cpl_gsmap
+              32                       implicit none
+              33                     
+              34                       integer, intent(in) :: myrank, rank_root
+              35                       integer, intent(in) :: id_src, id_dst
+              36                       integer, intent(in) :: mpi_comm_mct
+              37                       character(len=*), intent(in) :: SCRIP_file
+              38                     
+              39                       type(GlobalSegMap), pointer :: srcGSMap, dstGSMap
+              40                       type(SparseMatrix), pointer :: remap_sMat
+              41                       type(SparseMatrixPlus), pointer :: remap_sMatPlus
+              42                     
+              43     1                 if(id_src .eq. id_gfs .and. id_dst .eq. id_gocn) then
+              44     1                   srcGSMap=>gfsGSMap
+              45     1                   dstGSMap=>gocn_in_gfsGSMap
+              46     1                   remap_sMat=>gfs2gocn_sMat
+              47     1                   remap_sMatPlus=>gfs2gocn_sMatP
+              48     1               
+              49     1                 elseif(id_src .eq. id_gfs .and. id_dst .eq. id_rsm) then
+              50     1                   srcGSMap=>gfsGSMap
+              51     1                   dstGSMap=>rsm_in_gfsGSMap
+              52     1                   remap_sMat=>gfs2rsm_sMat
+              53     1                   remap_sMatPlus=>gfs2rsm_sMatP
+              54     1               
+              55     1                 elseif(id_src .eq. id_gocn .and. id_dst .eq. id_gfs) then
+              56     1                   srcGSMap=>gocnGSMap
+              57     1                   dstGSMap=>gfs_in_gocnGSMap
+              58     1                   remap_sMat=>gocn2gfs_sMat
+              59     1                   remap_sMatPlus=>gocn2gfs_sMatP
+              60     1               
+              61     1                 elseif(id_src .eq. id_gocn .and. id_dst .eq. id_rocn) then
+              62     1                   srcGSMap=>gocnGSMap
+              63     1                   dstGSMap=>rocn_in_gocnGSMap
+              64     1                   remap_sMat=>gocn2rocn_sMat
+              65     1                   remap_sMatPlus=>gocn2rocn_sMatP
+              66     1               
+              67     1                 elseif(id_src .eq. id_rsm .and. id_dst .eq. id_rocn) then
+              68     1                   srcGSMap=>rsmGSMap
+              69     1                   dstGSMap=>rocn_in_rsmGSMap
+              70     1                   remap_sMat=>rsm2rocn_sMat
+              71     1                   remap_sMatPlus=>rsm2rocn_sMatP
+              72     1               
+              73     1                 elseif(id_src .eq. id_rocn .and. id_dst .eq. id_rsm) then
+              74     1                   srcGSMap=>rocnGSMap
+              75     1                   dstGSMap=>rsm_in_rocnGSMap
+              76     1                   remap_sMat=>rocn2rsm_sMat
+              77     1                   remap_sMatPlus=>rocn2rsm_sMatP
+              78     1               
+              79     1                 end if
+              80                     !  write(*,*) "yc check smat init:", myrank, id_src, trim(SCRIP_file)
+              81     1                 if(trim(SCRIP_file) .eq. "SameGrid") then
+              82     1                   if(myrank .eq. 0) write(*,*) "[CPL]: The Grid of ", id_src, " and ", id_dst, " is the SAME."
+              83     1                 else
+              84     1                   if(myrank .eq. 0) call read_SCRIP_file(SCRIP_file, remap_sMat, id_src)
+              85     1                   call SparseMatrixPlus_init(remap_sMatPlus, remap_sMat, srcGSMap, dstGSMap, Xonly, rank_root, mpi_comm_mct, id_src)
+              86     1                 end if
+              87                     end subroutine cpl_smat_init
+              88                     
+              89                     subroutine read_SCRIP_file(SCRIP_file, remap_sMat, tag)
+              90                       use NETCDF
+              91                       implicit none
+              92                     
+              93                       character(len=*), intent(in) :: SCRIP_file
+              94                       type(SparseMatrix), intent(out) :: remap_sMat
+              95                       integer, intent(in) :: tag
+              96                     
+              97                       integer :: ierr, ncid, varid
+              98                       integer :: src_dims(2), dst_dims(2), dimIDs(1)
+              99                       integer :: num_elems, nRows, nCols
+             100                       real(8), pointer :: sparse_weights(:)
+             101                       integer, pointer :: sparse_rows(:), sparse_cols(:)
+             102                     
+             103                       ierr = NF90_OPEN(trim(SCRIP_file), NF90_NOWRITE, ncid)
+             104                     
+             105                       ierr = NF90_INQ_VARID(ncid, "src_grid_dims", varid)
+             106                       ierr = NF90_GET_VAR(ncid, varid, src_dims, (/1/), (/2/))
+             107                     
+             108                       ierr = NF90_INQ_VARID(ncid, "dst_grid_dims", varid)
+             109                       ierr = NF90_GET_VAR(ncid, varid, dst_dims, (/1/), (/2/))
+             110                     
+             111                       ierr = NF90_INQ_VARID(ncid, "S", varid)
+             112                       ierr = NF90_INQUIRE_VARIABLE(ncid, varid, dimids=dimIDs)
+             113                       ierr = NF90_INQUIRE_DIMENSION(ncid, dimIDs(1), len=num_elems)
+             114                     
+             115                       allocate( sparse_weights(num_elems) )
+             116                       allocate( sparse_rows(num_elems) )
+             117                       allocate( sparse_cols(num_elems) )
+             118                     
+             119                       ierr = NF90_GET_VAR(ncid, varid, sparse_weights, (/1/), (/num_elems/))
+             120                       ierr = NF90_INQ_VARID(ncid, "row", varid)
+             121                       ierr = NF90_GET_VAR(ncid, varid, sparse_rows, (/1/), (/num_elems/))
+             122                       ierr = NF90_INQ_VARID(ncid, "col", varid)
+             123                       ierr = NF90_GET_VAR(ncid, varid, sparse_cols, (/1/), (/num_elems/))
+             124                       ierr = NF90_CLOSE(ncid)
+             125                     
+             126                       nRows = dst_dims(1)*dst_dims(2)
+             127                       nCols = src_dims(1)*src_dims(2)
+             128                     
+             129                       write(*,*) "[CPL]: in read sMat file:", nRows, nCols, tag, num_elems
+             130                       call SparseMatrix_init(remap_sMat, nRows, nCols, num_elems)
+             131                       write(*,*) "[CPL]: check sMat nRows: ", tag, size(sparse_rows)
+             132                       call SparseMatrix_importGRowInd(remap_sMat, sparse_rows,    size(sparse_rows))
+             133                       write(*,*) "[CPL]: check sMat nCols: ", tag, size(sparse_cols)
+             134                       call SparseMatrix_importGColInd(remap_sMat, sparse_cols,    size(sparse_cols))
+             135                       write(*,*) "[CPL]: check sMat nWgts: ", tag, size(sparse_weights)
+             136                       call SparseMatrix_importMatElts(remap_sMat, sparse_weights, size(sparse_weights))
+             137                     
+             138                       deallocate( sparse_weights )
+             139                       deallocate( sparse_rows )
+             140                       deallocate( sparse_cols )
+             141                     end subroutine read_SCRIP_file
+             142                     
+             143                     end module cpl_smat
+
+ Procedure information
+   Lines      : 143
+   Statements : 117
+   Stack(byte): 3488
+   Prefetch num: 0
+
+ Scoping unit of module : cpl_smat
+   Attribute and Cross reference of name
+     clean
+      |(Class and Type) : use name
+      |(Attributes)     : 
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 9
+     cpl_rank
+      |(Class and Type) : module name
+      |(Attributes)     : PUBLIC
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 11
+     cpl_smat
+      |(Class and Type) : module name
+      |(Attributes)     : 
+      |(Declaration)    : 1
+      |(Definition)     : 
+      |(Reference)      : 143
+     gfs2gocn_sMat
+      |(Class and Type) : variable name, TYPE(SparseMatrix)
+      |(Attributes)     : PUBLIC, TARGET
+      |(Declaration)    : 15
+      |(Definition)     : 
+      |(Reference)      : 
+     gfs2gocn_sMatP
+      |(Class and Type) : variable name, TYPE(SparseMatrixPlus)
+      |(Attributes)     : PUBLIC, TARGET
+      |(Declaration)    : 22
+      |(Definition)     : 
+      |(Reference)      : 
+     gfs2rsm_sMat
+      |(Class and Type) : variable name, TYPE(SparseMatrix)
+      |(Attributes)     : PUBLIC, TARGET
+      |(Declaration)    : 14
+      |(Definition)     : 
+      |(Reference)      : 
+     gfs2rsm_sMatP
+      |(Class and Type) : variable name, TYPE(SparseMatrixPlus)
+      |(Attributes)     : PUBLIC, TARGET
+      |(Declaration)    : 21
+      |(Definition)     : 
+      |(Reference)      : 
+     gocn2gfs_sMat
+      |(Class and Type) : variable name, TYPE(SparseMatrix)
+      |(Attributes)     : PUBLIC, TARGET
+      |(Declaration)    : 16
+      |(Definition)     : 
+      |(Reference)      : 
+     gocn2gfs_sMatP
+      |(Class and Type) : variable name, TYPE(SparseMatrixPlus)
+      |(Attributes)     : PUBLIC, TARGET
+      |(Declaration)    : 23
+      |(Definition)     : 
+      |(Reference)      : 
+     gocn2rocn_sMat
+      |(Class and Type) : variable name, TYPE(SparseMatrix)
+      |(Attributes)     : PUBLIC, TARGET
+      |(Declaration)    : 19
+      |(Definition)     : 
+      |(Reference)      : 
+     gocn2rocn_sMatP
+      |(Class and Type) : variable name, TYPE(SparseMatrixPlus)
+      |(Attributes)     : PUBLIC, TARGET
+      |(Declaration)    : 26
+      |(Definition)     : 
+      |(Reference)      : 
+     importGlobalColumnIndices
+      |(Class and Type) : use name
+      |(Attributes)     : 
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 5
+     importGlobalRowIndices
+      |(Class and Type) : use name
+      |(Attributes)     : 
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 4
+     importMatrixElements
+      |(Class and Type) : use name
+      |(Attributes)     : 
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 6
+     init
+      |(Class and Type) : use name
+      |(Attributes)     : 
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 3  8
+     m_SparseMatrix
+      |(Class and Type) : module name
+      |(Attributes)     : PUBLIC
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 2  3  4  5  6
+     m_SparseMatrixPlus
+      |(Class and Type) : module name
+      |(Attributes)     : PUBLIC
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 7  8  9  10
+     rocn2rsm_sMat
+      |(Class and Type) : variable name, TYPE(SparseMatrix)
+      |(Attributes)     : PUBLIC, TARGET
+      |(Declaration)    : 18
+      |(Definition)     : 
+      |(Reference)      : 
+     rocn2rsm_sMatP
+      |(Class and Type) : variable name, TYPE(SparseMatrixPlus)
+      |(Attributes)     : PUBLIC, TARGET
+      |(Declaration)    : 25
+      |(Definition)     : 
+      |(Reference)      : 
+     rsm2rocn_sMat
+      |(Class and Type) : variable name, TYPE(SparseMatrix)
+      |(Attributes)     : PUBLIC, TARGET
+      |(Declaration)    : 17
+      |(Definition)     : 
+      |(Reference)      : 
+     rsm2rocn_sMatP
+      |(Class and Type) : variable name, TYPE(SparseMatrixPlus)
+      |(Attributes)     : PUBLIC, TARGET
+      |(Declaration)    : 24
+      |(Definition)     : 
+      |(Reference)      : 
+     SparseMatrix
+      |(Class and Type) : type name
+      |(Attributes)     : PUBLIC, use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 2  14  15  16  17  18  19
+     SparseMatrixPlus
+      |(Class and Type) : type name
+      |(Attributes)     : PUBLIC, use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 7  21  22  23  24  25  26
+     SparseMatrixPlus_clean
+      |(Class and Type) : generic name
+      |(Attributes)     : PUBLIC, use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 9
+     SparseMatrixPlus_init
+      |(Class and Type) : generic name
+      |(Attributes)     : PUBLIC, use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 8
+     SparseMatrix_importGColInd
+      |(Class and Type) : generic name
+      |(Attributes)     : PUBLIC, use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 5
+     SparseMatrix_importGRowInd
+      |(Class and Type) : generic name
+      |(Attributes)     : PUBLIC, use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 4
+     SparseMatrix_importMatElts
+      |(Class and Type) : generic name
+      |(Attributes)     : PUBLIC, use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 6
+     SparseMatrix_init
+      |(Class and Type) : generic name
+      |(Attributes)     : PUBLIC, use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 3
+     Xonly
+      |(Class and Type) : named constant, CHARACTER(5,1)
+      |(Attributes)     : PUBLIC, use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 10
+
+ Scoping unit of module sub-program : cpl_smat_init
+   Attribute and Cross reference of name
+     cpl_gsmap
+      |(Class and Type) : module name
+      |(Attributes)     : 
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 31
+     cpl_smat_init
+      |(Class and Type) : module subroutine name
+      |(Attributes)     : 
+      |(Declaration)    : 
+      |(Definition)     : 29
+      |(Reference)      : 87
+     dstGSMap
+      |(Class and Type) : variable name, TYPE(GlobalSegMap)
+      |(Attributes)     : POINTER
+      |(Declaration)    : 39
+      |(Definition)     : 45  51  57  63  69  75
+      |(Reference)      : 85
+     GlobalSegMap
+      |(Class and Type) : type name
+      |(Attributes)     : use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 30  39
+     gfs2gocn_sMat
+      |(Class and Type) : variable name, TYPE(SparseMatrix)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 46
+     gfs2gocn_sMatP
+      |(Class and Type) : variable name, TYPE(SparseMatrixPlus)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 47
+     gfs2rsm_sMat
+      |(Class and Type) : variable name, TYPE(SparseMatrix)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 52
+     gfs2rsm_sMatP
+      |(Class and Type) : variable name, TYPE(SparseMatrixPlus)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 53
+     gfsGSMap
+      |(Class and Type) : variable name, TYPE(GlobalSegMap)
+      |(Attributes)     : TARGET, use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 44  50
+     gfs_in_gocnGSMap
+      |(Class and Type) : variable name, TYPE(GlobalSegMap)
+      |(Attributes)     : TARGET, use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 57
+     gocn2gfs_sMat
+      |(Class and Type) : variable name, TYPE(SparseMatrix)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 58
+     gocn2gfs_sMatP
+      |(Class and Type) : variable name, TYPE(SparseMatrixPlus)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 59
+     gocn2rocn_sMat
+      |(Class and Type) : variable name, TYPE(SparseMatrix)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 64
+     gocn2rocn_sMatP
+      |(Class and Type) : variable name, TYPE(SparseMatrixPlus)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 65
+     gocnGSMap
+      |(Class and Type) : variable name, TYPE(GlobalSegMap)
+      |(Attributes)     : TARGET, use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 56  62
+     gocn_in_gfsGSMap
+      |(Class and Type) : variable name, TYPE(GlobalSegMap)
+      |(Attributes)     : TARGET, use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 45
+     id_dst
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : INTENT(IN), dummy-argument
+      |(Declaration)    : 29  35
+      |(Definition)     : 
+      |(Reference)      : 43  49  55  61  67  73  82
+     id_gfs
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 43  49  55
+     id_gocn
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 43  55  61
+     id_rocn
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 61  67  73
+     id_rsm
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 49  67  73
+     id_src
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : INTENT(IN), dummy-argument
+      |(Declaration)    : 29  35
+      |(Definition)     : 
+      |(Reference)      : 43  49  55  61  67  73  82  84  85
+     m_GlobalSegMap
+      |(Class and Type) : module name
+      |(Attributes)     : 
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 30
+     mpi_comm_mct
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : INTENT(IN), dummy-argument
+      |(Declaration)    : 29  36
+      |(Definition)     : 
+      |(Reference)      : 85
+     myrank
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : INTENT(IN), dummy-argument
+      |(Declaration)    : 29  34
+      |(Definition)     : 
+      |(Reference)      : 82  84
+     rank_root
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : INTENT(IN), dummy-argument
+      |(Declaration)    : 29  34
+      |(Definition)     : 
+      |(Reference)      : 85
+     read_SCRIP_file
+      |(Class and Type) : module subroutine name
+      |(Attributes)     : 
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 84
+     remap_sMat
+      |(Class and Type) : variable name, TYPE(SparseMatrix)
+      |(Attributes)     : POINTER
+      |(Declaration)    : 40
+      |(Definition)     : 46  52  58  64  70  76  84  85
+      |(Reference)      : 
+     remap_sMatPlus
+      |(Class and Type) : variable name, TYPE(SparseMatrixPlus)
+      |(Attributes)     : POINTER
+      |(Declaration)    : 41
+      |(Definition)     : 47  53  59  65  71  77  85
+      |(Reference)      : 
+     rocn2rsm_sMat
+      |(Class and Type) : variable name, TYPE(SparseMatrix)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 76
+     rocn2rsm_sMatP
+      |(Class and Type) : variable name, TYPE(SparseMatrixPlus)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 77
+     rocnGSMap
+      |(Class and Type) : variable name, TYPE(GlobalSegMap)
+      |(Attributes)     : TARGET, use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 74
+     rocn_in_gocnGSMap
+      |(Class and Type) : variable name, TYPE(GlobalSegMap)
+      |(Attributes)     : TARGET, use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 63
+     rocn_in_rsmGSMap
+      |(Class and Type) : variable name, TYPE(GlobalSegMap)
+      |(Attributes)     : TARGET, use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 69
+     rsm2rocn_sMat
+      |(Class and Type) : variable name, TYPE(SparseMatrix)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 70
+     rsm2rocn_sMatP
+      |(Class and Type) : variable name, TYPE(SparseMatrixPlus)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 71
+     rsmGSMap
+      |(Class and Type) : variable name, TYPE(GlobalSegMap)
+      |(Attributes)     : TARGET, use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 68
+     rsm_in_gfsGSMap
+      |(Class and Type) : variable name, TYPE(GlobalSegMap)
+      |(Attributes)     : TARGET, use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 51
+     rsm_in_rocnGSMap
+      |(Class and Type) : variable name, TYPE(GlobalSegMap)
+      |(Attributes)     : TARGET, use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 75
+     SCRIP_file
+      |(Class and Type) : variable name, CHARACTER(*,1)
+      |(Attributes)     : INTENT(IN), dummy-argument
+      |(Declaration)    : 29  37
+      |(Definition)     : 
+      |(Reference)      : 81  84
+     SparseMatrix
+      |(Class and Type) : type name
+      |(Attributes)     : host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 40
+     SparseMatrixPlus
+      |(Class and Type) : type name
+      |(Attributes)     : host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 41
+     SparseMatrixPlus_init
+      |(Class and Type) : generic name
+      |(Attributes)     : host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 85
+     srcGSMap
+      |(Class and Type) : variable name, TYPE(GlobalSegMap)
+      |(Attributes)     : POINTER
+      |(Declaration)    : 39
+      |(Definition)     : 44  50  56  62  68  74
+      |(Reference)      : 85
+     trim
+      |(Class and Type) : intrinsic function name, CHARACTER((unknown),1)
+      |(Attributes)     : PURE
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 81
+     Xonly
+      |(Class and Type) : named constant, CHARACTER(5,1)
+      |(Attributes)     : host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 85
+
+ Scoping unit of module sub-program : read_SCRIP_file
+   Attribute and Cross reference of name
+     dimIDs
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : DIMENSION
+      |(Declaration)    : 98
+      |(Definition)     : 112
+      |(Reference)      : 113
+     dimids
+      |(Class and Type) : keyword argument name
+      |(Attributes)     : 
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 112
+     dst_dims
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : DIMENSION
+      |(Declaration)    : 98
+      |(Definition)     : 109
+      |(Reference)      : 126  126
+     ierr
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : 
+      |(Declaration)    : 97
+      |(Definition)     : 103  105  106  108  109  111  112  113  119  120  121  122  123  124
+      |(Reference)      : 
+     len
+      |(Class and Type) : keyword argument name
+      |(Attributes)     : 
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 113
+     NETCDF
+      |(Class and Type) : module name
+      |(Attributes)     : 
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 90
+     nCols
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : 
+      |(Declaration)    : 99
+      |(Definition)     : 127
+      |(Reference)      : 129  130
+     nRows
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : 
+      |(Declaration)    : 99
+      |(Definition)     : 126
+      |(Reference)      : 129  130
+     ncid
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : 
+      |(Declaration)    : 97
+      |(Definition)     : 103
+      |(Reference)      : 105  106  108  109  111  112  113  119  120  121  122  123  124
+     nf90_close
+      |(Class and Type) : module function name, INTEGER(4)
+      |(Attributes)     : use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 124
+     nf90_get_var
+      |(Class and Type) : generic name
+      |(Attributes)     : use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 106  109  119  121  123
+     nf90_inq_varid
+      |(Class and Type) : module function name, INTEGER(4)
+      |(Attributes)     : use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 105  108  111  120  122
+     nf90_inquire_dimension
+      |(Class and Type) : module function name, INTEGER(4)
+      |(Attributes)     : use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 113
+     nf90_inquire_variable
+      |(Class and Type) : module function name, INTEGER(4)
+      |(Attributes)     : use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 112
+     nf90_nowrite
+      |(Class and Type) : named constant, INTEGER(4)
+      |(Attributes)     : use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 103
+     nf90_open
+      |(Class and Type) : module function name, INTEGER(4)
+      |(Attributes)     : use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 103
+     num_elems
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : 
+      |(Declaration)    : 99
+      |(Definition)     : 113
+      |(Reference)      : 115  116  117  119  121  123  129  130
+     read_SCRIP_file
+      |(Class and Type) : module subroutine name
+      |(Attributes)     : 
+      |(Declaration)    : 
+      |(Definition)     : 89
+      |(Reference)      : 141
+     remap_sMat
+      |(Class and Type) : variable name, TYPE(SparseMatrix)
+      |(Attributes)     : INTENT(OUT), dummy-argument
+      |(Declaration)    : 89  94
+      |(Definition)     : 130  132  134  136
+      |(Reference)      : 
+     SCRIP_file
+      |(Class and Type) : variable name, CHARACTER(*,1)
+      |(Attributes)     : INTENT(IN), dummy-argument
+      |(Declaration)    : 89  93
+      |(Definition)     : 
+      |(Reference)      : 103
+     SparseMatrix
+      |(Class and Type) : type name
+      |(Attributes)     : host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 94
+     SparseMatrix_importGColInd
+      |(Class and Type) : generic name
+      |(Attributes)     : host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 134
+     SparseMatrix_importGRowInd
+      |(Class and Type) : generic name
+      |(Attributes)     : host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 132
+     SparseMatrix_importMatElts
+      |(Class and Type) : generic name
+      |(Attributes)     : host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 136
+     SparseMatrix_init
+      |(Class and Type) : generic name
+      |(Attributes)     : host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 130
+     size
+      |(Class and Type) : intrinsic function name, INTEGER(4)
+      |(Attributes)     : PURE
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 131  132  133  134  135  136
+     sparse_cols
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : DIMENSION, POINTER
+      |(Declaration)    : 101
+      |(Definition)     : 117  123  134  140
+      |(Reference)      : 133  134
+     sparse_rows
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : DIMENSION, POINTER
+      |(Declaration)    : 101
+      |(Definition)     : 116  121  132  139
+      |(Reference)      : 131  132
+     sparse_weights
+      |(Class and Type) : variable name, REAL(8)
+      |(Attributes)     : DIMENSION, POINTER
+      |(Declaration)    : 100
+      |(Definition)     : 115  119  136  138
+      |(Reference)      : 135  136
+     src_dims
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : DIMENSION
+      |(Declaration)    : 98
+      |(Definition)     : 106
+      |(Reference)      : 127  127
+     tag
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : INTENT(IN), dummy-argument
+      |(Declaration)    : 89  95
+      |(Definition)     : 
+      |(Reference)      : 129  131  133  135
+     trim
+      |(Class and Type) : intrinsic function name, CHARACTER((unknown),1)
+      |(Attributes)     : PURE
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 103
+     varid
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : 
+      |(Declaration)    : 97
+      |(Definition)     : 105  108  111  120  122
+      |(Reference)      : 106  109  112  119  121  123
+
+ Total information
+   Procedures       : 1
+   Total lines      : 143
+   Total statements : 117
+   Total stack(byte): 3488
+   Total prefetch num: 0
+

@@ -1,0 +1,10 @@
+2c2
+<       subroutine rdcyc2t3(im,ix,levs,solhr,slag, &
+---
+>       subroutine dcyc2t3(im,ix,levs,solhr,slag, &
+7,8c7,8
+<       use rmachine , only : kind_phys
+<       use rphyscons, pi => con_pi, sbc => con_sbc
+---
+>       use machine , only : kind_phys
+>       use physcons, pi => con_pi, sbc => con_sbc

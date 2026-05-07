@@ -1,0 +1,29 @@
+75a76
+> ! parameter(nmmiph = 2)
+80a82
+> ! parameter(nmmiph = 3)
+82a85,95
+> !
+> ! for new wsm6 microphysics
+> ! parameter(nmmiph = 6)
+> ! parameter(num_p3d = 3)
+> ! parameter(num_p2d = 1)
+> !
+> ! for GFDL microphysics
+> ! parameter(nmmiph = 11)
+> ! parameter(num_p3d = 5)
+> ! parameter(num_p2d = 1)
+> !
+340d352
+<      & ssu(igrd1p,jgrd1p), ssv(igrd1p,jgrd1p), &
+382,383d393
+<       common /rcomgd6/ &
+<      & cpl_field(igrd1p,jgrd1p,9)
+397c407
+<      & deltim,dt2,dtltb,zhour,phour,fhour,odt_cpl, &
+---
+>      & deltim,dt2,dtltb,zhour,phour,fhour, &
+401c411
+<      & kdt,limlow,numsum,nummax,ncldb1,irclim,kdt_cpl
+---
+>      & kdt,limlow,numsum,nummax,ncldb1,irclim

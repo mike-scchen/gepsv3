@@ -1,0 +1,8 @@
+13,15c13,15
+<       use rmachine , only : kind_phys
+<       use rfuncphys, only : fpvs
+<       use rphyscons, grav => con_g, sbc => con_sbc, hvap => con_hvap &
+---
+>       use machine , only : kind_phys
+>       use funcphys, only : fpvs
+>       use physcons, grav => con_g, sbc => con_sbc, hvap => con_hvap &

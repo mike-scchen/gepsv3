@@ -1,0 +1,24 @@
+104a105
+> ! parameter(nmmiph = 2)
+109a111
+> ! parameter(nmmiph = 3)
+111a114,124
+> !
+> ! for new wsm6 microphysics
+> ! parameter(nmmiph = 6)
+> ! parameter(num_p3d = 3)
+> ! parameter(num_p2d = 1)
+> !
+> ! for GFDL microphysics
+> ! parameter(nmmiph = 11)
+> ! parameter(num_p3d = 5)
+> ! parameter(num_p2d = 1)
+> !
+339c352
+<      & deltim,dt2,dtltb,zhour,phour,fhour,odt_cpl, &
+---
+>      & deltim,dt2,dtltb,zhour,phour,fhour, &
+343c356
+<      & kdt,limlow,numsum,nummax,ncldb1,irclim,kdt_cpl
+---
+>      & kdt,limlow,numsum,nummax,ncldb1,irclim

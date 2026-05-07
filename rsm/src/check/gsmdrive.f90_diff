@@ -1,0 +1,6 @@
+88,89c88,89
+<       use rmachine , only : kind_phys
+<       use rmodule_microphysics , only : gsmcolumn
+---
+>       use machine , only : kind_phys
+>       use module_microphysics , only : gsmcolumn

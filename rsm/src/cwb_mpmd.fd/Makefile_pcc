@@ -1,0 +1,23 @@
+SHELL=/bin/sh
+
+SRCS=	mod_mpmd_rank.f90 \
+        mpmd_init.f90      mpmd_finalize.f90  mpmd_barrier.f90 \
+        mpmd_send.f90      mpmd_recv.f90      mpmd_isend.f90    mpmd_irecv.f90
+
+OBJS=	${SRCS:.f90=.o}
+
+#pcc, FC=mpiifort; fx10/100, FC=mpifrtpx
+FC =     mpiifort
+MPMD_LIB =    libmpmd.a
+
+#pcc, FFLAGS= -c -O3 -r8; fx10/100, FFLAGS = -c -Kfast -fw -CcdRR8
+FFLAGS = -c -O3 -r8
+
+$(MPMD_LIB): $(OBJS)
+	ar -rv ../../lib/cwb_mpmd/libmpmd.a $(OBJS)
+
+$(OBJS):
+	$(FC) $(FFLAGS) $*.f90
+
+clean :
+	rm -f *.o *.lst *.mod *.a

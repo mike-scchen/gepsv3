@@ -1,0 +1,4 @@
+61c61
+<       subroutine rsamfshalcnv(im,ix,km,delt,delp,prslp,psp,phil,ql, &
+---
+>       subroutine samfshalcnv(im,ix,km,delt,delp,prslp,psp,phil,ql, &

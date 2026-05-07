@@ -1,0 +1,25 @@
+CFLAGS=	-I/package/fx1000/g2lib-1.4.0_cwb/include
+W3LB=	#-L../../lib/NCEPLIB/lib -lbacio_4 -lw3nco_4 
+LDFLAGS=-L/package/fx1000/g2lib-1.4.0_cwb/lib -lg2    \
+        -L/package/fx1000/w3lib-2.0.2/lib -lw3        \
+        -L/package/fx1000/jasper-1.900.1/lib -ljasper \
+        -L/package/fx1000/libpng-1.6.37/lib -lpng
+
+FORT=	frtpx
+OPTx=	-O3 -Kfast   
+FFLAGS=	-O3 -Kfast -fw
+#SRCS=	rpgbnawips.f90  ismaxmin.f90
+OBJS=	rpgbnawips.o  ismaxmin.o  gribit2.o grb1to2table.o dtgfix12.o out100.o
+EXEC=	../../utl/rpgbnawips.x
+#EXEC=	rpgbnawips.x
+
+all:	$(EXEC)
+
+$(EXEC):	$(OBJS)
+	$(FORT) -o $(EXEC) $(FFLAGS) $(OBJS) $(W3LB) $(LDFLAGS) $(CFLAGS) 
+
+%.o:%.f90
+	$(FORT) $(FFLAGS)  $(LIBS) $(CFLAGS)  -c  $<
+
+clean:
+	rm -f *.o $(EXEC)

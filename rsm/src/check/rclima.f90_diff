@@ -1,0 +1,4 @@
+7c7
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4

@@ -1,0 +1,538 @@
+
+ Fujitsu Fortran Version 4.6.1  Mon Oct 27 15:44:43 2025
+
+ Compilation information
+   Current directory : /IFS/nwpr/gfs/xb157/CICE/GEPSv3/coupler
+   Source file       : cpl_sendrecv.F90
+
+ Option information
+   Command line options : -Kident_mpi -f2004 -c -X9 -Free -CcdRR8 -Cpp -Kfast,parallel,openmp,ocl -Ksimd=1 -SSL2BLAMP -x- -fw -Ec -Nlst=a,lst=d,lst=i,lst=p,lst=t,lst=x -Koptmsg=2 -Ncheck_intrfunc -I/data/common/gfs/GEPSv3_lib/fx1000/MCT/include -I/data/common/gfs/GEPSv3_lib/fx1000/netcdf-4.7.4/include -I/opt/FJSVxtclanga/.common/MELI025/include/mpi/fujitsu -I/opt/FJSVxtclanga/.common/MELI025/lib64 -Knointentopt
+   Cpp options          : -I/data/common/gfs/GEPSv3_lib/fx1000/MCT/include -I/data/common/gfs/GEPSv3_lib/fx1000/netcdf-4.7.4/include -I/opt/FJSVxtclanga/.common/MELI025/include/mpi/fujitsu -I/opt/FJSVxtclanga/.common/MELI025/lib64 -Dunix -Dlinux -D__FUJITSU -D__FRT_major__=4 -D__FRT_minor__=6 -D__FRT_patchlevel__=1 -D__FRT_version__="4.6.1" -D__aarch64__ -D__unix -D_OPENMP=201511 -D__frt_version=800 -D__ARM_ARCH=8 -D__ARM_FEATURE_SVE -D__ELF__ -D__unix__ -D__linux__ -D__linux -Asystem(unix) -otmp
+   Effective options    : -fw -g0 -AE -Ec -Free -O3 -X9
+                          -CcdRR8 -x- -xaccept=nomodule_allocatable
+                          -KA64FX -KARMV8_3_A -KSVE -Kalign_commons
+                          -Kalign_loops -Knoarray_declaration_opt
+                          -Kassume=noshortloop -Kassume=nomemory_bandwidth
+                          -Kassume=notime_saving_compilation -Kauto
+                          -Kautoobjstack -Knocalleralloc -Kcmodel=small
+                          -Keval -Keval_noconcurrent -Knoextract_stride_store
+                          -Knofenv_access -Kfp_contract -Kfp_relaxed
+                          -Kfsimple -Kfz -Khpctag -Kilfunc=procedure
+                          -Knointentopt -Klargepage -Kloop_blocking
+                          -Kloop_fission -Kloop_nofission_stripmining
+                          -Kloop_fission_threshold=50 -Kloop_fusion
+                          -Kloop_interchange -Kloop_part_parallel
+                          -Kloop_part_simd -Kloop_perfect_nest
+                          -Kloop_noversioning -Knolto -Kmfunc=1 -Kocl
+                          -Komitfp -Knooptlib_string -Koptmsg=2
+                          -Knopc_relative_literal_loads -Kplt -Knopreex
+                          -Kprefetch_noconditional -Kprefetch_noindirect
+                          -Kprefetch_sequential=auto -Kprefetch_nostride
+                          -Kprefetch_cache_level=all -Kprefetch_noinfer
+                          -Kprefetch_strong -Kprefetch_strong_L2 -Knopreload
+                          -Ksch_post_ra -Ksch_pre_ra -Ksibling_calls -Ksimd=1
+                          -Ksimd_packed_promotion -Ksimd_reduction_product
+                          -Ksimd_reg_size=512 -Ksimd_nouncounted_loop
+                          -Ksimd_use_multiple_structures -Knostriping
+                          -Knosubscript_opt -Kswp -Kswp_freg_rate=100
+                          -Kswp_ireg_rate=100 -Kswp_preg_rate=100
+                          -Kswp_policy=auto -Ktemparraystack -Kunroll
+                          -Knounroll_and_jam -Knozfill
+                          -Kopenmp -Kopenmp_noassume_norecurrence
+                          -Kopenmp_nocollapse_except_innermost
+                          -Kopenmp_noordered_reduction -Knoopenmp_simd
+                          -Kthreadsafe -Kparallel -Kparallel_nofp_precision
+                          -Knoarray_private -Knodynamic_iteration -Kreduction
+                          -Kregion_extension
+                          -Nallextput -Nnoalloc_assign
+                          -Ncancel_overtime_compilation -Nnocheck_global
+                          -Ncheck_intrfunc -Nnocoarray -Nnocompdisp
+                          -Nnocopyarg -Nnocoverage -Nfjprof -Nfreealloc
+                          -Nf90move -Nnohook_func -Nnohook_time -Nlibomp
+                          -Nline -Nlst -Nlst=a -Nlst=d -Nlst=i -Nlst=p
+                          -Nlst=t -Nlst=x -Nnomallocfree -Nnoobsfun
+                          -Nnoprivatealloc -Nquickdbg=noargchk
+                          -Nquickdbg=nosubchk -Nquickdbg=noundef -NRnotrap
+                          -Nnorecursive -Nnoreordered_variable_stack
+                          -Nrt_notune -Nnosave -Nsetvalue=noheap
+                          -Nsetvalue=nostack -Nsetvalue=noscalar
+                          -Nsetvalue=noarray -Nsetvalue=nostruct -Nuse_rodata
+
+ Module "cpl_sendrecv"
+  (inc)(line-no.)(nest)(optimize)
+               1                     module cpl_sendrecv
+               2                       use cpl_rank
+               3                       use cpl_gsmap
+               4                       use cpl_attr
+               5                       use cpl_smat
+               6                       implicit none
+               7                     contains
+               8                       subroutine cpl_send(id_src, id_dst, remap_Attr, myid)
+               9                         use m_MatAttrVectMul, only: MCT_MatVecMul => sMatAvMult
+              10                         use m_Transfer,only : MCT_Send => send
+              11                         implicit none
+              12                     
+              13                         integer, intent(in) :: id_src, id_dst, myid
+              14                         type(AttrVect), intent(in), target :: remap_Attr
+              15                         type(AttrVect), pointer :: send_Attr
+              16                         type(SparseMatrixPlus), pointer ::  remp_MatPlus
+              17                         type(Router), pointer :: send_Rout
+              18                         character(len=256), pointer :: rList
+              19                     
+              20     1                   if(id_src .eq. id_gfs .and. id_dst .eq. id_gocn) then
+              21     1                     remp_MatPlus=>gfs2gocn_sMatP
+              22     1                     send_Attr=>gfs_send_gocn_Attr
+              23     1                     send_Rout=>gfs_send_gocn_Rout
+              24     1               
+              25     1                     call MCT_MatVecMul(remap_Attr, remp_MatPlus, send_Attr)
+              26     1                   else if(id_src .eq. id_gocn .and. id_dst .eq. id_gfs) then
+              27     1                     remp_MatPlus=>gocn2gfs_sMatP
+              28     1                     send_Attr=>gocn_send_gfs_Attr
+              29     1                     send_Rout=>gocn_send_gfs_Rout
+              30     1               
+              31     1                     call MCT_MatVecMul(remap_Attr, remp_MatPlus, send_Attr)
+              32     1                   else if(id_src .eq. id_rsm .and. id_dst .eq. id_rocn) then
+                                   <<< Loop-information Start >>>
+                                   <<<  [PARALLELIZATION]
+                                   <<<    Standard iteration count: 6
+                                   <<<  [OPTIMIZATION]
+                                   <<<    SIMD(VL: 8)
+                                   <<<    SOFTWARE PIPELINING(IPC: 2.37, ITR: 256, MVE: 4, POL: S)
+                                   <<<    PREFETCH(HARD) Expected by compiler :
+                                   <<<      (unknown)
+                                   <<< Loop-information  End >>>
+              33     1  pp   2v            rsm_send_rocn_Attr%rAttr=remap_Attr%rAttr
+              34     1                     send_Attr=>rsm_send_rocn_Attr
+              35     1                     send_Rout=>rsm_send_rocn_Rout
+              36     1               
+              37     1                   else if(id_src .eq. id_rocn .and. id_dst .eq. id_rsm) then
+                                   <<< Loop-information Start >>>
+                                   <<<  [PARALLELIZATION]
+                                   <<<    Standard iteration count: 6
+                                   <<<  [OPTIMIZATION]
+                                   <<<    SIMD(VL: 8)
+                                   <<<    SOFTWARE PIPELINING(IPC: 2.37, ITR: 256, MVE: 4, POL: S)
+                                   <<<    PREFETCH(HARD) Expected by compiler :
+                                   <<<      (unknown)
+                                   <<< Loop-information  End >>>
+              38     1  pp   2v            rocn_send_rsm_Attr%rAttr=remap_Attr%rAttr
+              39     1                     send_Attr=>rocn_send_rsm_Attr
+              40     1                     send_Rout=>rocn_send_rsm_Rout
+              41     1               
+              42     1                   else if(id_src .eq. id_gocn .and. id_dst .eq. id_rocn) then
+              43     1                     remp_MatPlus=>gocn2rocn_sMatP
+              44     1                     send_Attr=>gocn_send_rocn_Attr
+              45     1                     send_Rout=>gocn_send_rocn_Rout
+              46     1               
+              47     1                     call MCT_MatVecMul(remap_Attr, remp_MatPlus, send_Attr)
+              48     1                   end if
+              49                     
+              50                         call MCT_Send(send_Attr, send_Rout)
+              51                       end subroutine cpl_send
+              52                     
+              53                       subroutine cpl_recv(id_src, id_dst, recv_Attr, myid)
+              54                         use m_Transfer,only : MCT_Recv => recv
+              55                         implicit none
+              56                     
+              57                         integer, intent(in) :: id_src, id_dst, myid
+              58                         type(AttrVect), intent(out) :: recv_Attr
+              59                         type(Router), pointer :: recv_Rout
+              60                     
+              61     1                   if(id_src .eq. id_gfs .and. id_dst .eq. id_gocn) then
+              62     1                     recv_Rout=>gfs_recv_gocn_Rout
+              63     1                   else if(id_src .eq. id_gocn .and. id_dst .eq. id_gfs) then
+              64     1                     recv_Rout=>gocn_recv_gfs_Rout
+              65     1                   else if(id_src .eq. id_rsm .and. id_dst .eq. id_rocn) then
+              66     1                     recv_Rout=>rsm_recv_rocn_Rout
+              67     1                   else if(id_src .eq. id_rocn .and. id_dst .eq. id_rsm) then
+              68     1                     recv_Rout=>rocn_recv_rsm_Rout
+              69     1                   else if(id_src .eq. id_rocn .and. id_dst .eq. id_gocn) then
+              70     1                     recv_Rout=>rocn_recv_gocn_Rout
+              71     1                   end if
+              72                     
+              73                         call MCT_Recv(recv_Attr, recv_Rout)
+              74                       end subroutine cpl_recv
+              75                     end module cpl_sendrecv
+
+ Procedure information
+   Lines      : 75
+   Statements : 63
+   Stack(byte): 2768
+   Prefetch num: 0
+
+ Scoping unit of module : cpl_sendrecv
+   Attribute and Cross reference of name
+     cpl_attr
+      |(Class and Type) : module name
+      |(Attributes)     : PUBLIC
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 4
+     cpl_gsmap
+      |(Class and Type) : module name
+      |(Attributes)     : PUBLIC
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 3
+     cpl_rank
+      |(Class and Type) : module name
+      |(Attributes)     : PUBLIC
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 2
+     cpl_sendrecv
+      |(Class and Type) : module name
+      |(Attributes)     : 
+      |(Declaration)    : 1
+      |(Definition)     : 
+      |(Reference)      : 75
+     cpl_smat
+      |(Class and Type) : module name
+      |(Attributes)     : PUBLIC
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 5
+
+ Scoping unit of module sub-program : cpl_send
+   Attribute and Cross reference of name
+     AttrVect
+      |(Class and Type) : type name
+      |(Attributes)     : host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 14  15
+     cpl_send
+      |(Class and Type) : module subroutine name
+      |(Attributes)     : 
+      |(Declaration)    : 
+      |(Definition)     : 8
+      |(Reference)      : 51
+     gfs2gocn_sMatP
+      |(Class and Type) : variable name, TYPE(SparseMatrixPlus)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 21
+     gfs_send_gocn_Attr
+      |(Class and Type) : variable name, TYPE(AttrVect)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 22
+     gfs_send_gocn_Rout
+      |(Class and Type) : variable name, TYPE(Router)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 23
+     gocn2gfs_sMatP
+      |(Class and Type) : variable name, TYPE(SparseMatrixPlus)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 27
+     gocn2rocn_sMatP
+      |(Class and Type) : variable name, TYPE(SparseMatrixPlus)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 43
+     gocn_send_gfs_Attr
+      |(Class and Type) : variable name, TYPE(AttrVect)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 28
+     gocn_send_gfs_Rout
+      |(Class and Type) : variable name, TYPE(Router)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 29
+     gocn_send_rocn_Attr
+      |(Class and Type) : variable name, TYPE(AttrVect)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 44
+     gocn_send_rocn_Rout
+      |(Class and Type) : variable name, TYPE(Router)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 45
+     id_dst
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : INTENT(IN), dummy-argument
+      |(Declaration)    : 8  13
+      |(Definition)     : 
+      |(Reference)      : 20  26  32  37  42
+     id_gfs
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 20  26
+     id_gocn
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 20  26  42
+     id_rocn
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 32  37  42
+     id_rsm
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 32  37
+     id_src
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : INTENT(IN), dummy-argument
+      |(Declaration)    : 8  13
+      |(Definition)     : 
+      |(Reference)      : 20  26  32  37  42
+     MCT_MatVecMul
+      |(Class and Type) : generic name
+      |(Attributes)     : use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 9  25  31  47
+     MCT_Send
+      |(Class and Type) : generic name
+      |(Attributes)     : use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 10  50
+     m_MatAttrVectMul
+      |(Class and Type) : module name
+      |(Attributes)     : 
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 9
+     m_Transfer
+      |(Class and Type) : module name
+      |(Attributes)     : 
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 10
+     myid
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : INTENT(IN), dummy-argument
+      |(Declaration)    : 8  13
+      |(Definition)     : 
+      |(Reference)      : 
+     Router
+      |(Class and Type) : type name
+      |(Attributes)     : host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 17
+     rList
+      |(Class and Type) : variable name, CHARACTER(256,1)
+      |(Attributes)     : POINTER
+      |(Declaration)    : 18
+      |(Definition)     : 
+      |(Reference)      : 
+     remap_Attr
+      |(Class and Type) : variable name, TYPE(AttrVect)
+      |(Attributes)     : INTENT(IN), TARGET, dummy-argument
+      |(Declaration)    : 8  14
+      |(Definition)     : 
+      |(Reference)      : 25  31  33  38  47
+     remp_MatPlus
+      |(Class and Type) : variable name, TYPE(SparseMatrixPlus)
+      |(Attributes)     : POINTER
+      |(Declaration)    : 16
+      |(Definition)     : 21  25  27  31  43  47
+      |(Reference)      : 
+     rocn_send_rsm_Attr
+      |(Class and Type) : variable name, TYPE(AttrVect)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 38
+      |(Reference)      : 39
+     rocn_send_rsm_Rout
+      |(Class and Type) : variable name, TYPE(Router)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 40
+     rsm_send_rocn_Attr
+      |(Class and Type) : variable name, TYPE(AttrVect)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 33
+      |(Reference)      : 34
+     rsm_send_rocn_Rout
+      |(Class and Type) : variable name, TYPE(Router)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 35
+     SparseMatrixPlus
+      |(Class and Type) : type name
+      |(Attributes)     : host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 16
+     sMatAvMult
+      |(Class and Type) : use name
+      |(Attributes)     : 
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 9
+     send
+      |(Class and Type) : use name
+      |(Attributes)     : 
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 10
+     send_Attr
+      |(Class and Type) : variable name, TYPE(AttrVect)
+      |(Attributes)     : POINTER
+      |(Declaration)    : 15
+      |(Definition)     : 22  25  28  31  34  39  44  47
+      |(Reference)      : 50
+     send_Rout
+      |(Class and Type) : variable name, TYPE(Router)
+      |(Attributes)     : POINTER
+      |(Declaration)    : 17
+      |(Definition)     : 23  29  35  40  45  50
+      |(Reference)      : 
+
+ Scoping unit of module sub-program : cpl_recv
+   Attribute and Cross reference of name
+     AttrVect
+      |(Class and Type) : type name
+      |(Attributes)     : host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 58
+     cpl_recv
+      |(Class and Type) : module subroutine name
+      |(Attributes)     : 
+      |(Declaration)    : 
+      |(Definition)     : 53
+      |(Reference)      : 74
+     gfs_recv_gocn_Rout
+      |(Class and Type) : variable name, TYPE(Router)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 62
+     gocn_recv_gfs_Rout
+      |(Class and Type) : variable name, TYPE(Router)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 64
+     id_dst
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : INTENT(IN), dummy-argument
+      |(Declaration)    : 53  57
+      |(Definition)     : 
+      |(Reference)      : 61  63  65  67  69
+     id_gfs
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 61  63
+     id_gocn
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 61  63  69
+     id_rocn
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 65  67  69
+     id_rsm
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 65  67
+     id_src
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : INTENT(IN), dummy-argument
+      |(Declaration)    : 53  57
+      |(Definition)     : 
+      |(Reference)      : 61  63  65  67  69
+     MCT_Recv
+      |(Class and Type) : generic name
+      |(Attributes)     : use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 54  73
+     m_Transfer
+      |(Class and Type) : module name
+      |(Attributes)     : 
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 54
+     myid
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : INTENT(IN), dummy-argument
+      |(Declaration)    : 53  57
+      |(Definition)     : 
+      |(Reference)      : 
+     Router
+      |(Class and Type) : type name
+      |(Attributes)     : host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 59
+     recv
+      |(Class and Type) : use name
+      |(Attributes)     : 
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 54
+     recv_Attr
+      |(Class and Type) : variable name, TYPE(AttrVect)
+      |(Attributes)     : INTENT(OUT), dummy-argument
+      |(Declaration)    : 53  58
+      |(Definition)     : 73
+      |(Reference)      : 
+     recv_Rout
+      |(Class and Type) : variable name, TYPE(Router)
+      |(Attributes)     : POINTER
+      |(Declaration)    : 59
+      |(Definition)     : 62  64  66  68  70  73
+      |(Reference)      : 
+     rocn_recv_gocn_Rout
+      |(Class and Type) : variable name, TYPE(Router)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 70
+     rocn_recv_rsm_Rout
+      |(Class and Type) : variable name, TYPE(Router)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 68
+     rsm_recv_rocn_Rout
+      |(Class and Type) : variable name, TYPE(Router)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 66
+
+ Total information
+   Procedures       : 1
+   Total lines      : 75
+   Total statements : 63
+   Total stack(byte): 2768
+   Total prefetch num: 0
+

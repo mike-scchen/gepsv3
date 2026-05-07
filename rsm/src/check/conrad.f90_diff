@@ -1,0 +1,4 @@
+12c12
+<       use rmachine , only : kind_rad,kind_io4
+---
+>       use machine , only : kind_rad,kind_io4

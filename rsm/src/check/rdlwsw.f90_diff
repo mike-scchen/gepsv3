@@ -1,0 +1,10 @@
+75,76c75,76
+<       use rmachine , only : kind_rad, kind_phys
+<       use rphyscons, rd => con_rd, fv => con_fvirt, grav => con_g, &
+---
+>       use machine , only : kind_rad, kind_phys
+>       use physcons, rd => con_rd, fv => con_fvirt, grav => con_g, &
+78c78
+<       use rmodule_radlw_main, only : lwrad
+---
+>       use module_radlw_main, only : lwrad

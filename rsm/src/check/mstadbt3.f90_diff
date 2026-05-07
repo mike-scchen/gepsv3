@@ -1,0 +1,8 @@
+65,67c65,67
+<       use rmachine , only : kind_phys
+<       use rfuncphys , only : ftdp, fthe, ftlcl, stma
+<       use rphyscons, eps => con_eps, epsm1 => con_epsm1, fv => con_fvirt
+---
+>       use machine , only : kind_phys
+>       use funcphys , only : ftdp, fthe, ftlcl, stma
+>       use physcons, eps => con_eps, epsm1 => con_epsm1, fv => con_fvirt

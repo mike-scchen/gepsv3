@@ -1,0 +1,25 @@
+18c18
+<       use rphyscons, only : qcmin => con_qcmin
+---
+>       use physcons, only : qcmin => con_qcmin
+94a95
+> ! parameter(nmmiph = 2)
+99a101
+> ! parameter(nmmiph = 3)
+101a104,114
+> !
+> ! for new wsm6 microphysics
+> ! parameter(nmmiph = 6)
+> ! parameter(num_p3d = 3)
+> ! parameter(num_p2d = 1)
+> !
+> ! for GFDL microphysics
+> ! parameter(nmmiph = 11)
+> ! parameter(num_p3d = 5)
+> ! parameter(num_p2d = 1)
+> !
+303d315
+<      & ssu(igrd1p,jgrd1p), ssv(igrd1p,jgrd1p), &
+345,346d356
+<       common /rcomgd6/ &
+<      & cpl_field(igrd1p,jgrd1p,9)

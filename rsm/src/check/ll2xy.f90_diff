@@ -1,0 +1,4 @@
+40c40
+<       use rphyscons, rerth => con_rerth
+---
+>       use physcons, rerth => con_rerth

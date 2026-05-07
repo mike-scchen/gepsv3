@@ -1,0 +1,6 @@
+58,59c58,59
+<       use rmachine , only : kind_rad, kind_phys
+<       use rphyscons, grav => con_g, rd => con_rd, fv => con_fvirt
+---
+>       use machine , only : kind_rad, kind_phys
+>       use physcons, grav => con_g, rd => con_rd, fv => con_fvirt

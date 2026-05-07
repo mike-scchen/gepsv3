@@ -1,0 +1,29 @@
+13c13
+<       use rmodule_mp_wsm3,        only: wsm3init
+---
+>       use module_mp_wsm3,        only: wsm3init
+15c15
+<       use rmodule_mp_wsm3
+---
+>       use module_mp_wsm3
+19c19
+<       use rmodule_mp_wsm6,        only: wsm6init
+---
+>       use module_mp_wsm6,        only: wsm6init
+21c21
+<       use rmodule_mp_wsm6
+---
+>       use module_mp_wsm6
+26c26
+<       use rmodule_mp_gfdl_v2,     only : gfdlv2_init => gfdl_cld_mp_init
+---
+>       use module_mp_gfdl_v2,     only : gfdlv2_init => gfdl_cld_mp_init
+341,348d340
+< #ifdef CPL_TIMCOM
+<       kdt_cpl = nsout
+<       kdt_cpl = kdt_cpl/3
+<       odt_cpl = 1.0/(kdt_cpl*deltim)
+<       if(mype.eq.master) then
+<         print *,'[RSM] kdt_cpl=',kdt_cpl,', dt_cpl=',kdt_cpl*deltim
+<       end if 
+< #endif

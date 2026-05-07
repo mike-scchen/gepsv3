@@ -1,0 +1,334 @@
+      SUBROUTINE GRIBIT1(F,LBM,IDRT,IGRID,IM,JM,MXBIT,COLAT1,             &
+     &                  ILPDS,IPTV,ICEN,IGEN,IBMS,                       &
+     &                  IPU,ITL,IL1,IL2,                                 &
+     &                  IYR,IMO,IDY,IHR,IFTU,IP1,IP2,ITR,                &
+     &                  INA,INM,ICEN2,IDS,IENS,                          &
+     &                  XLAT1,XLON1,XLAT2,XLON2,DELX,DELY,ORI,TRU,PROJ,  &
+     &                  GRIB,LGRIB,IERR)
+!$$$  SUBPROGRAM DOCUMENTATION BLOCK
+!
+! SUBPROGRAM:    GRIBIT      CREATE GRIB MESSAGE
+!   PRGMMR: IREDELL          ORG: W/NMC23    DATE: 92-10-31
+!
+! ABSTRACT: CREATE A GRIB MESSAGE FROM A FULL FIELD.
+!   AT PRESENT, ONLY GLOBAL LATLON GRIDS AND GAUSSIAN GRIDS
+!   AND REGIONAL POLAR PROJECTIONS ARE ALLOWED.
+!
+! PROGRAM HISTORY LOG:
+!   92-10-31  IREDELL
+!   94-05-04  JUANG (FOR GSM AND RSM USE)
+!
+! USAGE:    CALL GRIBIT(F,LBM,IDRT,IGRID,IM,JM,MXBIT,COLAT1,
+!    &                  ILPDS,IPTV,ICEN,IGEN,IBMS,IPU,ITL,IL1,IL2,
+!    &                  IYR,IMO,IDY,IHR,IFTU,IP1,IP2,ITR,
+!    &                  INA,INM,ICEN2,IDS,IENS,
+!    &                  XLAT1,XLON1,DELX,DELY,ORI,TRU,PROJ,
+!    &                  GRIB,LGRIB,IERR)
+!   INPUT ARGUMENT LIST:
+!     F        - REAL (IM*JM) FIELD DATA TO PACK INTO GRIB MESSAGE
+!     LBM      - LOGICAL (IM*JM) BITMAP TO USE IF IBMS=1
+!     IDRT     - INTEGER DATA REPRESENTATION TYPE
+!                (0 FOR LATLON OR 4 FOR GAUSSIAN OR 5 FOR POLAR)
+!     IGRID    - grid number
+!     IM       - INTEGER LONGITUDINAL DIMENSION
+!     JM       - INTEGER LATITUDINAL DIMENSION
+!     MXBIT    - INTEGER MAXIMUM NUMBER OF BITS TO USE (0 FOR NO LIMIT)
+!     COLAT1   - REAL FIRST COLATITUDE OF GRID IF IDRT=4 (RADIANS)
+!     ILPDS    - INTEGER LENGTH OF THE PDS (USUALLY 28)
+!     IPTV     - INTEGER PARAMETER TABLE VERSION (USUALLY 1)
+!     ICEN     - INTEGER FORECAST CENTER (USUALLY 7)
+!     IGEN     - INTEGER MODEL GENERATING CODE
+!     IBMS     - INTEGER BITMAP FLAG (0 FOR NO BITMAP)
+!     IPU      - INTEGER PARAMETER AND UNIT INDICATOR
+!     ITL      - INTEGER TYPE OF LEVEL INDICATOR
+!     IL1      - INTEGER FIRST LEVEL VALUE (0 FOR SINGLE LEVEL)
+!     IL2      - INTEGER SECOND LEVEL VALUE
+!     IYR      - INTEGER YEAR
+!     IMO      - INTEGER MONTH
+!     IDY      - INTEGER DAY
+!     IHR      - INTEGER HOUR
+!     IFTU     - INTEGER FORECAST TIME UNIT (1 FOR HOUR)
+!     IP1      - INTEGER FIRST TIME PERIOD
+!     IP2      - INTEGER SECOND TIME PERIOD (0 FOR SINGLE PERIOD)
+!     ITR      - INTEGER TIME RANGE INDICATOR (10 FOR SINGLE PERIOD)
+!     INA      - INTEGER NUMBER INCLUDED IN AVERAGE
+!     INM      - INTEGER NUMBER MISSING FROM AVERAGE
+!     ICEN2    - INTEGER FORECAST SUBCENTER
+!                (USUALLY 0 BUT 1 FOR REANAL OR 2 FOR ENSEMBLE)
+!     IDS      - INTEGER DECIMAL SCALING
+!     IENS     - INTEGER (5) ENSEMBLE EXTENDED PDS VALUES
+!                (APPLICATION,TYPE,IDENTIFICATION,PRODUCT,SMOOTHING)
+!                (USED ONLY IF ICEN2=2 AND ILPDS>=45)
+!     XLAT1    - REAL FIRST POINT OF REGIONAL LATITUDE (RADIANS)
+!     XLON1    - REAL FIRST POINT OF REGIONAL LONGITUDE (RADIANS)
+!     XLAT2    - REAL LAST  POINT OF REGIONAL LATITUDE (RADIANS)
+!     XLON2    - REAL LAST  POINT OF REGIONAL LONGITUDE (RADIANS)
+!     DELX     - REAL DX ON 60N FOR REGIONAL (M)
+!     DELY     - REAL DY ON 60N FOR REGIONAL (M)
+!     PROJ     - REAL POLAR PROJECTION FLAG 1 FOR NORTH -1 FOR SOUTH
+!                     MERCATER PROJECTION 0
+!     ORI      - REAL ORIENTATION OF REGIONAL POLAR PROJECTION OR
+!     TRU      - TRUTH FOR REGIONAL MERCATER AND LAMBERT PROJECTION
+!
+!   OUTPUT ARGUMENT LIST:
+!     GRIB     - CHARACTER (LGRIB) GRIB MESSAGE
+!     LGRIB    - INTEGER LENGTH OF GRIB MESSAGE
+!                (NO MORE THAN 100+ILPDS+IM*JM*(MXBIT+1)/8)
+!     IERR     - INTEGER ERROR CODE (0 FOR SUCCESS)
+!
+! SUBPROGRAMS CALLED:
+!   GTBITS     - COMPUTE NUMBER OF BITS AND ROUND DATA APPROPRIATELY
+!   W3FI72     - ENGRIB DATA INTO A GRIB1 MESSAGE
+!
+! ATTRIBUTES:
+!   LANGUAGE: CRAY FORTRAN
+!
+!$$$
+      INTEGER IENS(5)
+      REAL F(IM*JM)
+      LOGICAL LBM(IM*JM)
+      CHARACTER GRIB(*)
+      INTEGER IBM(IM*JM*IBMS+1-IBMS),IPDS(100),IGDS(100),IBDS(100)
+      REAL FR(IM*JM)
+      CHARACTER PDS(ILPDS)
+! - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+!  DETERMINE GRID PARAMETERS
+      PI=ACOS(-1.)
+      NF=IM*JM
+      IF(IDRT.EQ.0) THEN    !lat-lon mode
+        IF(IM.EQ.144.AND.JM.EQ.73) THEN
+          IGRID=2
+        ELSEIF(IM.EQ.360.AND.JM.EQ.181) THEN
+          IGRID=3
+!       ELSE
+!         IGRID=255
+        ENDIF
+        IRESFL=128
+        ISCAN=0
+        LAT1=NINT(90.E3)
+        LON1=0
+        LATI=NINT(180.E3/(JM-1))
+        LONI=NINT(360.E3/IM)
+        IGDS09=-LAT1
+        IGDS10=-LONI
+        IGDS11=LATI
+        IGDS12=LONI
+! change to regional latlon
+        LAT1=NINT(180.E3/ACOS(-1.)*XLAT1)
+        LON1=NINT(180.E3/ACOS(-1.)*XLON1)
+        IGDS09=NINT(180.E3/ACOS(-1.)*XLAT2)
+        IGDS10=NINT(180.E3/ACOS(-1.)*XLON2)
+        IGDS11=(IGDS09-LAT1)/(JM-1)
+        IGDS12=(IGDS10-LON1)/(IM-1)
+        IGDS13=64
+!
+        IGDS14=0
+        IGDS15=0
+        IGDS16=0
+        IGDS17=0
+        IGDS18=0
+      ELSEIF(IDRT.EQ.4) THEN
+        IF(IM.EQ.192.AND.JM.EQ.94) THEN
+          IGRID=98
+        ELSEIF(IM.EQ.384.AND.JM.EQ.190) THEN
+          IGRID=126
+!       ELSE
+!         IGRID=255
+        ENDIF
+        IRESFL=128
+        ISCAN=0
+        LAT1=NINT(90.E3-180.E3/PI*COLAT1)
+        LON1=0
+        LATI=JM/2
+        LONI=NINT(360.E3/IM)
+        IGDS09=-LAT1
+        IGDS10=-LONI
+        IGDS11=LATI
+        IGDS12=LONI
+        IGDS13=ISCAN
+        IGDS14=0
+        IGDS15=0
+        IGDS16=0
+        IGDS17=0
+        IGDS18=0
+      ELSEIF(IDRT.EQ.5) THEN    ! POLAR PROJECTION
+!       print*,'POLAR PROJECTION'
+!       print*,'PROJ=',PROJ
+!       IGRID=255
+        LAT1=NINT(180.E3/ACOS(-1.) * XLAT1)
+        LON1=NINT(180.E3/ACOS(-1.) * XLON1)
+        IRESFL=8
+        IGDS09=NINT(ORI*1.E3)
+        IGDS10=DELX
+        IGDS11=DELY
+        IGDS12=0
+        IF( NINT(PROJ).EQ.1  ) IGDS12=0         ! NORTH POLAR PROJ
+        IF( NINT(PROJ).EQ.-1 ) IGDS12=128       ! SOUTH POLAT PROJ
+        ISCAN=64
+        IGDS13=ISCAN
+        IGDS14=0
+        IGDS15=0
+        IGDS16=0
+        IGDS17=0
+        IGDS18=0
+      ELSEIF(IDRT.EQ.1) THEN    ! MERCATER PROJECTION
+!     print*,'MERCATER PROJECTION'
+!     print*,'PROJ=',PROJ
+!       IGRID=255
+        LAT1=NINT(180.E3/ACOS(-1.) * XLAT1)
+        LON1=NINT(180.E3/ACOS(-1.) * XLON1)
+        IRESFL=8
+        IGDS09=NINT(180.E3/ACOS(-1.) * XLAT2)
+        IGDS10=NINT(180.E3/ACOS(-1.) * XLON2)
+        IGDS11=DELX
+        IGDS12=DELY
+        IGDS13=NINT(TRU*1.E3)
+        ISCAN=64
+        IGDS14=ISCAN
+        IGDS15=0
+        IGDS16=0
+        IGDS17=0
+        IGDS18=0
+      ELSEIF(IDRT.EQ.3) THEN    ! LAMBERT PROJECTION
+!     print*,'LAMBERT PROJECTION'
+!     print*,'PROJ=',PROJ
+!       IGRID=255
+        LAT1=NINT(180.E3/ACOS(-1.) * XLAT1)
+        LON1=NINT(180.E3/ACOS(-1.) * XLON1)
+!      print*,'LAT1,LON1=',LAT1,LON1
+        IRESFL=8
+        IGDS09=NINT(ORI*1.E3)
+!      print*,'IGDS09=',IGDS09
+        IGDS10=DELX
+        IGDS11=DELY
+!      print*,'IGDS10,IGDS11=',IGDS10,IGDS11
+        IGDS12=0
+        IF( NINT(PROJ).EQ.2  ) IGDS12=0         ! NORTH LAMBERT PROJ
+        IF( NINT(PROJ).EQ.-2 ) IGDS12=128       ! SOUTH LAMBERT PROJ
+!      print*,'IGDS12=',IGDS12
+        ISCAN=64
+        IGDS13=ISCAN
+        IGDS14=0
+        IGDS15=NINT(TRU*1.E3)
+        IGDS16=IGDS15
+!      print*,'IGDS15,IGDS16=',IGDS15,IGDS16
+!       IGDS17=-90000    !lat of South Pole (MILLIDEGREES)
+        IGDS17=0         !???????
+        IGDS18=0         !lon of South Pole (MILLIDEGREES)
+      ELSE
+        IERR=40
+        RETURN
+      ENDIF
+! - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+!  RESET TIME RANGE PARAMETER IN CASE OF OVERFLOW
+      IF(ITR.GE.2.AND.ITR.LE.5.AND.IP2.GE.256) THEN
+        JP1=IP2
+        JP2=0
+        JTR=10
+      ELSE
+        JP1=IP1
+        JP2=IP2
+        JTR=ITR
+      ENDIF
+!  FIX YEAR AND CENTURY
+      IYR4=IYR
+      IF(IYR.LE.100) IYR4=2050-MOD(2050-IYR,100)
+      IYC=MOD(IYR4-1,100)+1
+      ICY=(IYR4-1)/100+1
+! - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+!  FILL PDS PARAMETERS
+      IPDS(01)=ILPDS    ! LENGTH OF PDS
+      IPDS(02)=IPTV     ! PARAMETER TABLE VERSION ID
+      IPDS(03)=ICEN     ! CENTER ID
+      IPDS(04)=IGEN     ! GENERATING MODEL ID
+      IPDS(05)=IGRID    ! GRID ID
+      IPDS(06)=1        ! GDS FLAG, USUALLY 1
+      IPDS(07)=IBMS     ! BMS FLAG
+      IPDS(08)=IPU      ! PARAMETER UNIT ID
+      IPDS(09)=ITL      ! TYPE OF LEVEL ID
+      IPDS(10)=IL1      ! LEVEL 1 OR 0
+      IPDS(11)=IL2      ! LEVEL 2
+      IPDS(12)=IYC      ! YEAR
+      IPDS(13)=IMO      ! MONTH
+      IPDS(14)=IDY      ! DAY
+      IPDS(15)=IHR      ! HOUR
+      IPDS(16)=0        ! MINUTE
+      IPDS(17)=IFTU     ! FORECAST TIME UNIT ID
+      IPDS(18)=JP1      ! TIME PERIOD 1
+      IPDS(19)=JP2      ! TIME PERIOD 2 OR 0
+      IPDS(20)=JTR      ! TIME RANGE INDICATOR
+      IPDS(21)=INA      ! NUMBER IN AVERAGE
+      IPDS(22)=INM      ! NUMBER MISSING
+      IPDS(23)=ICY      ! CENTURY
+      IPDS(24)=ICEN2    ! FORECAST SUBCENTER
+      IPDS(25)=IDS      ! DECIMAL SCALING
+! - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+!  FILL GDS AND BDS PARAMETERS
+      IGDS(01)=0        ! NUMBER OF VERTICAL COORDS
+      IGDS(02)=IGRID    ! VERTICAL COORD FLAG
+      IGDS(03)=IDRT     ! DATA REPRESENTATION TYPE
+      IGDS(04)=IM       ! EAST-WEST POINTS
+      IGDS(05)=JM       ! NORTH-SOUTH POINTS
+      IGDS(06)=LAT1     ! LATITUDE OF ORIGIN
+      IGDS(07)=LON1     ! LONGITUDE OF ORIGIN
+      IGDS(08)=IRESFL   ! RESOLUTION FLAG
+      IGDS(09)=IGDS09   ! LATITUDE OF END OR ORIENTATION
+      IGDS(10)=IGDS10   ! LONGITUDE OF END OR DX IN METER ON 60N
+      IGDS(11)=IGDS11   ! LAT INCREMENT OR GAUSSIAN LATS OR DY IN METER
+      IGDS(12)=IGDS12   ! LONGITUDE INCREMENT OR PROJECTION
+      IGDS(13)=IGDS13   ! SCANNING MODE OR LAT OF INTERCUT ON EARTH FOR
+      IGDS(14)=IGDS14   ! NOT USED OR SCANNING MODE FOR MERCATER
+      IGDS(15)=IGDS15
+      IGDS(16)=IGDS16
+      IGDS(17)=IGDS17
+      IGDS(18)=IGDS18
+      IGDS(27)=0
+      IBDS(1:9)=0       ! BDS FLAGS
+! - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+!  FILL BITMAP AND COUNT VALID DATA.  RESET BITMAP FLAG IF ALL VALID.
+      NBM=NF
+      IF(IBMS.NE.0) THEN
+        NBM=0
+        DO I=1,NF
+          IF(LBM(I)) THEN
+            IBM(I)=1
+            NBM=NBM+1
+          ELSE
+            IBM(I)=0
+          ENDIF
+        ENDDO
+        IF(NBM.EQ.NF) IPDS(7)=0
+      ENDIF
+! - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+!  ROUND DATA AND DETERMINE NUMBER OF BITS
+      IF(NBM.EQ.0) THEN
+        DO I=1,NF
+          FR(I)=0.
+        ENDDO
+        NBIT=0
+      ELSE
+        CALL GTBITS(IPDS(7),IDS,NF,IBM,F,FR,FMIN,FMAX,NBIT)
+!       WRITE(0,'("GTBITS:",4I4,4X,2I4,4X,2G16.6)')
+!    &   IPU,ITL,IL1,IL2,IDS,NBIT,FMIN,FMAX
+        IF(MXBIT.GT.0) NBIT=MIN(NBIT,MXBIT)
+      ENDIF
+
+! FR(i) is packed.
+!     write(6,*) (FR(i),i=1,10)
+!     write(6,*) 'NBIT= ',NBIT
+
+! - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+!  CREATE PRODUCT DEFINITION SECTION
+      CALL W3FI68(IPDS,PDS)
+      IF(ICEN2.EQ.2.AND.ILPDS.GE.45) THEN
+        ILAST=45
+        CALL PDSENS(IENS,KPROB,XPROB,KCLUST,KMEMBR,ILAST,PDS)
+      ENDIF
+      CALL W3FI72(0,FR,0,NBIT,1,IPDS,PDS,                                &
+     &            1,255,IGDS,0,0,IBM,NF,IBDS,                            &
+     &            NFO,GRIB,LGRIB,IERR)
+! - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      RETURN
+      END
+
+

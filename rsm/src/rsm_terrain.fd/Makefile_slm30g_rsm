@@ -1,0 +1,31 @@
+SRCSc = cwb_fftw.c
+SRCSf = fftx.f gfstopo_30slzl.rsm.f \
+	mtnlm7_slm30g.rsm.f
+OBJSc = ${SRCSc:.c=.o}
+OBJSf = ${SRCSf:.f=.o}
+PROG  = mtnlm7_slm30g.exe
+
+# Specify the path to FFTW.
+FFTW    = /package/fx1000/fftw-3.3.10
+
+FC      = frtpx
+FFLAGS  = -I$(FFTW)/include -X9 -CcdRR8 -fw
+CC      = fccpx
+CFLAGS  = -I$(FFTW)/include -Kopenmp
+LDFLAGS = -Kopenmp -L$(FFTW)/lib -lfftw3_omp -lfftw3
+
+all: $(PROG)
+
+clean:
+	-$(RM) *.exe
+	-$(RM) *.o
+
+%.o: %.f
+	$(FC) $(FFLAGS) -c $< -o $@
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(PROG): $(OBJSc) $(OBJSf)
+	$(FC) -o $@ $^ $(LDFLAGS)
+

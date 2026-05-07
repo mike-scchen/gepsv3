@@ -1,0 +1,11 @@
+&rsmdomain
+    rproj   = 0.0,
+    rtruth  = 23.65,
+    rorient = 120.7,
+    rdelx   = 12000.0,
+    rdely   = 12000.0,
+    rcenlat = 25.0,
+    rcenlon = 123.8,
+    rlftgrd = 162.0,
+    rbtmgrd = 108.0
+/

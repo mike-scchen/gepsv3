@@ -1,0 +1,21 @@
+CFLAGS=	-I/nwpr/gfs/xb119/data/x86_64/include
+W3LB=	#-L../../lib/NCEPLIB/lib -lbacio_4 -lw3nco_4 
+LDFLAGS= -L/nwpr/gfs/xb119/data/x86_64/lib -lg2 -lw3  -ljasper -lpng -lz 
+FORT=	gfortran
+#OPTx=	-O3 -Kfast   
+FFLAGS=	-O3 
+#SRCS=	rpgbnawips.f90  ismaxmin.f90
+OBJS=	rpgbnawips.o  ismaxmin.o  gribit2.o grb1to2table.o dtgfix12.o out100.o
+#EXEC=	../../utl/rpgbnawips.x
+EXEC=	rpgbnawips.x
+
+all:	$(EXEC)
+
+$(EXEC):	$(OBJS)
+	$(FORT) -o $(EXEC) $(FFLAGS) $(OBJS) $(W3LB) $(LDFLAGS) $(CFLAGS) 
+
+%.o:%.f90
+	$(FORT) $(FFLAGS)  $(LIBS) $(CFLAGS)  -c  $<
+
+clean:
+	rm -f *.o $(EXEC)

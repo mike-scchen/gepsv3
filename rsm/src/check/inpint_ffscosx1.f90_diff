@@ -1,0 +1,6 @@
+166,167c166,167
+<       parameter(cigrd1 = 241 )
+<       parameter(cjgrd1 = 161 )
+---
+>       parameter(cigrd1 = 201 )
+>       parameter(cjgrd1 = 141 )

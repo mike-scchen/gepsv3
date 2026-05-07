@@ -1,0 +1,6 @@
+2,3c2,3
+<       use rmachine , only : kind_phys,kind_rad
+< ! use rphyscons
+---
+>       use machine , only : kind_phys,kind_rad
+> ! use physcons

@@ -1,0 +1,90 @@
+RANLIB = ranlib
+AR = ar cq
+RM = rm -f
+MACHINE=fx1000
+#---------------------Used libraries-------------------------------------------
+NETCDF=/data/common/gfs/GEPSv3_lib/fx1000/netcdf-4.1.3
+HDF5=/data/common/gfs/GEPSv3_lib/fx1000/hdf5-1.8.22
+ZLIB=/data/common/gfs/GEPSv3_lib/fx1000/zlib-1.2.8
+PNETCDF=/data/common/gfs/GEPSv3_lib/fx1000/pnetcdf-1.12.3
+MCT=/data/common/gfs/GEPSv3_lib/fx1000/MCT
+CPL=/data/common/gfs/GEPSv3_lib/coupler
+# -------------------Compiler & Flags------------------------------------------
+F90COMPILER=mpifrtpx
+F90COMPILEOPTS=-fw -SSL2BLAMP -Kfast,parallel,ocl,autoobjstack -CcdRR8 -Ncheck_intrfunc
+F90COMPILEPATHS=-I${CPL} -I${MCT}/include -I${PNETCDF}/include -I${NETCDF}/include
+F90COMPILECPPFLAGS=
+
+F90LINKER=mpifrtpx
+F90LINKOPTS=-Kfast,parallel,ocl,autoobjstack -CcdRR8 -SSL2BLAMP -Ncheck_intrfunc
+F90LINKPATHS=-L${CPL} -L${MCT}/lib -L${PNETCDF}/lib -L${NETCDF}/lib -L$(HDF5)/lib -L$(ZLIB)/lib
+F90LINKLIBS=-lcpl -lpnetcdf -lnetcdff -lnetcdf -lmct -lmpeu -lhdf5_hl -lhdf5 -lz
+
+# -----------------------------------------------------------------------------
+SRCS=timcom_const.F90   \
+     calendar.F90       \
+     timcom_comm.F90    \
+     timcom_grid.F90    \
+     hyperlink.F90      \
+     timcom_ncio.F90    \
+     timcom_pncio.F90   \
+     timcom_general.F90 \
+     timcom_phy.F90     \
+     timcom_eos.F90     \
+     timcom_cplmct.F90  \
+     timcom_drof.F90    \
+     timcom_dice.F90    \
+     timcom_datm.F90    \
+     timcom_ice.F90     \
+     timcom_kpp.F90     \
+     timcom_solver.F90  \
+     timcom_init.F90    \
+     timcom_drv.F90     \
+     timcom_rsm_cpl.F90 \
+     timcom_main.F90
+
+OBJS = ${SRCS:.F90=.o}
+
+SRCDIR=./
+OBJDIR=obj
+LOGDIR=log
+
+VPATH=$(SRCDIR)
+
+.SUFFIXES: .F .f .f90 .F90
+
+%.o : %.f90
+	$(F90COMPILER) -c $(F90COMPILEOPTS) $(F90COMPILEPATHS) $<
+
+%.o : %.F90
+	$(F90COMPILER) -c $(F90COMPILEOPTS) $(F90COMPILEPATHS) $(F90COMPILECPPFLAGS) $<
+
+%.o : %.f
+	$(F90COMPILER) -c $(F90COMPILEOPTS) $(F90COMPILEPATHS) $<
+
+%.o : %.F
+	$(F90COMPILER) -c $(F90COMPILEOPTS) $(F90COMPILEPATHS) $(F90COMPILECPPFLAGS) $<
+
+SHELL:=/bin/bash
+# -----------------------------------------------------------------------------
+CMD=timcom
+LIB=libtimcom_tai.a
+
+all: $(LIB)
+
+$(CMD): $(OBJS)
+	$(F90LINKER) $(F90LINKOPTS) $(F90LINKPATHS) -o $@ $^ $(F90LINKLIBS)
+
+$(LIB): $(OBJS)
+	$(RM) $(@)
+	$(AR) $(@) $(OBJS)
+	$(RANLIB) $(@)
+# -----------------------------------------------------------------------------
+.PHONY: dust clean distclean
+dust:
+	rm -f *.o *.mod
+clean:
+	rm -f *.o *.lst *.mod libtimcom_tai.a
+distclean: dust clean
+
+	

@@ -1,0 +1,553 @@
+
+ Fujitsu Fortran Version 4.6.1  Mon Oct 27 15:44:42 2025
+
+ Compilation information
+   Current directory : /IFS/nwpr/gfs/xb157/CICE/GEPSv3/coupler
+   Source file       : cpl_gsmap.F90
+
+ Option information
+   Command line options : -Kident_mpi -f2004 -c -X9 -Free -CcdRR8 -Cpp -Kfast,parallel,openmp,ocl -Ksimd=1 -SSL2BLAMP -x- -fw -Ec -Nlst=a,lst=d,lst=i,lst=p,lst=t,lst=x -Koptmsg=2 -Ncheck_intrfunc -I/data/common/gfs/GEPSv3_lib/fx1000/MCT/include -I/data/common/gfs/GEPSv3_lib/fx1000/netcdf-4.7.4/include -I/opt/FJSVxtclanga/.common/MELI025/include/mpi/fujitsu -I/opt/FJSVxtclanga/.common/MELI025/lib64 -Knointentopt
+   Cpp options          : -I/data/common/gfs/GEPSv3_lib/fx1000/MCT/include -I/data/common/gfs/GEPSv3_lib/fx1000/netcdf-4.7.4/include -I/opt/FJSVxtclanga/.common/MELI025/include/mpi/fujitsu -I/opt/FJSVxtclanga/.common/MELI025/lib64 -Dunix -Dlinux -D__FUJITSU -D__FRT_major__=4 -D__FRT_minor__=6 -D__FRT_patchlevel__=1 -D__FRT_version__="4.6.1" -D__aarch64__ -D__unix -D_OPENMP=201511 -D__frt_version=800 -D__ARM_ARCH=8 -D__ARM_FEATURE_SVE -D__ELF__ -D__unix__ -D__linux__ -D__linux -Asystem(unix) -otmp
+   Effective options    : -fw -g0 -AE -Ec -Free -O3 -X9
+                          -CcdRR8 -x- -xaccept=nomodule_allocatable
+                          -KA64FX -KARMV8_3_A -KSVE -Kalign_commons
+                          -Kalign_loops -Knoarray_declaration_opt
+                          -Kassume=noshortloop -Kassume=nomemory_bandwidth
+                          -Kassume=notime_saving_compilation -Kauto
+                          -Kautoobjstack -Knocalleralloc -Kcmodel=small
+                          -Keval -Keval_noconcurrent -Knoextract_stride_store
+                          -Knofenv_access -Kfp_contract -Kfp_relaxed
+                          -Kfsimple -Kfz -Khpctag -Kilfunc=procedure
+                          -Knointentopt -Klargepage -Kloop_blocking
+                          -Kloop_fission -Kloop_nofission_stripmining
+                          -Kloop_fission_threshold=50 -Kloop_fusion
+                          -Kloop_interchange -Kloop_part_parallel
+                          -Kloop_part_simd -Kloop_perfect_nest
+                          -Kloop_noversioning -Knolto -Kmfunc=1 -Kocl
+                          -Komitfp -Knooptlib_string -Koptmsg=2
+                          -Knopc_relative_literal_loads -Kplt -Knopreex
+                          -Kprefetch_noconditional -Kprefetch_noindirect
+                          -Kprefetch_sequential=auto -Kprefetch_nostride
+                          -Kprefetch_cache_level=all -Kprefetch_noinfer
+                          -Kprefetch_strong -Kprefetch_strong_L2 -Knopreload
+                          -Ksch_post_ra -Ksch_pre_ra -Ksibling_calls -Ksimd=1
+                          -Ksimd_packed_promotion -Ksimd_reduction_product
+                          -Ksimd_reg_size=512 -Ksimd_nouncounted_loop
+                          -Ksimd_use_multiple_structures -Knostriping
+                          -Knosubscript_opt -Kswp -Kswp_freg_rate=100
+                          -Kswp_ireg_rate=100 -Kswp_preg_rate=100
+                          -Kswp_policy=auto -Ktemparraystack -Kunroll
+                          -Knounroll_and_jam -Knozfill
+                          -Kopenmp -Kopenmp_noassume_norecurrence
+                          -Kopenmp_nocollapse_except_innermost
+                          -Kopenmp_noordered_reduction -Knoopenmp_simd
+                          -Kthreadsafe -Kparallel -Kparallel_nofp_precision
+                          -Knoarray_private -Knodynamic_iteration -Kreduction
+                          -Kregion_extension
+                          -Nallextput -Nnoalloc_assign
+                          -Ncancel_overtime_compilation -Nnocheck_global
+                          -Ncheck_intrfunc -Nnocoarray -Nnocompdisp
+                          -Nnocopyarg -Nnocoverage -Nfjprof -Nfreealloc
+                          -Nf90move -Nnohook_func -Nnohook_time -Nlibomp
+                          -Nline -Nlst -Nlst=a -Nlst=d -Nlst=i -Nlst=p
+                          -Nlst=t -Nlst=x -Nnomallocfree -Nnoobsfun
+                          -Nnoprivatealloc -Nquickdbg=noargchk
+                          -Nquickdbg=nosubchk -Nquickdbg=noundef -NRnotrap
+                          -Nnorecursive -Nnoreordered_variable_stack
+                          -Nrt_notune -Nnosave -Nsetvalue=noheap
+                          -Nsetvalue=nostack -Nsetvalue=noscalar
+                          -Nsetvalue=noarray -Nsetvalue=nostruct -Nuse_rodata
+
+ Module "cpl_gsmap"
+  (inc)(line-no.)(nest)(optimize)
+               1                     module cpl_gsmap
+               2                       use m_GlobalSegMap, only: GlobalSegMap
+               3                       use m_GlobalSegMap, only: GlobalSegMap_init => init
+               4                       use m_GlobalSegMap, only: GlobalSegMap_lsize => lsize
+               5                       use m_GlobalSegMap, only: GlobalSegMap_clean => clean
+               6                       use cpl_rank
+               7                       implicit none
+               8                     
+               9                       type(GlobalSegMap), target ::         gfsGSMap
+              10                       type(GlobalSegMap), target :: gocn_in_gfsGSMap
+              11                       type(GlobalSegMap), target ::  rsm_in_gfsGSMap
+              12                     
+              13                       type(GlobalSegMap), target ::         rsmGSMap
+              14                       type(GlobalSegMap), target :: rocn_in_rsmGSMap
+              15                       type(GlobalSegMap), target ::  gfs_in_rsmGSMap
+              16                     
+              17                       type(GlobalSegMap), target ::         gocnGSMap
+              18                       type(GlobalSegMap), target ::  gfs_in_gocnGSMap
+              19                       type(GlobalSegMap), target :: rocn_in_gocnGSMap
+              20                     
+              21                       type(GlobalSegMap), target ::         rocnGSMap
+              22                       type(GlobalSegMap), target ::  rsm_in_rocnGSMap
+              23                       type(GlobalSegMap), target :: gocn_in_rocnGSMap
+              24                     
+              25                     contains
+              26                     subroutine cpl_gsmap_init(myrank, seg_size, seg_strt, seg_leng, rank_root, mct_comm_world, id_comp, msg)
+              27                       implicit none
+              28                     
+              29                       integer, intent(in) :: myrank, seg_size
+              30                       integer, intent(in) :: seg_strt(seg_size), seg_leng(seg_size)
+              31                       integer, intent(in) :: rank_root
+              32                       integer, intent(in) :: mct_comm_world
+              33                       integer, intent(in) :: id_comp
+              34                       character(len=*) :: msg
+              35                       integer :: seg_strt1(1), seg_leng1(1), res
+              36                     
+              37     1                 if(id_comp.eq.id_gfs) then
+              38     1                   call GlobalSegMap_init(gfsGSMap, seg_strt, seg_leng, rank_root, mct_comm_world, id_comp)
+              39     1                   avsize(id_comp) = GlobalSegMap_lsize(gfsGSMap, mct_comm_world)
+              40     1               
+              41     2                   if(l_comp_act(id_gocn)) then
+              42     2                     res = mod(ngrid_comp_all(id_gocn), nproc_comp_all(id_gfs))
+              43     2                     seg_leng1(1) = (ngrid_comp_all(id_gocn)-res)/nproc_comp_all(id_gfs)
+              44     3                     if(myrank .lt. res) then
+              45     3                       seg_leng1(1) = seg_leng1(1) + 1
+              46     3                       seg_strt1(1) = (myrank*seg_leng1(1)) + 1
+              47     3                     else
+              48     3                       seg_strt1(1) = res*(seg_leng1(1)+1) + (myrank - res)*seg_leng1(1) + 1
+              49     3                     end if
+              50     2                     call GlobalSegMap_init(gocn_in_gfsGSMap, seg_strt1, seg_leng1, rank_root, mct_comm_world, id_comp)
+              51     2                     avsize(id_gocn) = GlobalSegMap_lsize(gocn_in_gfsGSMap, mct_comm_world)
+              52     2                   end if
+              53     1               
+              54     1               !    if(l_comp_act(id_rsm)) then
+              55     1               !      seg_leng1(1) = ngrid_comp_all(id_rsm)/nproc_comp_all(id_gfs)
+              56     1               !      seg_strt1(1) = (myrank*seg_leng1(1)) + 1
+              57     1               !      call GlobalSegMap_init(rsm_in_gfsGSMap, seg_strt1, seg_leng1, rank_root, mct_comm_world, id_comp)
+              58     1               !      avsize(id_rsm) = GlobalSegMap_lsize(rsm_in_gfsGSMap, mct_comm_world)
+              59     1               !      write(*,*) trim(msg), ", myrank:", myrank, ", build  rsm in gfs GSMap", avsize(id_rsm)
+              60     1               !    end if
+              61     1               
+              62     1                 elseif(id_comp.eq.id_rsm) then
+              63     1                   call GlobalSegMap_init(rsmGSMap, seg_strt, seg_leng, rank_root, mct_comm_world, id_comp)
+              64     1                   avsize(id_comp) = GlobalSegMap_lsize(rsmGSMap, mct_comm_world)
+              65     1               
+              66     1               !    if(l_comp_act(id_gfs)) then
+              67     1               !      seg_leng1(1) = ngrid_comp_all(id_gfs)/nproc_comp_all(id_rsm)
+              68     1               !      seg_strt1(1) = (myrank*seg_leng1(1)) + 1
+              69     1               !      call GlobalSegMap_init(gfs_in_rsmGSMap, seg_strt1, seg_leng1, rank_root, mct_comm_world, id_comp)
+              70     1               !      avsize(id_gfs) = GlobalSegMap_lsize(gfs_in_rsmGSMap, mct_comm_world)
+              71     1               !      write(*,*) trim(msg), ", myrank:", myrank, ", build  gfs in rsm GSMap", avsize(id_gfs)
+              72     1               !    end if
+              73     1               
+              74     2                   if(l_comp_act(id_rocn)) then
+              75     2                     res = mod(ngrid_comp_all(id_rocn), nproc_comp_all(id_rsm))
+              76     2                     seg_leng1(1) = (ngrid_comp_all(id_rocn)-res)/nproc_comp_all(id_rsm)
+              77     3                     if(myrank .lt. res) then
+              78     3                       seg_leng1(1) = seg_leng1(1) + 1
+              79     3                       seg_strt1(1) = (myrank*seg_leng1(1)) + 1
+              80     3                     else
+              81     3                       seg_strt1(1) = res*(seg_leng1(1)+1) + (myrank - res)*seg_leng1(1) + 1
+              82     3                     end if
+              83     2                     call GlobalSegMap_init(rocn_in_rsmGSMap, seg_strt, seg_leng, rank_root, mct_comm_world, id_comp)
+              84     2                     avsize(id_rocn) = GlobalSegMap_lsize(rocn_in_rsmGSMap, mct_comm_world)
+              85     2                   end if
+              86     1               
+              87     1                 elseif(id_comp.eq.id_gocn) then
+              88     1                   call GlobalSegMap_init(gocnGSMap, seg_strt, seg_leng, rank_root, mct_comm_world, id_comp)
+              89     1                   avsize(id_comp) = GlobalSegMap_lsize(gocnGSMap, mct_comm_world)
+              90     1               
+              91     2                   if(l_comp_act(id_gfs)) then
+              92     2                     res = mod(ngrid_comp_all(id_gfs), nproc_comp_all(id_gocn))
+              93     2                     seg_leng1(1) = (ngrid_comp_all(id_gfs)-res)/nproc_comp_all(id_gocn)
+              94     3                     if(myrank .lt. res) then
+              95     3                       seg_leng1(1) = seg_leng1(1) + 1
+              96     3                       seg_strt1(1) = (myrank*seg_leng1(1)) + 1
+              97     3                     else
+              98     3                       seg_strt1(1) = res*(seg_leng1(1)+1) + (myrank - res)*seg_leng1(1) + 1
+              99     3                     end if
+             100     2                     call GlobalSegMap_init(gfs_in_gocnGSMap, seg_strt1, seg_leng1, rank_root, mct_comm_world, id_comp)
+             101     2                     avsize(id_gfs) = GlobalSegMap_lsize(gfs_in_gocnGSMap, mct_comm_world)
+             102     2                   end if
+             103     1               
+             104     2                   if(l_comp_act(id_rocn)) then
+             105     2                     res = mod(ngrid_comp_all(id_rocn), nproc_comp_all(id_gocn))
+             106     2                     seg_leng1(1) = (ngrid_comp_all(id_rocn)-res)/nproc_comp_all(id_gocn)
+             107     3                     if(myrank .lt. res) then
+             108     3                       seg_leng1(1) = seg_leng1(1) + 1
+             109     3                       seg_strt1(1) = (myrank*seg_leng1(1)) + 1
+             110     3                     else
+             111     3                       seg_strt1(1) = res*(seg_leng1(1)+1) + (myrank - res)*seg_leng1(1) + 1
+             112     3                     end if
+             113     2               
+             114     2                     call GlobalSegMap_init(rocn_in_gocnGSMap, seg_strt1, seg_leng1, rank_root, mct_comm_world, id_comp)
+             115     2                     avsize(id_rocn) = GlobalSegMap_lsize(rocn_in_gocnGSMap, mct_comm_world)
+             116     2               !      write(*,*) trim(msg), ", myrank:", myrank, ", build rocn in gocn GSMap", avsize(id_rocn), seg_leng1, seg_strt1, ngrid_comp_all(id_rocn), nproc_comp_all(id_gocn)
+             117     2                   end if
+             118     1               
+             119     1                 elseif(id_comp.eq.id_rocn) then
+             120     1                   call GlobalSegMap_init(rocnGSMap, seg_strt, seg_leng, rank_root, mct_comm_world, id_comp)
+             121     1                   avsize(id_comp) = GlobalSegMap_lsize(rocnGSMap, mct_comm_world)
+             122     1               
+             123     1               !    if(l_comp_act(id_gocn)) then
+             124     1               !      seg_leng1(1) = ngrid_comp_all(id_gocn)/nproc_comp_all(id_rocn)
+             125     1               !      seg_strt1(1) = (myrank*seg_leng1(1)) + 1
+             126     1               !      call GlobalSegMap_init(gocn_in_rocnGSMap, seg_strt1, seg_leng1, rank_root, mct_comm_world, id_comp)
+             127     1               !      avsize(id_gocn) = GlobalSegMap_lsize(gocn_in_rocnGSMap, mct_comm_world)
+             128     1               !      write(*,*) trim(msg), ", myrank:", myrank, ", build gocn in rocn GSMap", avsize(id_gocn)
+             129     1               !    end if
+             130     1               
+             131     2                   if(l_comp_act(id_rsm)) then
+             132     2                     res = mod(ngrid_comp_all(id_rsm), nproc_comp_all(id_rocn))
+             133     2                     seg_leng1(1) = (ngrid_comp_all(id_rsm)-res)/nproc_comp_all(id_rocn)
+             134     3                     if(myrank .lt. res) then
+             135     3                       seg_leng1(1) = seg_leng1(1) + 1
+             136     3                       seg_strt1(1) = (myrank*seg_leng1(1)) + 1
+             137     3                     else
+             138     3                       seg_strt1(1) = res*(seg_leng1(1)+1) + (myrank - res)*seg_leng1(1) + 1
+             139     3                     end if
+             140     2                     call GlobalSegMap_init(rsm_in_rocnGSMap, seg_strt, seg_leng, rank_root, mct_comm_world, id_comp)
+             141     2                     avsize(id_rsm) = GlobalSegMap_lsize(rsm_in_rocnGSMap, mct_comm_world)
+             142     2                   end if
+             143     1               
+             144     1                 end if
+             145                     end subroutine cpl_gsmap_init
+             146                     
+             147                     end module cpl_gsmap
+
+ Procedure information
+   Lines      : 147
+   Statements : 104
+   Stack(byte): 1520
+   Prefetch num: 0
+
+ Scoping unit of module : cpl_gsmap
+   Attribute and Cross reference of name
+     clean
+      |(Class and Type) : use name
+      |(Attributes)     : 
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 5
+     cpl_gsmap
+      |(Class and Type) : module name
+      |(Attributes)     : 
+      |(Declaration)    : 1
+      |(Definition)     : 
+      |(Reference)      : 147
+     cpl_rank
+      |(Class and Type) : module name
+      |(Attributes)     : PUBLIC
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 6
+     GlobalSegMap
+      |(Class and Type) : type name
+      |(Attributes)     : PUBLIC, use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 2  9  10  11  13  14  15  17  18  19  21  22  23
+     GlobalSegMap_clean
+      |(Class and Type) : generic name
+      |(Attributes)     : PUBLIC, use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 5
+     GlobalSegMap_init
+      |(Class and Type) : generic name
+      |(Attributes)     : PUBLIC, use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 3
+     GlobalSegMap_lsize
+      |(Class and Type) : generic name
+      |(Attributes)     : PUBLIC, use-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 4
+     gfsGSMap
+      |(Class and Type) : variable name, TYPE(GlobalSegMap)
+      |(Attributes)     : PUBLIC, TARGET
+      |(Declaration)    : 9
+      |(Definition)     : 
+      |(Reference)      : 
+     gfs_in_gocnGSMap
+      |(Class and Type) : variable name, TYPE(GlobalSegMap)
+      |(Attributes)     : PUBLIC, TARGET
+      |(Declaration)    : 18
+      |(Definition)     : 
+      |(Reference)      : 
+     gfs_in_rsmGSMap
+      |(Class and Type) : variable name, TYPE(GlobalSegMap)
+      |(Attributes)     : PUBLIC, TARGET
+      |(Declaration)    : 15
+      |(Definition)     : 
+      |(Reference)      : 
+     gocnGSMap
+      |(Class and Type) : variable name, TYPE(GlobalSegMap)
+      |(Attributes)     : PUBLIC, TARGET
+      |(Declaration)    : 17
+      |(Definition)     : 
+      |(Reference)      : 
+     gocn_in_gfsGSMap
+      |(Class and Type) : variable name, TYPE(GlobalSegMap)
+      |(Attributes)     : PUBLIC, TARGET
+      |(Declaration)    : 10
+      |(Definition)     : 
+      |(Reference)      : 
+     gocn_in_rocnGSMap
+      |(Class and Type) : variable name, TYPE(GlobalSegMap)
+      |(Attributes)     : PUBLIC, TARGET
+      |(Declaration)    : 23
+      |(Definition)     : 
+      |(Reference)      : 
+     init
+      |(Class and Type) : use name
+      |(Attributes)     : 
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 3
+     lsize
+      |(Class and Type) : use name
+      |(Attributes)     : 
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 4
+     m_GlobalSegMap
+      |(Class and Type) : module name
+      |(Attributes)     : PUBLIC
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 2  3  4  5
+     rocnGSMap
+      |(Class and Type) : variable name, TYPE(GlobalSegMap)
+      |(Attributes)     : PUBLIC, TARGET
+      |(Declaration)    : 21
+      |(Definition)     : 
+      |(Reference)      : 
+     rocn_in_gocnGSMap
+      |(Class and Type) : variable name, TYPE(GlobalSegMap)
+      |(Attributes)     : PUBLIC, TARGET
+      |(Declaration)    : 19
+      |(Definition)     : 
+      |(Reference)      : 
+     rocn_in_rsmGSMap
+      |(Class and Type) : variable name, TYPE(GlobalSegMap)
+      |(Attributes)     : PUBLIC, TARGET
+      |(Declaration)    : 14
+      |(Definition)     : 
+      |(Reference)      : 
+     rsmGSMap
+      |(Class and Type) : variable name, TYPE(GlobalSegMap)
+      |(Attributes)     : PUBLIC, TARGET
+      |(Declaration)    : 13
+      |(Definition)     : 
+      |(Reference)      : 
+     rsm_in_gfsGSMap
+      |(Class and Type) : variable name, TYPE(GlobalSegMap)
+      |(Attributes)     : PUBLIC, TARGET
+      |(Declaration)    : 11
+      |(Definition)     : 
+      |(Reference)      : 
+     rsm_in_rocnGSMap
+      |(Class and Type) : variable name, TYPE(GlobalSegMap)
+      |(Attributes)     : PUBLIC, TARGET
+      |(Declaration)    : 22
+      |(Definition)     : 
+      |(Reference)      : 
+
+ Scoping unit of module sub-program : cpl_gsmap_init
+   Attribute and Cross reference of name
+     avsize
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : DIMENSION, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 39  51  64  84  89  101  115  121  141
+      |(Reference)      : 
+     cpl_gsmap_init
+      |(Class and Type) : module subroutine name
+      |(Attributes)     : 
+      |(Declaration)    : 
+      |(Definition)     : 26
+      |(Reference)      : 145
+     GlobalSegMap_init
+      |(Class and Type) : generic name
+      |(Attributes)     : host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 38  50  63  83  88  100  114  120  140
+     GlobalSegMap_lsize
+      |(Class and Type) : generic name
+      |(Attributes)     : host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 39  51  64  84  89  101  115  121  141
+     gfsGSMap
+      |(Class and Type) : variable name, TYPE(GlobalSegMap)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 38
+      |(Reference)      : 39
+     gfs_in_gocnGSMap
+      |(Class and Type) : variable name, TYPE(GlobalSegMap)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 100
+      |(Reference)      : 101
+     gocnGSMap
+      |(Class and Type) : variable name, TYPE(GlobalSegMap)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 88
+      |(Reference)      : 89
+     gocn_in_gfsGSMap
+      |(Class and Type) : variable name, TYPE(GlobalSegMap)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 50
+      |(Reference)      : 51
+     id_comp
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : INTENT(IN), dummy-argument
+      |(Declaration)    : 26  33
+      |(Definition)     : 
+      |(Reference)      : 37  38  39  50  62  63  64  83  87  88  89  100  114  119  120  121  140
+     id_gfs
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 37  42  43  91  92  93  101
+     id_gocn
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 41  42  43  51  87  92  93  105  106
+     id_rocn
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 74  75  76  84  104  105  106  115  119  132  133
+     id_rsm
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 62  75  76  131  132  133  141
+     l_comp_act
+      |(Class and Type) : variable name, LOGICAL(4)
+      |(Attributes)     : DIMENSION, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 41  74  91  104  131
+     mct_comm_world
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : INTENT(IN), dummy-argument
+      |(Declaration)    : 26  32
+      |(Definition)     : 
+      |(Reference)      : 38  39  50  51  63  64  83  84  88  89  100  101  114  115  120  121  140  141
+     mod
+      |(Class and Type) : intrinsic function name, INTEGER(4)
+      |(Attributes)     : PURE, ELEMENTAL
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 42  75  92  105  132
+     msg
+      |(Class and Type) : variable name, CHARACTER(*,1)
+      |(Attributes)     : dummy-argument
+      |(Declaration)    : 26  34
+      |(Definition)     : 
+      |(Reference)      : 
+     myrank
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : INTENT(IN), dummy-argument
+      |(Declaration)    : 26  29
+      |(Definition)     : 
+      |(Reference)      : 44  46  48  77  79  81  94  96  98  107  109  111  134  136  138
+     ngrid_comp_all
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : DIMENSION, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 42  43  75  76  92  93  105  106  132  133
+     nproc_comp_all
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : DIMENSION, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 
+      |(Reference)      : 42  43  75  76  92  93  105  106  132  133
+     rank_root
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : INTENT(IN), dummy-argument
+      |(Declaration)    : 26  31
+      |(Definition)     : 
+      |(Reference)      : 38  50  63  83  88  100  114  120  140
+     res
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : 
+      |(Declaration)    : 35
+      |(Definition)     : 42  75  92  105  132
+      |(Reference)      : 43  44  48  48  76  77  81  81  93  94  98  98  106  107  111  111  133  134  138  138
+     rocnGSMap
+      |(Class and Type) : variable name, TYPE(GlobalSegMap)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 120
+      |(Reference)      : 121
+     rocn_in_gocnGSMap
+      |(Class and Type) : variable name, TYPE(GlobalSegMap)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 114
+      |(Reference)      : 115
+     rocn_in_rsmGSMap
+      |(Class and Type) : variable name, TYPE(GlobalSegMap)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 83
+      |(Reference)      : 84
+     rsmGSMap
+      |(Class and Type) : variable name, TYPE(GlobalSegMap)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 63
+      |(Reference)      : 64
+     rsm_in_rocnGSMap
+      |(Class and Type) : variable name, TYPE(GlobalSegMap)
+      |(Attributes)     : TARGET, host-associated
+      |(Declaration)    : 
+      |(Definition)     : 140
+      |(Reference)      : 141
+     seg_leng
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : DIMENSION, INTENT(IN), dummy-argument
+      |(Declaration)    : 26  30
+      |(Definition)     : 
+      |(Reference)      : 38  63  83  88  120  140
+     seg_leng1
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : DIMENSION
+      |(Declaration)    : 35
+      |(Definition)     : 43  45  76  78  93  95  106  108  133  135
+      |(Reference)      : 45  46  48  48  50  78  79  81  81  95  96  98  98  100  108  109  111  111  114  135  136  138  138
+     seg_size
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : INTENT(IN), dummy-argument
+      |(Declaration)    : 26  29
+      |(Definition)     : 
+      |(Reference)      : 30  30
+     seg_strt
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : DIMENSION, INTENT(IN), dummy-argument
+      |(Declaration)    : 26  30
+      |(Definition)     : 
+      |(Reference)      : 38  63  83  88  120  140
+     seg_strt1
+      |(Class and Type) : variable name, INTEGER(4)
+      |(Attributes)     : DIMENSION
+      |(Declaration)    : 35
+      |(Definition)     : 46  48  79  81  96  98  109  111  136  138
+      |(Reference)      : 50  100  114
+
+ Total information
+   Procedures       : 1
+   Total lines      : 147
+   Total statements : 104
+   Total stack(byte): 1520
+   Total prefetch num: 0
+

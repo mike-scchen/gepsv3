@@ -1,0 +1,4 @@
+110c110
+<         open(n1,file=filename,status='unknown',convert='little_endian', &
+---
+>         open(n1,file=filename,status='unknown', &

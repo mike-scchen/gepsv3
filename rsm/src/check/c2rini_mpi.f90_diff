@@ -1,0 +1,20 @@
+40c40
+<       use rmachine , only : kind_io4
+---
+>       use machine , only : kind_io4
+115a116
+> ! parameter(nmmiph = 2)
+120a122
+> ! parameter(nmmiph = 3)
+122a125,135
+> !
+> ! for new wsm6 microphysics
+> ! parameter(nmmiph = 6)
+> ! parameter(num_p3d = 3)
+> ! parameter(num_p2d = 1)
+> !
+> ! for GFDL microphysics
+> ! parameter(nmmiph = 11)
+> ! parameter(num_p3d = 5)
+> ! parameter(num_p2d = 1)
+> !

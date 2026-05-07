@@ -1,0 +1,8 @@
+4,6c4,6
+<       use rmachine , only : kind_phys
+<       use rfuncphys , only : fpvs, ftdp, fthe, stma, fpkap, ftlcl
+<       use rphyscons, hvap => con_hvap, cp => con_cp, rv => con_rv &
+---
+>       use machine , only : kind_phys
+>       use funcphys , only : fpvs, ftdp, fthe, stma, fpkap, ftlcl
+>       use physcons, hvap => con_hvap, cp => con_cp, rv => con_rv &

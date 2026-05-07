@@ -1,0 +1,20 @@
+5c5
+<       use rmachine , only : kind_phys
+---
+>       use machine , only : kind_phys
+78a79
+> ! parameter(nmmiph = 2)
+83a85
+> ! parameter(nmmiph = 3)
+85a88,98
+> !
+> ! for new wsm6 microphysics
+> ! parameter(nmmiph = 6)
+> ! parameter(num_p3d = 3)
+> ! parameter(num_p2d = 1)
+> !
+> ! for GFDL microphysics
+> ! parameter(nmmiph = 11)
+> ! parameter(num_p3d = 5)
+> ! parameter(num_p2d = 1)
+> !

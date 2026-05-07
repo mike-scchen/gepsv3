@@ -1,0 +1,4 @@
+62c62
+<       use rmachine , only : kind_phys
+---
+>       use machine , only : kind_phys

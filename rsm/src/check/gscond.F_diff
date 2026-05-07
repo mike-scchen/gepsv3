@@ -1,0 +1,4 @@
+1c1
+<       subroutine rgscond (im,ix,km,dt,prsl,ps,q,cwm,t                     &   
+---
+>       subroutine gscond (im,ix,km,dt,prsl,ps,q,cwm,t                     &   

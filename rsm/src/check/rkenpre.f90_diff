@@ -1,0 +1,22 @@
+9,10c9,10
+<       use rmachine , only : kind_io4
+<       use rphyscons, pi => con_pi
+---
+>       use machine , only : kind_io4
+>       use physcons, pi => con_pi
+83a84
+> ! parameter(nmmiph = 2)
+88a90
+> ! parameter(nmmiph = 3)
+90a93,103
+> !
+> ! for new wsm6 microphysics
+> ! parameter(nmmiph = 6)
+> ! parameter(num_p3d = 3)
+> ! parameter(num_p2d = 1)
+> !
+> ! for GFDL microphysics
+> ! parameter(nmmiph = 11)
+> ! parameter(num_p3d = 5)
+> ! parameter(num_p2d = 1)
+> !

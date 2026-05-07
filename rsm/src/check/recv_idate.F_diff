@@ -1,0 +1,6 @@
+8d7
+<         print*,'recv gfs idate itag=',itag, root_gfs
+12c11
+<         print*,'recv gfs idate =',idate
+---
+>         print*,'recv gfs idate itag=',itag

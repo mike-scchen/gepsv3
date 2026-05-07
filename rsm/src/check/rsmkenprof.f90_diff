@@ -1,0 +1,60 @@
+14c14
+<       use rmachine , only : kind_io4
+---
+>       use machine , only : kind_io4
+86a87
+> ! parameter(nmmiph = 2)
+91a93
+> ! parameter(nmmiph = 3)
+93a96,106
+> !
+> ! for new wsm6 microphysics
+> ! parameter(nmmiph = 6)
+> ! parameter(num_p3d = 3)
+> ! parameter(num_p2d = 1)
+> !
+> ! for GFDL microphysics
+> ! parameter(nmmiph = 11)
+> ! parameter(num_p3d = 5)
+> ! parameter(num_p2d = 1)
+> !
+327c340
+<       use rmachine , only : kind_io4
+---
+>       use machine , only : kind_io4
+399a413
+> ! parameter(nmmiph = 2)
+404a419,424
+> ! parameter(nmmiph = 3)
+> ! parameter(num_p3d = 3)
+> ! parameter(num_p2d = 1)
+> !
+> ! for new wsm6 microphysics
+> ! parameter(nmmiph = 6)
+406a427,432
+> !
+> ! for GFDL microphysics
+> ! parameter(nmmiph = 11)
+> ! parameter(num_p3d = 5)
+> ! parameter(num_p2d = 1)
+> !
+621c647
+<       use rmachine , only : kind_io4
+---
+>       use machine , only : kind_io4
+693a720
+> ! parameter(nmmiph = 2)
+698a726
+> ! parameter(nmmiph = 3)
+700a729,739
+> !
+> ! for new wsm6 microphysics
+> ! parameter(nmmiph = 6)
+> ! parameter(num_p3d = 3)
+> ! parameter(num_p2d = 1)
+> !
+> ! for GFDL microphysics
+> ! parameter(nmmiph = 11)
+> ! parameter(num_p3d = 5)
+> ! parameter(num_p2d = 1)
+> !

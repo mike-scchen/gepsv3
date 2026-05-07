@@ -1,0 +1,156 @@
+#!/bin/ksh
+set -x
+
+echo 'in the configure'
+# --------------- directory ------------------
+export USERID=` whoami `
+export DISK=` cd .. ; pwd `                    # top directory
+export WORK=$DISK/run                          # working directory
+export EXPN=` basename $WORK `                 # experimental subdirectory
+export SDATE=${SDATE:-2021060200}
+export TEMP=$DISK/wrk                          # RSM output directory
+export BASEDIR=${TEMP}/DATA_GFS/synOP_ZC_${SDATE:2:8}_initT511 # base field directory (data from GFS)
+export FCSTHR=${FCSTHR:-24}                    # forecast hour
+export RESTRHR=${RESTRHR:-0}                   # restart hour (zero means NOT restart)
+export FIXDIR=$DISK/fix
+# --------------- compile options ----------------
+# machine dependent
+# compile options for ibm_xlf, mac_intel, mac_absoft, mac_xlf, linux_pgi, linux_gfortran, Fujitsu_fx10, Fujitsu_fx100
+#export MACHINE=linux_intel
+. ${WORK}/set_machine
+
+# machine dependent cpp
+export IBMSP=no
+export FFT99M=yes
+export DCRFT=no
+
+export CWB_MPMD=no           # no: standalone RSM, yes: MPMD with CWBGFS
+export CWB_CFS=no            # no: standalone RSM, yes: coupled with CWBCFS(+MOM6)
+
+#
+# massively parallel procesing options
+export MARCH=mpi
+export LAMMPI=no
+export MPICH=yes
+export MP=yes
+export THREAD=no
+export NCOL=12
+export NROW=12
+#
+# model parameter
+#
+# compile model option
+export NONHYD=no
+export SIGP=yes              # sigma-p coordinate (yes/no)
+#
+export NDSL=yes              # NDSL, tracer part
+export NDSLDYN=yes           # dynamic part of NDSL
+#
+export UPDIFF=yes
+export NHDIFORD=2            # 4th-diffusion
+export LEVTOP=2              # model top 2 layers 2nd diffusion.
+#
+export NDSLPPM=yes
+export NDSLPPMV=yes
+export Salpha=0.7
+
+export STPLTB=no             #set steep slope for lateral relaxation coefficients (pow-51). If STPLTB=no, pow-15 slope is used.
+#
+#-----physics parameterization-----
+#
+# run or not
+#
+export DCYC2=yes
+export LSM=yes
+export OZPHYS=yes
+export GWDPS=yes
+export do3DRT=no
+export CONCNV=yes
+export SCONCNV=yes
+export LRGSCL=yes
+export wind_fitch=no
+export LTN=no
+export CHS=no
+export spray=no
+#
+# schemes to choose
+#
+export NOAHLSM=yes           # noah land surface model
+export LSMDATAREP=no         # use reproduced landuse,soiltyp,vegfrac from high resolution source data
+export SAMFSAS=yes           # scaleawareness SAS from NCEP physics, 2019.Sept.16
+export YSU=yes
+# microphysics 
+export NMMIPH=2              # 2:Zhao-Carr; 3:Brad-Ferrier; 4:WSM3; 5:WSM5; 6:WSM6; 11:GFDLv1; 12:GFDLv2; 13:GFDLv3; 15:GCE3Iv1
+export NUMP3D=4              # 4:Zhao-Carr; 3:Brad-Ferrier; 3:WSM6 or GCE3Iv1; 5:GFDL
+export NUMP2D=3              # 3:Zhao-Carr; 1:Brad-Ferrier; 1:WSM6 or GCE3Iv1; 1:GFDL
+export NCLDB=1               # 1:Zhao-Carr; 1:Brad-Ferrier; 2:WSM3; 5:WSM6 or GFDL or GCE3Iv1
+export NCLD=1                # 1:Zhao-Carr; 1:Brad-Ferrier; 2:WSM3; 5:WSM6 or GFDL or GCE3Iv1
+#terr
+export GMTED2010=yes         # Topography data source. When RUNRSMTERRAIN is yes, one of GMTED2010 and GTOPO30 must also be yes.
+export GTOPO30=no            # Topography data source. When RUNRSMTERRAIN is yes, one of GMTED2010 and GTOPO30 must also be yes.
+
+# compile exec option
+export RMTN=no               # Legacy "rsm_rmtn" program
+export RSMTERRAIN=yes        # New "rsm_terrain" program
+export RLSMDATA=no           # reproduce landuse,soiltyp,vegfrac from high resolution source data
+export R3DRTDATA=no          # adjust surface albedo by accounting for 3-D topography effect on surface solar radiation
+export FCST=yes
+#mpmd-unused#export RINP=yes
+
+# --------------- run option --------------------
+export LENMON=1
+export DTIMES=3
+export TIMESTEP=30           #5km, RSM
+export TIMESTEP=`expr $TIMESTEP \* $DTIMES`
+export IMDLPHY=1             # I/O of physics
+export PRTHOUR=6             # output interval
+export CLIM=1                # read climate data for initial field
+export IRCLIM=1              # I(T)/O(F) of reading climate data per $READCLIMHR hour
+export READCLIMHR=24         # read climate data interval (hour)
+
+#mpmd-unused#export POSTTYPE=sync
+export RUNRMTN=no            # Legacy "rsm_rmtn" program
+export RUNRSMTERRAIN=yes     # New "rsm_terrain" program
+export RUNLSMDATA=no
+export RUN3DRTDATA=no
+#mpmd-unused#export RUNRINP=yes
+#mpmd-unused#export RUNRINP2=no
+export RUNFCST=yes
+
+# model parameter
+export BGF=4                 # roughly equal to CDELX/RDELX
+
+#### rsmlocation
+export  IGRD=324
+export  JGRD=216
+export  LEVR=72
+export  RPROJ=0.
+export  RTRUTH=23.65
+export  RORIENT=120.7
+export  RDELX=12000.
+export  RDELY=12000.
+export  RCENLAT=25.0
+export  RCENLON=123.8
+export  RLFTGRD=162.
+export  RBTMGRD=108.
+#### rsmlocation1
+export  BIGRD=162            # GFS nxs-1, need to run GFS first and check log to know nxs
+export  BJGRD=101            # GFS mys-1, need to run GFS first and check log to know mys
+export  BLEVR=72
+export  BRPROJ=0.
+export  BRDELX=50000.
+export  BRDELY=50000.
+# from CWBGFS
+export  BCPROJ=4.
+export  BLEVS=72
+export  BPGBRES=0.5          # 0.50 or 0.25
+export  INCBASE=6            # 3 or 6 hours
+export  BCIGRD1=$(echo "($BCLON2-($BCLON1))/$BPGBRES+1" | bc)
+export  BCJGRD1=$(echo "($BCLAT2-($BCLAT1))/$BPGBRES+1" | bc)
+#
+# load default configure file
+. $DISK/opt/rsm_default.option
+
+# compile option
+. $DISK/opt/compile.option
+

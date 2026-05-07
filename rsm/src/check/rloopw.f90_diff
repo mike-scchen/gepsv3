@@ -1,0 +1,24 @@
+10,12c10,12
+<       use rmachine , only : kind_phys
+<       use rfuncphys , only : fpkap
+<       use rphyscons, rocp => con_rocp, cp => con_cp, rd => con_rd
+---
+>       use machine , only : kind_phys
+>       use funcphys , only : fpkap
+>       use physcons, rocp => con_rocp, cp => con_cp, rd => con_rd
+85a86
+> ! parameter(nmmiph = 2)
+90a92
+> ! parameter(nmmiph = 3)
+92a95,105
+> !
+> ! for new wsm6 microphysics
+> ! parameter(nmmiph = 6)
+> ! parameter(num_p3d = 3)
+> ! parameter(num_p2d = 1)
+> !
+> ! for GFDL microphysics
+> ! parameter(nmmiph = 11)
+> ! parameter(num_p3d = 5)
+> ! parameter(num_p2d = 1)
+> !

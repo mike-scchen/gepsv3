@@ -1,0 +1,8 @@
+8,10c8,10
+< !xb110 use rmachine , only : kind_phys
+< !xb110 use rfuncphys , only : fpvs
+< !xb110 use rphyscons, grav => con_g, cp => con_cp, hvap => con_hvap
+---
+> !xb110 use machine , only : kind_phys
+> !xb110 use funcphys , only : fpvs
+> !xb110 use physcons, grav => con_g, cp => con_cp, hvap => con_hvap

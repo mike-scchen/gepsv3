@@ -1,0 +1,100 @@
+SHELL=/bin/ksh
+
+RANLIB = ranlib
+AR = ar cq
+RM = rm -f
+
+MACHINE=fx1000
+BUILD_DIR=fx1000
+SRCS=cpl_rank.F90  \
+     cpl_init.F90  \
+     cpl_gsmap.F90 \
+     cpl_attr.F90  \
+     cpl_smat.F90  \
+     cpl_sendrecv.F90 \
+     cpl_finalize.F90
+
+OBJS = ${SRCS:.F90=.o}
+
+FC90 = mpifrtpx
+MCT = /data/common/gfs/GEPSv3_lib/fx1000/MCT
+NETCDF = /data/common/gfs/GEPSv3_lib/fx1000/netcdf-4.7.4
+
+INCLUDE = -I${MCT}/include -I${NETCDF}/include
+
+CMD  = libcpl.a
+
+MSG  = -Ec -Nlst=a,lst=d,lst=i,lst=p,lst=t,lst=x -Koptmsg=2 -Ncheck_intrfunc
+# select one of the followings :
+# 1. mpi single precision for transpose and unify
+# 2. mpi single precision for unify only
+# 3. mpi double precision 
+#
+ 
+# 1. mpi single precision for transpose and unify
+#FFLAGS  = -c -X9 -Free -CcdRR8 -DMPISP -Cpp \
+#          -Kfast,parallel,openmp,ocl \
+#          -Ksimd=1 -SSL2BLAMP -x- -fw $(MSG) $(INCLUDE)
+ 
+# 2. mpi single precision for unify only
+#FFLAGS  = -c -X9 -Free -CcdRR8 -DMPISP -DUNIFY_ONLY -Cpp \
+#          -Kfast,parallel,openmp,ocl \
+#          -Ksimd=1 -SSL2BLAMP -x- -fw $(MSG) $(INCLUDE)
+ 
+# 3. mpi double precision -convert big_endian 
+#FFLAGS  = -c -O3 -Free -r8 -traceback -fpp -ftz -ip -fp-model precise -align all -fno-alias -no-heap-arrays $(INCLUDE)
+FFLAGS  = -c -X9 -Free -CcdRR8 -Cpp \
+          -Kfast,parallel,openmp,ocl \
+          -Ksimd=1 -SSL2BLAMP -x- -fw $(MSG) $(INCLUDE)
+
+
+#---------------------------------------------------------------------------------------------
+# For fx10 compiler, some subroutine, such as rcloud, can not use auto-parallel option.
+# This problem  may caused by compiler itself.
+# If it's using fx-100 compiler(new version), you probably can get -Kparallel flag back.
+#--------------------------------------------------------------------------------------------
+#LDFLAGS = -Kparallel -L/package/$(MACHINE)/dms/dms.v4/lib -lrdms -lgdbm -L/package/$(MACHINE)/operlib/lib -lnwp -SSL2BLAMP -L/users/xa09/$(MACHINE)/MCT/lib -lmct -lmpeu -L/package/$(MACHINE)/netcdf-4.1.3/lib 
+
+LDFLAGS = -L$(MCT)/lib -L$(NETCDF)/lib
+
+LIBS	= -lmct -lmpeu -lnetcdf -lnetcdff
+
+PREFIX = ${BUILD_DIR}
+LIBDIR = $(PREFIX)/lib
+INCDIR = $(PREFIX)/include
+
+all :	$(CMD)
+
+$(CMD):	$(OBJS)
+	@echo
+	
+	$(RM) $(@)
+	$(AR) $(@) $(OBJS)
+	$(RANLIB) $(@)
+	mkdir -p $(BUILD_DIR)   # <--- 新增此行
+	mv *.o *.mod $(@) $(BUILD_DIR)/ # <--- 新增此行
+$(OBJS):
+	$(FC90) $(FFLAGS) $*.F90 
+
+clean :
+	@echo
+	@echo '==== CLEAN ===================================================='
+	rm -f *.o *.lst *.mod *.a $(CMD)
+	rm -rf $(BUILD_DIR) # <--- 新增此行 (刪除 fx1000/ 資料夾)
+install: $(CMD)
+	@echo
+	@echo '==== INSTALL =================================================='
+	mkdir -p $(LIBDIR)
+	mkdir -p $(INCDIR)
+	install -m 644 $(BUILD_DIR)/$(CMD) $(LIBDIR)
+	install -m 644 $(BUILD_DIR)/*.mod $(INCDIR)
+	@echo "Installed library to $(LIBDIR)"
+	@echo "Installed module files to $(INCDIR)"
+cpl_rank.o: cpl_rank.F90
+cpl_init.o: cpl_init.F90
+cpl_init2.o: cpl_init2.F90
+cpl_gsmap.o: cpl_gsmap.F90
+cpl_attr.o: cpl_attr.F90
+cpl_smat.o: cpl_smat.F90
+cpl_sendrecv.o: cpl_sendrecv.F90
+cpl_finalize.o: cpl_finalize.F90 

@@ -1,0 +1,73 @@
+1c1
+<       subroutine mainrsmf_mrg(compid, mpi_comm_mct)
+---
+>        program mainrsmf_mrg
+5c5
+<       use rmachine , only : kind_io4
+---
+>       use machine , only : kind_io4
+96a97
+> ! parameter(nmmiph = 2)
+101a103
+> ! parameter(nmmiph = 3)
+103a106,116
+> !
+> ! for new wsm6 microphysics
+> ! parameter(nmmiph = 6)
+> ! parameter(num_p3d = 3)
+> ! parameter(num_p2d = 1)
+> !
+> ! for GFDL microphysics
+> ! parameter(nmmiph = 11)
+> ! parameter(num_p3d = 5)
+> ! parameter(num_p2d = 1)
+> !
+256c269
+<      & deltim,dt2,dtltb,zhour,phour,fhour,odt_cpl, &
+---
+>      & deltim,dt2,dtltb,zhour,phour,fhour, &
+260c273
+<      & kdt,limlow,numsum,nummax,ncldb1,irclim,kdt_cpl
+---
+>      & kdt,limlow,numsum,nummax,ncldb1,irclim
+321d333
+<       integer, intent(in) :: compid, mpi_comm_mct
+326c338
+<       integer iclim, ierr
+---
+>       integer iclim
+329d340
+<       real*8 time_stamp, time_spend
+333d343
+<       mpi_comm_rsm = mpi_comm_mct
+335,337d344
+<       root_gfs = 0
+<       if(mype.eq.master) write(*,*) "[RSM] check root_gfs: ", root_gfs
+<       call rsm_cpl_init(compid)
+385,386d391
+<       !call tai_timcom_initialize(mpi_comm_rsm)
+<       if(mype.eq.0) print*, 'check tai_timcom init:', cpl_kdt, cpl_time
+428d432
+<         time_stamp = MPI_WTIME()
+432,436d435
+<         time_spend = MPI_WTIME() - time_stamp
+<         call MPI_ALLREDUCE(time_spend, time_stamp, 1, MPI_REAL8, MPI_MAX, mpi_comm_rsm, ierr)
+<         if(mype.eq.master) then
+<           write(*,'(a,f8.1,a)') '[RSM] recv gfs spends: ', time_stamp, "sec, surf on"
+<         end if
+444d442
+<         time_stamp = MPI_WTIME()
+448,452d445
+<         time_spend = MPI_WTIME() - time_stamp
+<         call MPI_ALLREDUCE(time_spend, time_stamp, 1, MPI_REAL8, MPI_MAX, mpi_comm_rsm, ierr)
+<         if(mype.eq.master) then
+<           write(*,'(a,f8.1,a)') '[RSM] recv gfs spends: ', time_stamp, "sec, surf off"
+<         end if
+488c481
+<         call rsmsmf(fhnxt,compid)
+---
+>         call rsmsmf(fhnxt)
+505c498
+< !c stop
+---
+>       stop

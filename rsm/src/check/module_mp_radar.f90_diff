@@ -1,0 +1,8 @@
+22c22
+<        MODULE rmodule_mp_radar
+---
+>        MODULE module_mp_radar
+504c504
+<       END MODULE rmodule_mp_radar
+---
+>       END MODULE module_mp_radar

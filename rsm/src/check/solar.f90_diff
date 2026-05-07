@@ -1,0 +1,6 @@
+21,22c21,22
+<       use rmachine , only :kind_rad,kind_phys
+<       use rphyscons, pi => con_pi
+---
+>       use machine , only :kind_rad,kind_phys
+>       use physcons, pi => con_pi

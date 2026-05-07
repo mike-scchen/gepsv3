@@ -1,0 +1,8 @@
+merge_request:
+  only:
+    - merge_requests
+  script:
+    - echo "gpu unit test"
+    - chmod 755 jobs/run_rt.sh
+    - ./jobs/run_rt.sh a100
+

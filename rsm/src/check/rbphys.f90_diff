@@ -1,0 +1,110 @@
+21c21
+<       use rmachine , only : kind_phys
+---
+>       use machine , only : kind_phys
+23,24c23,24
+<       use rfuncphys , only : fpkap
+<       use rphyscons, rocp => con_rocp, fv => con_fvirt &
+---
+>       use funcphys , only : fpkap
+>       use physcons, rocp => con_rocp, fv => con_fvirt &
+34c34
+<       use rmodule_mp_wsm3, only: wsm3
+---
+>       use module_mp_wsm3, only: wsm3
+38c38
+<       use rmodule_mp_wsm6, only: wsm6
+---
+>       use module_mp_wsm6, only: wsm6
+43c43
+<       use rmodule_mp_gfdl_v2, only: gfdlv2_driver => gfdl_cld_mp_driver
+---
+>       use module_mp_gfdl_v2, only: gfdlv2_driver => gfdl_cld_mp_driver
+119a120
+> ! parameter(nmmiph = 2)
+124a126
+> ! parameter(nmmiph = 3)
+126a129,139
+> !
+> ! for new wsm6 microphysics
+> ! parameter(nmmiph = 6)
+> ! parameter(num_p3d = 3)
+> ! parameter(num_p2d = 1)
+> !
+> ! for GFDL microphysics
+> ! parameter(nmmiph = 11)
+> ! parameter(num_p3d = 5)
+> ! parameter(num_p2d = 1)
+> !
+302d314
+<      & ssu(igrd1p,jgrd1p), ssv(igrd1p,jgrd1p), &
+344,345d355
+<       common /rcomgd6/ &
+<      & cpl_field(igrd1p,jgrd1p,9)
+359c369
+<      & deltim,dt2,dtltb,zhour,phour,fhour,odt_cpl, &
+---
+>      & deltim,dt2,dtltb,zhour,phour,fhour, &
+363c373
+<      & kdt,limlow,numsum,nummax,ncldb1,irclim,kdt_cpl
+---
+>      & kdt,limlow,numsum,nummax,ncldb1,irclim
+607c617,618
+<       real(kind=kind_phys), parameter :: cdmbgwd(2) = 1.0_kind_phys
+---
+>       real(kind=kind_phys), parameter :: &
+>      & cdmbgwd(2) = (/10.0,10.0/)!1.0_kind_phys
+823c834
+<       call rdcyc2t3(lonlens,igrd1s,levr,solhr,slag, &
+---
+>       call dcyc2t3(lonlens,igrd1s,levr,solhr,slag, &
+941c952
+<         call rsfc_diff(lonlens,igrd1s,psexp_pa,ugrs,vgrs,tgrs,qgrs,zlvl, &
+---
+>         call sfc_diff(lonlens,igrd1s,psexp_pa,ugrs,vgrs,tgrs,qgrs,zlvl, &
+944c955
+<      & stress,fm1,fh1,zvfun,parea,ssu(1,lat),ssv(1,lat), &
+---
+>      & stress,fm1,fh1,zvfun,parea, &
+1016c1027
+<           call rsfc_ocean &
+---
+>           call sfc_ocean &
+1020c1031
+<      & fm10,fm1,lseaspray,ssu(1,lat), ssv(1,lat), &
+---
+>      & fm10,fm1,lseaspray, &
+1034c1045
+<           call rsfc_drv &
+---
+>           call sfc_drv &
+1055c1066
+<           call rsfc_land &
+---
+>           call sfc_land &
+1083c1094
+<         call rsfc_sice &
+---
+>         call sfc_sice &
+1145c1156
+<       call rsfc_diag(lonlens,igrd1s,psexp_pa,ugrs,vgrs,tgrs,qgrs,qss, &
+---
+>       call sfc_diag(lonlens,igrd1s,psexp_pa,ugrs,vgrs,tgrs,qgrs,qss, &
+1310c1321
+<       call rysu2d (ugrs(1,1),vgrs(1,1),tgrs(1,1),qgrsx, &
+---
+>       call ysu2d (ugrs(1,1),vgrs(1,1),tgrs(1,1),qgrsx, &
+1422c1433
+<       call rgwdps(lonlens,igrd1s,igrd1s,levr,dvdt,dudt,dtdt, &
+---
+>       call gwdps(lonlens,igrd1s,igrd1s,levr,dvdt,dudt,dtdt, &
+1658c1669
+<        call rsamfdeepcnv (lonlens,igrd1s,levr,dtp,delp,prsl,psexp,phil &
+---
+>        call samfdeepcnv (lonlens,igrd1s,levr,dtp,delp,prsl,psexp,phil &
+1677c1688
+<       call rsamfshalcnv(lonlens,igrd1s,levr,dtp,delp,prsl,psexp,phil,clw &
+---
+>       call samfshalcnv(lonlens,igrd1s,levr,dtp,delp,prsl,psexp,phil,clw &
+2083d2093
+<           write(*,*) "check nmmiph=",nmmiph,"before call gfdlv2_driver"

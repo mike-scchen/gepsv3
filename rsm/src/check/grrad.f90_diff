@@ -1,0 +1,8 @@
+33,35c33,35
+<       use rmachine , only : kind_phys,kind_rad
+<       use rfuncphys , only : fpvs
+<       use rphyscons, eps => con_eps, epsm1 => con_epsm1 &
+---
+>       use machine , only : kind_phys,kind_rad
+>       use funcphys , only : fpvs
+>       use physcons, eps => con_eps, epsm1 => con_epsm1 &

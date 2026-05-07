@@ -1,0 +1,59 @@
+#==============================================================================
+# Makefile macros for generic test machine, intel compiler
+#==============================================================================
+
+CPP        := frtpx -Cpp
+CPPDEFS    := -DFORTRANUNDERSCORE ${ICE_CPPDEFS}
+CFLAGS     := -c -O2 -xHost 
+
+FIXEDFLAGS := -132
+FREEFLAGS  := 
+FFLAGS     := -fw -Kfast,parallel,ocl,autoobjstack -xHost
+FFLAGS_NOOPT:= -O0
+
+LDFLAGS := -fw -Kfast,parallel,ocl,autoobjstack -xHost
+ifeq ($(ICE_BLDDEBUG), true)
+  FFLAGS     += -O0 -g -check uninit -check bounds -check pointers -fpe0 -check noarg_temp_created
+else
+  FFLAGS     += -O2
+endif
+
+SCC   := gcc 
+SFC   := frtpx
+MPICC := mpifccpx
+MPIFC := mpifrtpx
+
+ifeq ($(ICE_COMMDIR), mpi)
+  FC := $(MPIFC)
+  CC := $(MPICC)
+else
+  FC := $(SFC)
+  CC := $(SCC)
+endif
+LD:= $(FC)
+
+NETCDF_PATH := /data/common/gfs/GEPSv3_lib/fx1000/netcdf-4.7.4
+HDF5_PATH := /data/common/gfs/GEPSv3_lib/fx1000/hdf5-1.10.7
+ZLIB_PATH := /data/common/gfs/GEPSv3_lib/fx1000/zlib-1.2.11_fastest
+#PIO_CONFIG_OPTS:= --enable-filesystem-hints=gpfs 
+
+#PNETCDF_PATH := $(PNETCDF)
+PNETCDF_PATH := /data/common/gfs/GEPSv3_lib/fx1000/pnetcdf-1.12.3
+
+INCLDIR := $(INCLDIR) -I$(NETCDF_PATH)/include -I$(PNETCDF_PATH)/include -I$(HDF5_PATH)/include -I$(ZLIB_PATH)/include
+
+LIB_NETCDF := $(NETCDF_PATH)/lib
+LIB_PNETCDF := $(PNETCDF_PATH)/lib
+LIB_HDF5 := $(HDF5_PATH)/lib
+LIB_Z := $(ZLIB_PATH)/lib
+LIB_MPI := $(IMPILIBDIR)
+
+SLIBS   := -L$(LIB_PNETCDF) -lpnetcdf -L$(LIB_NETCDF) -lnetcdff -lnetcdf -L$(LIB_HDF5) -lhdf5_hl -lhdf5 -L$(LIB_Z) -lz 
+#-lgptl
+
+ifeq ($(ICE_THREADED), true) 
+   LDFLAGS += -qopenmp 
+   CFLAGS += -qopenmp 
+   FFLAGS += -qopenmp 
+endif
+

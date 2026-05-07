@@ -1,0 +1,413 @@
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd
+END
+rsparltb.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/rsparltb.h
+END
+rftini.F
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/rftini.F
+END
+ffscosy1.F
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/ffscosy1.F
+END
+rscomfc.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/rscomfc.h
+END
+rscompln.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/rscompln.h
+END
+rmakemt.F
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/rmakemt.F
+END
+rscomfi.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/rscomfi.h
+END
+paramodel.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/paramodel.h
+END
+defmpi.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/defmpi.h
+END
+ncpu.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/ncpu.h
+END
+vpassm.F
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/vpassm.F
+END
+comrmpi_r4.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/comrmpi_r4.h
+END
+comrmpi_r8.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/comrmpi_r8.h
+END
+commpildef.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/commpildef.h
+END
+fftrig.F
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/fftrig.F
+END
+rscombgt.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/rscombgt.h
+END
+rtersub.F
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/rtersub.F
+END
+commpi.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/commpi.h
+END
+rdparm.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/rdparm.h
+END
+lnczs.F
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/lnczs.F
+END
+ffscosx1.F
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/ffscosx1.F
+END
+rmakeoao.F
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/rmakeoao.F
+END
+fft99a.F
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/fft99a.F
+END
+machine.F
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/machine.F
+END
+physcons.F
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/physcons.F
+END
+comrmpi.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/comrmpi.h
+END
+defg2r.F
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/defg2r.F
+END
+ffacosy1.F
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/ffacosy1.F
+END
+rscomio.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/rscomio.h
+END
+fft99m.F
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/fft99m.F
+END
+ful2sgl.F
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/ful2sgl.F
+END
+rscomgrd.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/rscomgrd.h
+END
+poly.F
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/poly.F
+END
+comrmpio.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/comrmpio.h
+END
+maxmin.F
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/maxmin.F
+END
+rscomspc.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/rscomspc.h
+END
+define.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/define.h
+END
+rscomcpu.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/rscomcpu.h
+END
+rscomoz.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/rscomoz.h
+END
+ncolrowi.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/ncolrowi.h
+END
+setlatlon.F
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/setlatlon.F
+END
+ffacosx1.F
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/ffacosx1.F
+END
+glats.F
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/glats.F
+END
+rscomrad.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/rscomrad.h
+END
+write_to_grads.F
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/write_to_grads.F
+END
+fax.F
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/fax.F
+END
+npesi.h
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/npesi.h
+END
+rshalf.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/rshalf.h
+END
+rmakepc.F
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/rmakepc.F
+END
+rscommap.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/rscommap.h
+END
+rscomloc.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/rscomloc.h
+END
+co2tab_sw.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/co2tab_sw.h
+END
+mainrmtn.F
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/mainrmtn.F
+END
+g2rini.F
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/g2rini.F
+END
+rmakeoal.F
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/rmakeoal.F
+END
+rscomver.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/rscomver.h
+END
+fft99b.F
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/fft99b.F
+END
+defsgl.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/defsgl.h
+END
+defras.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/defras.h
+END
+nest.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/nest.h
+END
+defrkn.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/defrkn.h
+END
+shalfo.F
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/shalfo.F
+END
+rscomgpd.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/rscomgpd.h
+END
+comcon.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/comcon.h
+END
+rsmdlsig.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/rsmdlsig.h
+END
+rscomltb.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/rscomltb.h
+END
+plnini.F
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/plnini.F
+END
+Makefile_rmtn
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/grmsm/!svn/ver/1/sys/src/rsm_rmtn.fd/Makefile_rmtn
+END

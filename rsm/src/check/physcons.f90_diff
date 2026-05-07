@@ -1,0 +1,10 @@
+1,2c1,2
+<       module rphyscons
+<       use rmachine,only:kind_phys
+---
+>       module physcons
+>       use machine,only:kind_phys
+111c111
+<       end module rphyscons !
+---
+>       end module physcons !

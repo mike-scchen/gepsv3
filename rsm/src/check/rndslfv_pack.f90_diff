@@ -1,0 +1,146 @@
+91a92
+> ! parameter(nmmiph = 2)
+96a98
+> ! parameter(nmmiph = 3)
+98a101,111
+> !
+> ! for new wsm6 microphysics
+> ! parameter(nmmiph = 6)
+> ! parameter(num_p3d = 3)
+> ! parameter(num_p2d = 1)
+> !
+> ! for GFDL microphysics
+> ! parameter(nmmiph = 11)
+> ! parameter(num_p3d = 5)
+> ! parameter(num_p2d = 1)
+> !
+523c536
+<       use rphyscons, pi => con_pi
+---
+>       use physcons, pi => con_pi
+612,613c625,626
+< !yj call rdef_cfl_step(im+5,dist(m1),de(m1),step,nstep)
+<         call rdef_cfl_step(im+3,dist(m0),de(m0),step,nstep)
+---
+> !yj call def_cfl_step(im+5,dist(m1),de(m1),step,nstep)
+>         call def_cfl_step(im+3,dist(m0),de(m0),step,nstep)
+642c655
+<         call rvertical_cell_ppm_intp(interfi(m1),past(m1,1), &
+---
+>         call vertical_cell_ppm_intp(interfi(m1),past(m1,1), &
+649c662
+<         call rvertical_cell_ppm_intp(xnext(m1),da(m1,1), &
+---
+>         call vertical_cell_ppm_intp(xnext(m1),da(m1,1), &
+685c698
+<       use rphyscons, pi => con_pi
+---
+>       use physcons, pi => con_pi
+784c797
+<         call rdef_cfl_step(im+5,dist(m1),de(m1),step,nstep)
+---
+>         call def_cfl_step(im+5,dist(m1),de(m1),step,nstep)
+813c826
+<         call rvertical_cell_ppm_intp(interfi(m1),past(m1,1), &
+---
+>         call vertical_cell_ppm_intp(interfi(m1),past(m1,1), &
+820c833
+<         call rvertical_cell_ppm_intp(xnext(m1),da(m1,1), &
+---
+>         call vertical_cell_ppm_intp(xnext(m1),da(m1,1), &
+846c859
+<       use rphyscons, pi => con_pi
+---
+>       use physcons, pi => con_pi
+941c954
+<         call rdef_cfl_step(jm+5,dist(m1),de(m1),step,nstep)
+---
+>         call def_cfl_step(jm+5,dist(m1),de(m1),step,nstep)
+970c983
+<         call rvertical_cell_ppm_intp(interfi(m1),past(m1,1), &
+---
+>         call vertical_cell_ppm_intp(interfi(m1),past(m1,1), &
+977c990
+<         call rvertical_cell_ppm_intp(ynext(m1),da(m1,1), &
+---
+>         call vertical_cell_ppm_intp(ynext(m1),da(m1,1), &
+1107c1120
+<       subroutine rvertical_cell_advect(lons,londim,levs,nvars, &
+---
+>       subroutine vertical_cell_advect(lons,londim,levs,nvars, &
+1137c1150
+<         call rdef_cfl_step(levs+1,dd,ds,step,nstep)
+---
+>         call def_cfl_step(levs+1,dd,ds,step,nstep)
+1172c1185
+<         call rvertical_cell_ppm_intp(ssii,rqmm,ssid,rqda,levs,nvars)
+---
+>         call vertical_cell_ppm_intp(ssii,rqmm,ssid,rqda,levs,nvars)
+1180c1193
+<         call rvertical_cell_ppm_intp(ssia,rqda,ssii,rqnn,levs,nvars)
+---
+>         call vertical_cell_ppm_intp(ssia,rqda,ssii,rqnn,levs,nvars)
+1192c1205
+<       end subroutine rvertical_cell_advect
+---
+>       end subroutine vertical_cell_advect
+1195c1208
+<       subroutine rvertical_cell_ppm_intp(pp,qq,pn,qn,levs,nvars)
+---
+>       subroutine vertical_cell_ppm_intp(pp,qq,pn,qn,levs,nvars)
+1379c1392
+<       end subroutine rvertical_cell_ppm_intp
+---
+>       end subroutine vertical_cell_ppm_intp
+1427c1440
+<       subroutine rdef_cfl_step (im,dist,del,step,nstep)
+---
+>       subroutine def_cfl_step (im,dist,del,step,nstep)
+1473c1486
+<       end subroutine rdef_cfl_step
+---
+>       end subroutine def_cfl_step
+1476c1489
+<       subroutine rmymaxmin(a,im,ix,kx,ch)
+---
+>       subroutine mymaxmin(a,im,ix,kx,ch)
+1497c1510
+<       end subroutine rmymaxmin
+---
+>       end subroutine mymaxmin
+1695c1708
+<       use rmachine, only: kind_grid => kind_io8
+---
+>       use machine, only: kind_grid => kind_io8
+1943c1956
+<       use rphyscons, pi => con_pi
+---
+>       use physcons, pi => con_pi
+2042c2055
+<         call rdef_cfl_step(im+5,dist(m1),de(m1),step,nstep)
+---
+>         call def_cfl_step(im+5,dist(m1),de(m1),step,nstep)
+2071c2084
+<         call rvertical_cell_ppm_intp(interfi(m1),past(m1,1), &
+---
+>         call vertical_cell_ppm_intp(interfi(m1),past(m1,1), &
+2079c2092
+<         call rvertical_cell_ppm_intp(xnext(m1),da(m1,1), &
+---
+>         call vertical_cell_ppm_intp(xnext(m1),da(m1,1), &
+2108c2121
+<       use rphyscons, pi => con_pi
+---
+>       use physcons, pi => con_pi
+2212c2225
+<         call rdef_cfl_step(jm+5,dist(m1),de(m1),step,nstep)
+---
+>         call def_cfl_step(jm+5,dist(m1),de(m1),step,nstep)
+2241c2254
+<         call rvertical_cell_ppm_intp(interfi(m1),past(m1,1), &
+---
+>         call vertical_cell_ppm_intp(interfi(m1),past(m1,1), &
+2249c2262
+<         call rvertical_cell_ppm_intp(ynext(m1),da(m1,1), &
+---
+>         call vertical_cell_ppm_intp(ynext(m1),da(m1,1), &

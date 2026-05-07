@@ -1,0 +1,24 @@
+# files produced after compilation
+run/exe
+run/set_machine
+run/compile.log
+run/configure
+run/rsm-domain.nml
+run/exp/configure_user*
+src/**/*.o
+src/**/*.mod
+utl/*.x
+src/timcom.fd/*.a
+# library (mostly from outer sources)
+lib/
+
+# fix data shall not be changed. use "git add -f" if modification is necessary
+fix/
+
+# default output directories after model forecasting
+wrk*
+job/**/*.sh.o*
+job/**/*.sh.i*
+job/**/*.out
+job/**/*.stats
+job/**/*.log

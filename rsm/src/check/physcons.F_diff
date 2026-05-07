@@ -1,0 +1,8 @@
+1c1
+<       module rphyscons
+---
+>       module physcons
+120c120
+<       end module rphyscons                !
+---
+>       end module physcons                !

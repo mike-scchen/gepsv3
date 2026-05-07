@@ -1,0 +1,11 @@
+#define _JCAP_ 62
+#define _LEVS_ 47
+#define _LONF_ 192
+#define _LATG_ 94
+#define _IGRD_ 576
+#define _JGRD_ 384
+#define _LEVR_ 42
+#define _NCLDB_ 1
+#define _NCLD_ 1
+#define _CIGRD1_ 1440
+#define _CJGRD1_ 721

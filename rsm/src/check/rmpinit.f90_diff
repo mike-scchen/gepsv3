@@ -1,0 +1,19 @@
+48,52c48,53
+<      !call mpi_init(info)
+<      strwtime=mpi_wtime()
+<      info=0
+<      call mpi_comm_size(mpi_comm_rsm,npes,ierr)
+<      call mpi_comm_rank(mpi_comm_rsm,mype,jerr)
+---
+> ! for mpmd mode >
+>       call mpmd_init(npes, mype , mpi_comm_rsm, root_gfs, info)
+>       ierr=info
+>       jerr=info
+> ! for mpmd mode <
+>       strwtime=mpi_wtime()
+70,71c71,72
+<         call mpi_comm_split(mpi_comm_rsm,myrow,mycol,comm_row,ierr)
+<         call mpi_comm_split(mpi_comm_rsm,mycol,myrow,comm_column,jerr)
+---
+>         call mpi_comm_split(mpi_comm_rsm, myrow,mycol,comm_row,ierr)
+>         call mpi_comm_split(mpi_comm_rsm, mycol,myrow,comm_column,jerr)

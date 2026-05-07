@@ -1,0 +1,50 @@
+#!/bin/bash
+set -x
+##
+pwd
+
+PROG=rpgbnawips
+hxs=${1}
+
+mkdir -p dir_rpgb${hxs}
+cd dir_rpgb${hxs}
+
+h=` expr $hxs + 0 `
+if [ $h -lt 10 ] ; then h=0$h ; fi
+itau=` expr $hxs + 0 `
+ctau=`printf "%3.3i" ${itau}`
+
+#r_pgbf="${RUNDIR}/r_pgb.f${ctau}"
+
+r_pgbf="${RUNDIR}/r_pgb.f$h"
+
+
+##############################
+# post script
+##############################
+
+rm -f fort.[0-9]* 2>/dev/null
+if [[ ${itau} = 0 ]] ;then
+  ln -fs ${RUNDIR}/fort.74    fort.21
+else
+  ln -fs ${RUNDIR}/r_flxf$h   fort.21
+fi
+ln -fs ${RUNDIR}/r_sigf$h   fort.11
+ln -fs $r_pgbf       fort.51
+ln -fs ctlprs        fort.61
+ln -fs ctlslr        fort.62
+ln -fs ctldlr        fort.63
+
+/nwpr/gfs/xb119/GEPS/exe/$PROG.x <../rpgb.parm >>stdout.rpgb$h 2>&1
+#/nwpr/gfs/xb119/GEPS/M00/workdir/E000/$PROG.x <../rpgb.parm  >>stdout.rpgb$h
+#/nwpr/gfs/xb119/tcogit/cwbsum/rsm/src/rsm_pgrb2.fd/$PROG.x <../rpgb.parm  #>>stdout.rpgb$h
+#/nwpr/gfs/xb119/rsmpost/$PROG.x <../rpgb.parm  #>>stdout.rpgb$h
+
+mv    r_pgb.f* ../.
+#rm -f fort.[0-9]* 2>/dev/null
+#echo "mv  ${r_pgbf}  ../."
+#mv  ${r_pgbf}  ../.
+cd  ..
+rm -rf dir_rpgb${hxs}
+
+exit

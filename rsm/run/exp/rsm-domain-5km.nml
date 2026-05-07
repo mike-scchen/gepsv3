@@ -1,0 +1,14 @@
+&rsmdomain
+    rproj   = 0.0,
+    rtruth  = 24.5,
+    rorient = 120.7,
+    rdelx   = 5000.0,
+    rdely   = 5000.0,
+    rcenlat = 24.5,
+    rcenlon = 120.7,
+    rlftgrd = 144.0,
+    rbtmgrd = 144.0
+/
+
+!rlftgrd is half of IGRD
+!rbtmgrd is half of JGRD

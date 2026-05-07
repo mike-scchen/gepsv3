@@ -1,0 +1,216 @@
+76c76
+<       module rmodule_radlw_avplank        !
+---
+>       module module_radlw_avplank        !
+80c80
+<       use rmodule_radlw_parameters, only : nplnk, nbands
+---
+>       use module_radlw_parameters, only : nplnk, nbands
+746c746
+<       end module rmodule_radlw_avplank    !
+---
+>       end module module_radlw_avplank    !
+752c752
+<       module rmodule_radlw_cldprlw        !
+---
+>       module module_radlw_cldprlw        !
+756c756
+<       use rmodule_radlw_parameters, only : nbands
+---
+>       use module_radlw_parameters, only : nbands
+1151c1151
+<       end module rmodule_radlw_cldprlw    !
+---
+>       end module module_radlw_cldprlw    !
+1157c1157
+<       module rmodule_radlw_kgb01          !
+---
+>       module module_radlw_kgb01          !
+1178c1178
+<       use rmodule_radlw_parameters, only : ng01
+---
+>       use module_radlw_parameters, only : ng01
+1754c1754
+<       end module rmodule_radlw_kgb01      !
+---
+>       end module module_radlw_kgb01      !
+1760c1760
+<       module rmodule_radlw_kgb02          !
+---
+>       module module_radlw_kgb02          !
+1764c1764
+<       use rmodule_radlw_parameters, only : ng02
+---
+>       use module_radlw_parameters, only : ng02
+2784c2784
+<       end module rmodule_radlw_kgb02      !
+---
+>       end module module_radlw_kgb02      !
+2790c2790
+<       module rmodule_radlw_kgb03          !
+---
+>       module module_radlw_kgb03          !
+2794c2794
+<       use rmodule_radlw_parameters, only : ng03
+---
+>       use module_radlw_parameters, only : ng03
+8942c8942
+<       end module rmodule_radlw_kgb03      !
+---
+>       end module module_radlw_kgb03      !
+8948c8948
+<       module rmodule_radlw_kgb04          !
+---
+>       module module_radlw_kgb04          !
+8952c8952
+<       use rmodule_radlw_parameters, only : ng04
+---
+>       use module_radlw_parameters, only : ng04
+14767c14767
+<       end module rmodule_radlw_kgb04      !
+---
+>       end module module_radlw_kgb04      !
+14773c14773
+<       module rmodule_radlw_kgb05          !
+---
+>       module module_radlw_kgb05          !
+14777c14777
+<       use rmodule_radlw_parameters, only : ng05
+---
+>       use module_radlw_parameters, only : ng05
+20760c20760
+<       end module rmodule_radlw_kgb05      !
+---
+>       end module module_radlw_kgb05      !
+20766c20766
+<       module rmodule_radlw_kgb06          !
+---
+>       module module_radlw_kgb06          !
+20770c20770
+<       use rmodule_radlw_parameters, only : ng06
+---
+>       use module_radlw_parameters, only : ng06
+20964c20964
+<       end module rmodule_radlw_kgb06      !
+---
+>       end module module_radlw_kgb06      !
+20970c20970
+<       module rmodule_radlw_kgb07          !
+---
+>       module module_radlw_kgb07          !
+20974c20974
+<       use rmodule_radlw_parameters, only : ng07
+---
+>       use module_radlw_parameters, only : ng07
+23138c23138
+<       end module rmodule_radlw_kgb07      !
+---
+>       end module module_radlw_kgb07      !
+23144c23144
+<       module rmodule_radlw_kgb08          !
+---
+>       module module_radlw_kgb08          !
+23148c23148
+<       use rmodule_radlw_parameters, only : ng08
+---
+>       use module_radlw_parameters, only : ng08
+23801c23801
+<       end module rmodule_radlw_kgb08      !
+---
+>       end module module_radlw_kgb08      !
+23807c23807
+<       module rmodule_radlw_kgb09          !
+---
+>       module module_radlw_kgb09          !
+23811c23811
+<       use rmodule_radlw_parameters, only : ng09
+---
+>       use module_radlw_parameters, only : ng09
+26316c26316
+<       end module rmodule_radlw_kgb09      !
+---
+>       end module module_radlw_kgb09      !
+26322c26322
+<       module rmodule_radlw_kgb10          !
+---
+>       module module_radlw_kgb10          !
+26326c26326
+<       use rmodule_radlw_parameters, only : ng10
+---
+>       use module_radlw_parameters, only : ng10
+26755c26755
+<       end module rmodule_radlw_kgb10      !
+---
+>       end module module_radlw_kgb10      !
+26761c26761
+<       module rmodule_radlw_kgb11          !
+---
+>       module module_radlw_kgb11          !
+26765c26765
+<       use rmodule_radlw_parameters, only : ng11
+---
+>       use module_radlw_parameters, only : ng11
+27353c27353
+<       end module rmodule_radlw_kgb11      !
+---
+>       end module module_radlw_kgb11      !
+27359c27359
+<       module rmodule_radlw_kgb12          !
+---
+>       module module_radlw_kgb12          !
+27363c27363
+<       use rmodule_radlw_parameters, only : ng12
+---
+>       use module_radlw_parameters, only : ng12
+28412c28412
+<       end module rmodule_radlw_kgb12      !
+---
+>       end module module_radlw_kgb12      !
+28418c28418
+<       module rmodule_radlw_kgb13          !
+---
+>       module module_radlw_kgb13          !
+28422c28422
+<       use rmodule_radlw_parameters, only : ng13
+---
+>       use module_radlw_parameters, only : ng13
+28966c28966
+<       end module rmodule_radlw_kgb13      !
+---
+>       end module module_radlw_kgb13      !
+28972c28972
+<       module rmodule_radlw_kgb14          !
+---
+>       module module_radlw_kgb14          !
+28976c28976
+<       use rmodule_radlw_parameters, only : ng14
+---
+>       use module_radlw_parameters, only : ng14
+29158c29158
+<       end module rmodule_radlw_kgb14      !
+---
+>       end module module_radlw_kgb14      !
+29164c29164
+<       module rmodule_radlw_kgb15          !
+---
+>       module module_radlw_kgb15          !
+29168c29168
+<       use rmodule_radlw_parameters, only : ng15
+---
+>       use module_radlw_parameters, only : ng15
+29460c29460
+<       end module rmodule_radlw_kgb15      !
+---
+>       end module module_radlw_kgb15      !
+29466c29466
+<       module rmodule_radlw_kgb16          !
+---
+>       module module_radlw_kgb16          !
+29470c29470
+<       use rmodule_radlw_parameters, only : ng16
+---
+>       use module_radlw_parameters, only : ng16
+29762c29762
+<       end module rmodule_radlw_kgb16      !
+---
+>       end module module_radlw_kgb16      !

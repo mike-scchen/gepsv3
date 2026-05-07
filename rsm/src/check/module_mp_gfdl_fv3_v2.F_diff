@@ -1,0 +1,21 @@
+30c30
+< module rmodule_mp_gfdl_v2
+---
+> module module_mp_gfdl_v2
+391a392
+>     
+430c431
+< write(*,*) "check shian in gfdl_cld_mp_driver v2"    
+---
+>     
+488,491c489
+< write(*,*) "check shian mp rain=", rain   
+< write(*,*) "check shian mp snow=", snow
+< write(*,*) "check shian mp graupel=", graupel
+< write(*,*) "check shian mp ice=", ice
+---
+>     
+5043c5041
+< end module rmodule_mp_gfdl_v2
+---
+> end module module_mp_gfdl_v2

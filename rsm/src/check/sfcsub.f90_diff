@@ -1,0 +1,172 @@
+48c48
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+2485c2485
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+2536c2536
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+2616c2616
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+2645c2645
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+2758c2758
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+2906c2906
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+2967c2967
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+3483c3483
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+3533c3533
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+3637c3637
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+4287c4287
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+4363c4363
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+4390c4390
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+4437c4437
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+4452c4452
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+4527c4527
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+4955c4955
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+5045c5045
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+5091c5091
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+5190c5190
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+5208c5208
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+5222c5222
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+5636c5636
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+5647c5647
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+5660c5660
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+5693c5693
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+5712c5712
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+5733c5733
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+5757c5757
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+5773c5773
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+5793c5793
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+5860c5860
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+5954c5954
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+6422c6422
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+6667c6667
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+6686c6686
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+6710c6710
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+6742c6742
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+7817c7817
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+7990c7990
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+8304c8304
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4
+8373c8373
+<       use rmachine , only : kind_io8,kind_io4
+---
+>       use machine , only : kind_io8,kind_io4

@@ -1,0 +1,6 @@
+8,9c8,9
+<       use rmachine , only : kind_phys,kind_rad
+<       use rphyscons, pi => con_pi
+---
+>       use machine , only : kind_phys,kind_rad
+>       use physcons, pi => con_pi

@@ -1,0 +1,12 @@
+8,10c8,10
+< MODULE rmodule_mp_wsm6
+<    USE rmodule_mp_radar
+<    use rphyscons, only : cpd => con_cp, g => con_g, rd => con_rd, &
+---
+> MODULE module_mp_wsm6
+>    USE module_mp_radar
+>    use physcons, only : cpd => con_cp, g => con_g, rd => con_rd, &
+2586c2586
+< END MODULE rmodule_mp_wsm6
+---
+> END MODULE module_mp_wsm6

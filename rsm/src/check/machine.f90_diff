@@ -1,0 +1,8 @@
+1c1
+<       module rmachine
+---
+>       module machine
+12c12
+<       end module rmachine
+---
+>       end module machine

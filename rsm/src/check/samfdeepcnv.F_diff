@@ -1,0 +1,4 @@
+82c82
+<       subroutine rsamfdeepcnv(im,ix,km,delt,delp,prslp,psp,phil,ql,       &
+---
+>       subroutine samfdeepcnv(im,ix,km,delt,delp,prslp,psp,phil,ql,       &

@@ -1,0 +1,14 @@
+2c2
+<       module rfuncphys
+---
+>       module funcphys
+240,241c240,241
+<       use rmachine,only:kind_phys
+<       use rphyscons
+---
+>       use machine,only:kind_phys
+>       use physcons
+2913c2913
+<       end module rfuncphys
+---
+>       end module funcphys

@@ -1,0 +1,4 @@
+1c1
+<       subroutine rget_phi(im,ix,levs,cp,nu,t,q,prki,prkl,phii,phil)
+---
+>       subroutine get_phi(im,ix,levs,cp,nu,t,q,prki,prkl,phii,phil)

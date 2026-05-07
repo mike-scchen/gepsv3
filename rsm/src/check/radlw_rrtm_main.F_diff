@@ -1,0 +1,162 @@
+115c115
+<       module rmodule_radlw_main           !
+---
+>       module module_radlw_main           !
+119c119
+<       use rmodule_radlw_parameters, only : nbands, ngpt, n5000, n200
+---
+>       use module_radlw_parameters, only : nbands, ngpt, n5000, n200
+374c374
+<       use rmodule_radlw_parameters
+---
+>       use module_radlw_parameters
+824c824
+<       use rmodule_radlw_parameters,  only : n5000, n200
+---
+>       use module_radlw_parameters,  only : n5000, n200
+841c841
+<       
+---
+> 
+857c857
+<       
+---
+> 
+894c894
+<       
+---
+> 
+910c910
+<       
+---
+> 
+987c987
+<       use rmodule_radlw_parameters, only : nbands
+---
+>       use module_radlw_parameters, only : nbands
+989c989
+<       use rmodule_radlw_cldprlw
+---
+>       use module_radlw_cldprlw
+1136,1137c1136,1137
+<       use rmodule_radlw_parameters,  only : nplnk, nbands, ngpt
+<       use rmodule_radlw_avplank
+---
+>       use module_radlw_parameters,  only : nplnk, nbands, ngpt
+>       use module_radlw_avplank
+1447d1446
+<       write(*,*) "check rtrn0:", l, factot
+1458c1457
+<       write(*,*) "check rtrn1:"
+---
+> 
+1510,1511c1509,1510
+<       use rmodule_radlw_parameters,  only : nplnk, nbands, ngpt
+<       use rmodule_radlw_avplank
+---
+>       use module_radlw_parameters,  only : nplnk, nbands, ngpt
+>       use module_radlw_avplank
+2173c2172
+<       use rmodule_radlw_parameters
+---
+>       use module_radlw_parameters
+2263,2264c2262,2263
+<       use rmodule_radlw_parameters, only : ng01
+<       use rmodule_radlw_kgb01
+---
+>       use module_radlw_parameters, only : ng01
+>       use module_radlw_kgb01
+2318,2319c2317,2318
+<       use rmodule_radlw_parameters, only : ng02, ns02
+<       use rmodule_radlw_kgb02
+---
+>       use module_radlw_parameters, only : ng02, ns02
+>       use module_radlw_kgb02
+2408,2409c2407,2408
+<       use rmodule_radlw_parameters, only : ng03, ns03
+<       use rmodule_radlw_kgb03
+---
+>       use module_radlw_parameters, only : ng03, ns03
+>       use module_radlw_kgb03
+2558,2559c2557,2558
+<       use rmodule_radlw_parameters, only : ng04, ns04
+<       use rmodule_radlw_kgb04
+---
+>       use module_radlw_parameters, only : ng04, ns04
+>       use module_radlw_kgb04
+2691,2692c2690,2691
+<       use rmodule_radlw_parameters, only : ng05, ns05
+<       use rmodule_radlw_kgb05
+---
+>       use module_radlw_parameters, only : ng05, ns05
+>       use module_radlw_kgb05
+2804,2805c2803,2804
+<       use rmodule_radlw_parameters, only : ng06, ns06
+<       use rmodule_radlw_kgb06
+---
+>       use module_radlw_parameters, only : ng06, ns06
+>       use module_radlw_kgb06
+2857,2858c2856,2857
+<       use rmodule_radlw_parameters, only : ng07, ns07
+<       use rmodule_radlw_kgb07
+---
+>       use module_radlw_parameters, only : ng07, ns07
+>       use module_radlw_kgb07
+2958,2959c2957,2958
+<       use rmodule_radlw_parameters, only : ng08, ns08
+<       use rmodule_radlw_kgb08
+---
+>       use module_radlw_parameters, only : ng08, ns08
+>       use module_radlw_kgb08
+3034,3035c3033,3034
+<       use rmodule_radlw_parameters, only : ng09, ns09
+<       use rmodule_radlw_kgb09
+---
+>       use module_radlw_parameters, only : ng09, ns09
+>       use module_radlw_kgb09
+3158,3159c3157,3158
+<       use rmodule_radlw_parameters, only : ng10, ns10
+<       use rmodule_radlw_kgb10
+---
+>       use module_radlw_parameters, only : ng10, ns10
+>       use module_radlw_kgb10
+3211,3212c3210,3211
+<       use rmodule_radlw_parameters, only : ng11, ns11
+<       use rmodule_radlw_kgb11
+---
+>       use module_radlw_parameters, only : ng11, ns11
+>       use module_radlw_kgb11
+3269,3270c3268,3269
+<       use rmodule_radlw_parameters, only : ng12, ns12
+<       use rmodule_radlw_kgb12
+---
+>       use module_radlw_parameters, only : ng12, ns12
+>       use module_radlw_kgb12
+3347,3348c3346,3347
+<       use rmodule_radlw_parameters, only : ng13, ns13
+<       use rmodule_radlw_kgb13
+---
+>       use module_radlw_parameters, only : ng13, ns13
+>       use module_radlw_kgb13
+3425,3426c3424,3425
+<       use rmodule_radlw_parameters, only : ng14, ns14
+<       use rmodule_radlw_kgb14
+---
+>       use module_radlw_parameters, only : ng14, ns14
+>       use module_radlw_kgb14
+3483,3484c3482,3483
+<       use rmodule_radlw_parameters, only : ng15, ns15
+<       use rmodule_radlw_kgb15
+---
+>       use module_radlw_parameters, only : ng15, ns15
+>       use module_radlw_kgb15
+3561,3562c3560,3561
+<       use rmodule_radlw_parameters, only : ng16, ns16
+<       use rmodule_radlw_kgb16
+---
+>       use module_radlw_parameters, only : ng16, ns16
+>       use module_radlw_kgb16
+3639c3638
+<       end module rmodule_radlw_main       !
+---
+>       end module module_radlw_main       !

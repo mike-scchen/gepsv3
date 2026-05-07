@@ -1,0 +1,14 @@
+1c1
+<       subroutine rgscond (im,ix,km,dt,prsl,ps,q,cwm,t &
+---
+>       subroutine gscond (im,ix,km,dt,prsl,ps,q,cwm,t &
+22,25c22,25
+<       use rmachine , only : kind_phys
+< ! use rmachine_rad , only : kind_phys
+<       use rfuncphys , only : fpvs
+<       use rphyscons, psat => con_psat, hvap => con_hvap, grav => con_g &
+---
+>       use machine , only : kind_phys
+> ! use machine_rad , only : kind_phys
+>       use funcphys , only : fpvs
+>       use physcons, psat => con_psat, hvap => con_hvap, grav => con_g &

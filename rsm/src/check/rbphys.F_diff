@@ -1,0 +1,107 @@
+66c66
+<       use rmodule_mp_wsm3,        only: wsm3
+---
+>       use module_mp_wsm3,        only: wsm3
+68c68
+<       use rmodule_mp_wsm3
+---
+>       use module_mp_wsm3
+74c74
+<       use rmodule_mp_wsm6,        only: wsm6
+---
+>       use module_mp_wsm6,        only: wsm6
+76c76
+<       use rmodule_mp_wsm6
+---
+>       use module_mp_wsm6
+82c82
+<       use rmodule_mp_gfdl_v2,  only: gfdlv2_driver => gfdl_cld_mp_driver
+---
+>       use module_mp_gfdl_v2,  only: gfdlv2_driver => gfdl_cld_mp_driver
+358c358,359
+<       real(kind=kind_phys), parameter :: cdmbgwd(2) = 1.0_kind_phys
+---
+>       real(kind=kind_phys), parameter :: &
+>      &  cdmbgwd(2)  = (/10.0,10.0/)!1.0_kind_phys
+637c638
+<       call rdcyc2t3(lonlens,igrd1s,levr,solhr,slag,                       &   
+---
+>       call dcyc2t3(lonlens,igrd1s,levr,solhr,slag,                       &   
+771c772
+<         call rsfc_diff(lonlens,igrd1s,psexp_pa,ugrs,vgrs,tgrs,qgrs,zlvl, &
+---
+>         call sfc_diff(lonlens,igrd1s,psexp_pa,ugrs,vgrs,tgrs,qgrs,zlvl, &
+774c775
+<      &                stress,fm1,fh1,zvfun,parea,ssu(1,lat),ssv(1,lat), &
+---
+>      &                stress,fm1,fh1,zvfun,parea,                       &
+852c853
+<           call rsfc_ocean                                                &
+---
+>           call sfc_ocean                                                &
+856c857
+<      &       fm10,fm1,lseaspray,ssu(1,lat), ssv(1,lat), &
+---
+>      &       fm10,fm1,lseaspray,                                        &
+875c876
+<           call rsfc_drv                                                  &
+---
+>           call sfc_drv                                                  &
+900c901
+<           call rsfc_land                                                 &
+---
+>           call sfc_land                                                 &
+933c934
+<         call rsfc_sice                                                   &
+---
+>         call sfc_sice                                                   &
+1004c1005
+<       call rsfc_diag(lonlens,igrd1s,psexp_pa,ugrs,vgrs,tgrs,qgrs,qss,       &
+---
+>       call sfc_diag(lonlens,igrd1s,psexp_pa,ugrs,vgrs,tgrs,qgrs,qss,       &
+1256c1257
+<       call rysu2d (ugrs(1,1),vgrs(1,1),tgrs(1,1),qgrsx,                  &
+---
+>       call ysu2d (ugrs(1,1),vgrs(1,1),tgrs(1,1),qgrsx,                  &
+1268c1269
+<        call rmoninedmf(igrd1s,lonlens,levr,nvdiff,                       &
+---
+>        call moninedmf(igrd1s,lonlens,levr,nvdiff,                       &
+1431c1432
+<       call rgwdps(lonlens,igrd1s,igrd1s,levr,dvdt,dudt,dtdt,   &
+---
+>       call gwdps(lonlens,igrd1s,igrd1s,levr,dvdt,dudt,dtdt,   &
+1611c1612
+<       call rget_phi(lonlens,igrd1s,levr,cp,fv,gt0(1,1),gq0(1,1),          &
+---
+>       call get_phi(lonlens,igrd1s,levr,cp,fv,gt0(1,1),gq0(1,1),          &
+1615c1616
+<       call rget_phi(lonlens,igrd1s,levr,cp,fv,gh0(1,1),gq0(1,1),          &
+---
+>       call get_phi(lonlens,igrd1s,levr,cp,fv,gh0(1,1),gq0(1,1),          &
+1618c1619
+<       call rget_phi(lonlens,igrd1s,levr,cp,fv,gt0(1,1),gq0(1,1),          &
+---
+>       call get_phi(lonlens,igrd1s,levr,cp,fv,gt0(1,1),gq0(1,1),          &
+1786c1787
+<       call rsascnv(1,igrd1s,levr,                                         &  
+---
+>       call sascnv(1,igrd1s,levr,                                         &  
+1834c1835
+<        call rsamfdeepcnv (lonlens,igrd1s,levr,dtp,delp,prsl,psexp,phil    &
+---
+>        call samfdeepcnv (lonlens,igrd1s,levr,dtp,delp,prsl,psexp,phil    &
+2021c2022
+<       call rsamfshalcnv(lonlens,igrd1s,levr,dtp,delp,prsl,psexp,phil,clw  &
+---
+>       call samfshalcnv(lonlens,igrd1s,levr,dtp,delp,prsl,psexp,phil,clw  &
+2259c2260
+<         call rgscond(lonlens, igrd1s, levr,                               &    
+---
+>         call gscond(lonlens, igrd1s, levr,                               &    
+2267c2268
+<         call rprecpd(lonlens, igrd1s, levr,                               &
+---
+>         call precpd(lonlens, igrd1s, levr,                               &
+2546d2546
+<           write(*,*) "check nmmiph=",nmmiph,"before call gfdlv2_driver"

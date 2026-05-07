@@ -1,0 +1,4 @@
+58c58
+<       use rmachine , only : kind_io8
+---
+>       use machine , only : kind_io8

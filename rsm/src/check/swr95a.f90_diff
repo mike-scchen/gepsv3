@@ -1,0 +1,4 @@
+94c94
+<       use rmachine , only : kind_rad,kind_phys
+---
+>       use machine , only : kind_rad,kind_phys

@@ -1,0 +1,8 @@
+23c23
+<        MODULE rmodule_mp_radar
+---
+>        MODULE module_mp_radar
+613c613
+<       END MODULE rmodule_mp_radar
+---
+>       END MODULE module_mp_radar

@@ -1,0 +1,10 @@
+2c2
+<       use rmachine, only : kind_io8
+---
+>       use machine, only : kind_io8
+136,137c136,137
+<       parameter(cigrd1 = 241 )
+<       parameter(cjgrd1 = 161 )
+---
+>       parameter(cigrd1 = 201 )
+>       parameter(cjgrd1 = 141 )

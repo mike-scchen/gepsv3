@@ -1,0 +1,12 @@
+74c74
+<       subroutine rsamfdeepcnv(im,ix,km,delt,delp,prslp,psp,phil,ql, &
+---
+>       subroutine samfdeepcnv(im,ix,km,delt,delp,prslp,psp,phil,ql, &
+81,83c81,83
+<       use rmachine , only : kind_phys
+< !byl use rfuncphys , only : fpvs
+<       use rphyscons, grav => con_g, cp => con_cp, hvap => con_hvap &
+---
+>       use machine , only : kind_phys
+> !byl use funcphys , only : fpvs
+>       use physcons, grav => con_g, cp => con_cp, hvap => con_hvap &

@@ -1,0 +1,2 @@
+64a65
+> ! call MPI_Bcast(tmpa,len,mpi_real8,0,mpi_comm_rsm,ierr)

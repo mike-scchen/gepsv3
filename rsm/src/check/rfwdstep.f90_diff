@@ -1,0 +1,31 @@
+74a75
+> ! parameter(nmmiph = 2)
+79a81
+> ! parameter(nmmiph = 3)
+81a84,94
+> !
+> ! for new wsm6 microphysics
+> ! parameter(nmmiph = 6)
+> ! parameter(num_p3d = 3)
+> ! parameter(num_p2d = 1)
+> !
+> ! for GFDL microphysics
+> ! parameter(nmmiph = 11)
+> ! parameter(num_p3d = 5)
+> ! parameter(num_p2d = 1)
+> !
+339d351
+<      & ssu(igrd1p,jgrd1p), ssv(igrd1p,jgrd1p), &
+381,382d392
+<       common /rcomgd6/ &
+<      & cpl_field(igrd1p,jgrd1p,9)
+396c406
+<      & deltim,dt2,dtltb,zhour,phour,fhour,odt_cpl, &
+---
+>      & deltim,dt2,dtltb,zhour,phour,fhour, &
+400c410
+<      & kdt,limlow,numsum,nummax,ncldb1,irclim,kdt_cpl
+---
+>      & kdt,limlow,numsum,nummax,ncldb1,irclim
+492d501
+<         if( mype.eq.master ) print*,'check kdt=1:',secphy, fhswr, fhlwr

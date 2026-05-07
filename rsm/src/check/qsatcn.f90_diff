@@ -1,0 +1,8 @@
+2,4c2,4
+<       use rmachine , only : kind_phys
+<       use rfuncphys , only : fpvs
+<       use rphyscons, rv => con_rv, cvap => con_cvap, cliq => con_cliq &
+---
+>       use machine , only : kind_phys
+>       use funcphys , only : fpvs
+>       use physcons, rv => con_rv, cvap => con_cvap, cliq => con_cliq &

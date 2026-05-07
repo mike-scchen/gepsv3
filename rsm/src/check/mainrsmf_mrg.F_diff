@@ -1,0 +1,53 @@
+2c2
+<       subroutine mainrsmf_mrg(compid, mpi_comm_mct)
+---
+>        program mainrsmf_mrg
+49d48
+<       integer, intent(in) :: compid, mpi_comm_mct
+54c53
+<       integer iclim, ierr
+---
+>       integer iclim
+57d55
+<       real*8 time_stamp, time_spend
+65d62
+<       mpi_comm_rsm = mpi_comm_mct
+67,69d63
+<       root_gfs = 0
+<       if(mype.eq.master) write(*,*) "[RSM] check root_gfs: ", root_gfs
+<       call rsm_cpl_init(compid)
+158,161d151
+< #ifdef CPL_TIMCOM
+<       !call tai_timcom_initialize(mpi_comm_rsm)
+<       if(mype.eq.0) print*, 'check tai_timcom init:', cpl_kdt, cpl_time
+< #endif
+222,223c212
+<         time_stamp = MPI_WTIME()
+< #if defined (CWB_MPMD) || defined (CWBSUM)       
+---
+> #ifdef CWB_MPMD        
+238,242d226
+<         time_spend = MPI_WTIME() - time_stamp
+<         call MPI_ALLREDUCE(time_spend, time_stamp, 1, MPI_REAL8, MPI_MAX, mpi_comm_rsm, ierr)
+<         if(mype.eq.master) then
+<           write(*,'(a,f8.1,a)') '[RSM] recv gfs spends: ', time_stamp, "sec, surf on"
+<         end if
+250,251c234
+<         time_stamp = MPI_WTIME()
+< #if defined (CWB_MPMD) || defined (CWBSUM)        
+---
+> #ifdef CWB_MPMD        
+266,270d248
+<         time_spend = MPI_WTIME() - time_stamp
+<         call MPI_ALLREDUCE(time_spend, time_stamp, 1, MPI_REAL8, MPI_MAX, mpi_comm_rsm, ierr)
+<         if(mype.eq.master) then
+<           write(*,'(a,f8.1,a)') '[RSM] recv gfs spends: ', time_stamp, "sec, surf off"
+<         end if
+334c312
+<         call rsmsmf(fhnxt,compid)
+---
+>         call rsmsmf(fhnxt)
+398c376
+< !c    stop
+---
+>       stop

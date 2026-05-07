@@ -1,0 +1,16 @@
+1c1
+<       module rmodule_microphysics
+---
+>       module module_microphysics
+3,5c3,5
+<       use rmachine , only : kind_phys
+<       use rfuncphys
+<       use rphyscons, cp => con_cp, rd => con_rd, rv => con_rv &
+---
+>       use machine , only : kind_phys
+>       use funcphys
+>       use physcons, cp => con_cp, rd => con_rd, rv => con_rv &
+2826c2826
+<       end module rmodule_microphysics
+---
+>       end module module_microphysics

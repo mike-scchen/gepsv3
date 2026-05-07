@@ -1,0 +1,53 @@
+5,6c5,6
+<       use rmachine , only : kind_io4
+<       use rfuncphys
+---
+>       use machine , only : kind_io4
+>       use funcphys
+8c8
+<       use rphyscons, rhoair0 => con_rhoair0 , rhoh2o => con_rhoh2o , &
+---
+>       use physcons, rhoair0 => con_rhoair0 , rhoh2o => con_rhoh2o , &
+11c11
+<       use rmodule_mp_wsm3, only: wsm3init
+---
+>       use module_mp_wsm3, only: wsm3init
+13c13
+<       use rmodule_mp_wsm6, only: wsm6init
+---
+>       use module_mp_wsm6, only: wsm6init
+17c17
+<       use rmodule_mp_gfdl_v2, only : gfdlv2_init => gfdl_cld_mp_init
+---
+>       use module_mp_gfdl_v2, only : gfdlv2_init => gfdl_cld_mp_init
+95a96
+> ! parameter(nmmiph = 2)
+100a102
+> ! parameter(nmmiph = 3)
+102a105,115
+> !
+> ! for new wsm6 microphysics
+> ! parameter(nmmiph = 6)
+> ! parameter(num_p3d = 3)
+> ! parameter(num_p2d = 1)
+> !
+> ! for GFDL microphysics
+> ! parameter(nmmiph = 11)
+> ! parameter(num_p3d = 5)
+> ! parameter(num_p2d = 1)
+> !
+255c268
+<      & deltim,dt2,dtltb,zhour,phour,fhour,odt_cpl, &
+---
+>      & deltim,dt2,dtltb,zhour,phour,fhour, &
+259c272
+<      & kdt,limlow,numsum,nummax,ncldb1,irclim,kdt_cpl
+---
+>      & kdt,limlow,numsum,nummax,ncldb1,irclim
+541,546d553
+<       kdt_cpl = nsout
+<       kdt_cpl = kdt_cpl/3
+<       odt_cpl = 1.0/(kdt_cpl*deltim)
+<       if(mype.eq.master) then
+<         print *,'[RSM] kdt_cpl=',kdt_cpl,', dt_cpl=',kdt_cpl*deltim
+<       end if

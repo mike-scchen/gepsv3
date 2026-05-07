@@ -1,0 +1,13 @@
+LIBS=	
+W3LB=	-L../../lib/NCEPLIB/lib -lbacio_4 -lw3nco_4 
+FORT=	frtpx100
+OPTx=	-O3 -Kfast   
+OPTN=	-O3 -Kfast  
+SRCS=	rpgbnawips.f ismaxmin.f
+OBJS=	rpgbnawips.o ismaxmin.o
+EXEC=	../../utl/rpgbnawips.x
+
+$(EXEC):	$(OBJS)
+	$(FORT) -o $(EXEC) $(OPTN) $(OBJS) $(W3LB) $(LIBS) 
+$(OBJS):	$(SRCS)
+	$(FORT) -c $(OPTN) $(SRCS)

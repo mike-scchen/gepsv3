@@ -1,0 +1,10 @@
+11,12c11,12
+< MODULE rmodule_mp_wsm3
+<    use rphyscons, only : cpd => con_cp, g => con_g, rd => con_rd, &
+---
+> MODULE module_mp_wsm3
+>    use physcons, only : cpd => con_cp, g => con_g, rd => con_rd, &
+1560c1560
+< END MODULE rmodule_mp_wsm3
+---
+> END MODULE module_mp_wsm3

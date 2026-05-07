@@ -1,0 +1,4 @@
+148c148
+<       subroutine rfftfax (n,ifax,trigs)
+---
+>       subroutine fftfax (n,ifax,trigs)

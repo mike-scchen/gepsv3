@@ -1,0 +1,14 @@
+#LIBS=	-L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/
+LIBS=	
+W3LB=	-L../../lib -lbacio_4 -lw3_4 
+FORT=	gfortran
+OPTx=	-O3   -fconvert=big-endian
+OPTN=	-O3   -fconvert=big-endian
+SRCS=	rpgbnawips.f ismaxmin.f
+OBJS=	rpgbnawips.o ismaxmin.o
+EXEC=	../../utl/rpgbnawips.x
+
+$(EXEC):	$(OBJS)
+	$(FORT) -o $(EXEC) $(OPTN) $(OBJS) $(W3LB) $(LIBS) 
+$(OBJS):	$(SRCS)
+	$(FORT) -c $(OPTN) $(SRCS)

@@ -1,0 +1,47 @@
+EXEC = r3drtdata.x
+
+SHELL = /bin/sh
+CP = cp
+RM = rm
+CD = cd
+CHMOD = chmod
+
+CPP             =$(C_PREP_3DRT)
+F90             =$(F_COMP_3DRT)
+LIBS            =$(F_LIBS_3DRT)
+FORT_FLAGS      =$(F_FLAG_3DRT)
+INCLUDE_DIR     =-I.
+
+OBJ_MOD = machine.o physcons.o
+
+OBJ_3DRTDATA = main_3drt.o cut_tile.o rsm_interp.o maxmin.o setlatlon.o write_to_grads.o ful2sgl.o la2ga.o sgl2ful.o
+
+
+OBJS = ${OBJ_MOD} ${OBJ_3DRTDATA}
+
+SRCS = ${OBJS:.o=.F}
+#
+# *****************************************************************
+#
+all: model-r3drtdata
+
+model-r3drtdata: ${OBJS}
+	${F90} ${FORT_FLAGS} -o ${EXEC} ${OBJS} ${LIBS}
+
+clean:
+	rm -f *.o *.$(F_SUBF) *.mod core
+
+.SUFFIXES : .o .$(F_SUBF) .F
+
+.F.$(F_SUBF) :
+	${CPP} -P ${INCLUDE_DIR} $*.F >$*.i
+	sed -e '/^\/\*/,/\*\/$$/d' -e '/^ *$$/d' $*.i >$*.$(F_SUBF) ; rm $*.i
+
+.F.o :
+	${CPP} -P ${INCLUDE_DIR} $*.F >$*.i
+	sed -e '/^\/\*/,/\*\/$$/d' -e '/^ *$$/d' $*.i >$*.$(F_SUBF) ; rm $*.i
+	${F90} ${FORT_FLAGS} -c $*.$(F_SUBF)
+
+.$(F_SUBF).o :
+	${F90} ${FORT_FLAGS} -c $*.$(F_SUBF)
+

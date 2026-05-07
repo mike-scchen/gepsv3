@@ -1,0 +1,4 @@
+4c4
+<       use rmachine , only : kind_io4
+---
+>       use machine , only : kind_io4

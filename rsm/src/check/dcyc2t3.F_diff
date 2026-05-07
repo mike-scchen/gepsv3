@@ -1,0 +1,4 @@
+2c2
+<       subroutine rdcyc2t3(im,ix,levs,solhr,slag,                         &
+---
+>       subroutine dcyc2t3(im,ix,levs,solhr,slag,                         &

@@ -1,0 +1,6 @@
+9,10c9,10
+<     use rmachine , only : kind_phys
+<     use rphyscons, only : con_rd, con_cp, con_cv, con_cvap, con_cliq, con_csol, &
+---
+>     use machine , only : kind_phys
+>     use physcons, only : con_rd, con_cp, con_cv, con_cvap, con_cliq, con_csol, &

@@ -1,0 +1,29 @@
+18c18
+<       use rphyscons, only : qcmin => con_qcmin
+---
+>       use physcons, only : qcmin => con_qcmin
+93a94
+> ! parameter(nmmiph = 2)
+98a100
+> ! parameter(nmmiph = 3)
+100a103,113
+> !
+> ! for new wsm6 microphysics
+> ! parameter(nmmiph = 6)
+> ! parameter(num_p3d = 3)
+> ! parameter(num_p2d = 1)
+> !
+> ! for GFDL microphysics
+> ! parameter(nmmiph = 11)
+> ! parameter(num_p3d = 5)
+> ! parameter(num_p2d = 1)
+> !
+302d314
+<      & ssu(igrd1p,jgrd1p), ssv(igrd1p,jgrd1p), &
+344,345d355
+<       common /rcomgd6/ &
+<      & cpl_field(igrd1p,jgrd1p,9)
+477c487
+<         open(n1,file=filename,status='unknown',convert='little_endian', &
+---
+>         open(n1,file=filename,status='unknown', &

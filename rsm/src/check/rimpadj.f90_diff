@@ -1,0 +1,33 @@
+34c34
+<       use rphyscons, rd => con_rd
+---
+>       use physcons, rd => con_rd
+107a108
+> ! parameter(nmmiph = 2)
+112a114
+> ! parameter(nmmiph = 3)
+114a117,127
+> !
+> ! for new wsm6 microphysics
+> ! parameter(nmmiph = 6)
+> ! parameter(num_p3d = 3)
+> ! parameter(num_p2d = 1)
+> !
+> ! for GFDL microphysics
+> ! parameter(nmmiph = 11)
+> ! parameter(num_p3d = 5)
+> ! parameter(num_p2d = 1)
+> !
+349d361
+<      & ssu(igrd1p,jgrd1p), ssv(igrd1p,jgrd1p), &
+391,392d402
+<       common /rcomgd6/ &
+<      & cpl_field(igrd1p,jgrd1p,9)
+406c416
+<      & deltim,dt2,dtltb,zhour,phour,fhour,odt_cpl, &
+---
+>      & deltim,dt2,dtltb,zhour,phour,fhour, &
+410c420
+<      & kdt,limlow,numsum,nummax,ncldb1,irclim,kdt_cpl
+---
+>      & kdt,limlow,numsum,nummax,ncldb1,irclim

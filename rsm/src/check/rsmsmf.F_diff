@@ -1,0 +1,80 @@
+1c1
+<       subroutine rsmsmf(fhnxt,compid)
+---
+>       subroutine rsmsmf(fhnxt)
+87,88d86
+<       integer :: compid, ncpl, ierr
+<       real :: time_stamp, time_spend
+116,121d113
+< #ifdef CPL_TIMCOM
+<   if(kdt .eq. 0) then
+<     if(mype.eq.master) print *,'[RSM] recv init data from TIMCOM Tai'
+<     call rsm_cpl_recv4rocn(compid, slmsk, tsea, ssu, ssv)
+<   end if
+< #endif
+157,174d148
+< #ifdef CPL_TIMCOM
+<       if(kdt.eq.1) then
+<         if(mype.eq.master) print *,'[RSM] runtime step: ', kdt, '/', nsseg
+<         cpl_field(:,:,1) = u10m
+<         cpl_field(:,:,2) = v10m
+<         cpl_field(:,:,3) = t2m
+<         cpl_field(:,:,4) = q2m
+<         cpl_field(:,:,5) = psurf*1.d3
+<         cpl_field(:,:,6) =-fluxr(:,:,3)/3600.d0
+<         cpl_field(:,:,7) = fluxr(:,:,4)/3600.d0
+<         cpl_field(:,:,8) = dlwsfc/3600.d0
+<         cpl_field(:,:,9) = geshem*1.d3/deltim
+<         call rsm_cpl_send2rocn(compid, cpl_field, tsea) 
+<         cpl_field(:,:,5) = psurf
+<         cpl_field(:,:,6:9) = 0.d0
+<       end if
+<       time_stamp = MPI_WTIME() 
+< #endif
+193,234d166
+< #ifdef CPL_TIMCOM
+<         if(mype.eq.master) print *,'[RSM] runtime step: ', kdt, '/', nsseg
+< 
+<         cpl_field(:,:,1) = cpl_field(:,:,1) + u10m
+<         cpl_field(:,:,2) = cpl_field(:,:,2) + v10m
+<         cpl_field(:,:,3) = cpl_field(:,:,3) + t2m
+<         cpl_field(:,:,4) = cpl_field(:,:,4) + q2m
+<         cpl_field(:,:,5) = cpl_field(:,:,5) + psurf
+< 
+<         if(mod(kdt,kdt_cpl).eq.0) then
+<           time_spend = MPI_WTIME() - time_stamp
+<           call MPI_ALLREDUCE(time_spend, time_stamp, 1, MPI_REAL8, MPI_MAX, mpi_comm_rsm, ierr)
+<           if(mype.eq.master) then
+<             write(*,'(a,f8.1,a)') '[RSM] runtime spends: ', time_stamp, "sec in a cpl loop"
+<           end if
+<    
+<           ncpl = kdt/kdt_cpl
+<           if(mype.eq.master) print *,'[RSM] couple step: ', kdt, '/', nsseg
+< 
+<           cpl_field(:,:,1:5) = cpl_field(:,:,1:5)/dble(kdt_cpl)
+<           cpl_field(:,:,5)   = cpl_field(:,:,5)*1.d3  ! Pa to hPa
+<           cpl_field(:,:,6)   =-odt_cpl*(fluxr(:,:,3) - cpl_field(:,:,6))
+<           cpl_field(:,:,7)   = odt_cpl*(fluxr(:,:,4) - cpl_field(:,:,7))
+<           cpl_field(:,:,8)   = odt_cpl*(dlwsfc - cpl_field(:,:,8))
+<           cpl_field(:,:,9)   = odt_cpl*(geshem - cpl_field(:,:,9))*1.d3
+< 
+<           call rsm_cpl_recv4rocn(compid, slmsk, tsea, ssu, ssv)
+<           call rsm_cpl_send2rocn(compid, cpl_field, tsea)
+< 
+<           if(lsout) then
+<             cpl_field = 0.d0
+<           else
+<             cpl_field(:,:,1:5) = 0.d0
+<             cpl_field(:,:,6)   = fluxr(:,:,3)
+<             cpl_field(:,:,7)   = fluxr(:,:,4)
+<             cpl_field(:,:,8)   = dlwsfc
+<             cpl_field(:,:,9)   = geshem
+<           end if
+<           
+<           time_stamp = MPI_WTIME()
+<         end if
+< #endif
+245c177
+<        if(mype.eq.master) print *,'in rsmsmf lsout=',lsout,'kdt=',kdt       &   
+---
+>        if ( mype.eq.0) print *,'in rsmsmf lsout=',lsout,'kdt=',kdt       &   

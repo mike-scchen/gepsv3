@@ -1,0 +1,12 @@
+9c9
+< MODULE rmodule_mp_wsm6
+---
+> MODULE module_mp_wsm6
+11c11
+<    USE rmodule_mp_radar
+---
+>    USE module_mp_radar
+2649c2649
+< END MODULE rmodule_mp_wsm6
+---
+> END MODULE module_mp_wsm6

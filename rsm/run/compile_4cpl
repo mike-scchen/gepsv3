@@ -1,0 +1,362 @@
+#!/bin/sh
+
+set -x 
+. ./configure_4cpl
+
+mkdir -p $CMPDIR $INCDIR $EXPEXE
+#####++++++++++ this script compiles all the executive file for 
+#####           model input   (from global to regional),
+#####           model forecast (nested regional with global)
+#####           and output process (from global output to regional domain)
+#####           except ASFC and RPOST for global parts.
+#####           all executive files in here saved in EXPEXE
+
+if [ $NCLDB != $NCLD ]
+then
+  if [ $NCLDB != 0 ]
+  then
+    echo 'NCLDB should be 0 or equal NCLD'
+    exit
+  fi
+fi
+if [ $NCLD -gt 1 ]
+then
+  export NUMP3D=4
+  export NUMP2D=3
+  if [ $NMMIPH -eq 11 ]; then export NUMP3D=5 ; export NUMP2D=1 ; fi
+  if [ $NMMIPH -eq 12 ]; then export NUMP3D=5 ; export NUMP2D=1 ; fi
+  if [ $NMMIPH -eq 13 ]; then export NUMP3D=5 ; export NUMP2D=1 ; fi
+fi
+
+# create defdim.h
+  echo '#define _JCAP_ '$JCAP   >$INCDIR/defdim.h
+  echo '#define _LEVS_ '$LEVS  >>$INCDIR/defdim.h
+  echo '#define _LONF_ '$LONF  >>$INCDIR/defdim.h
+  echo '#define _LATG_ '$LATG  >>$INCDIR/defdim.h
+  echo '#define _IGRD_ '$IGRD  >>$INCDIR/defdim.h
+  echo '#define _JGRD_ '$JGRD  >>$INCDIR/defdim.h
+  echo '#define _LEVR_ '$LEVR  >>$INCDIR/defdim.h
+  echo '#define _NMMIPH_ '$NMMIPH  >>$INCDIR/defdim.h
+  echo '#define _NUMP3D_ '$NUMP3D  >>$INCDIR/defdim.h
+  echo '#define _NUMP2D_ '$NUMP2D  >>$INCDIR/defdim.h
+  echo '#define _NCLDB_ '$NCLDB  >>$INCDIR/defdim.h
+  echo '#define _NCLD_ '$NCLD  >>$INCDIR/defdim.h
+  echo '#define _CIGRD1_ '$CIGRD1  >>$INCDIR/defdim.h
+  echo '#define _CJGRD1_ '$CJGRD1  >>$INCDIR/defdim.h
+  echo '#define _BGF_ '$BGF  >>$INCDIR/defdim.h
+#
+# create inp_defdim.h #BGF unused
+  echo '#define _JCAP_ '$JCAP   >$INCDIR/inp_defdim.h
+  echo '#define _LEVS_ '$BLEVS  >>$INCDIR/inp_defdim.h
+  echo '#define _LONF_ '$LONF  >>$INCDIR/inp_defdim.h
+  echo '#define _LATG_ '$LATG  >>$INCDIR/inp_defdim.h
+  echo '#define _IGRD_ '$BIGRD  >>$INCDIR/inp_defdim.h
+  echo '#define _JGRD_ '$BJGRD  >>$INCDIR/inp_defdim.h
+  echo '#define _LEVR_ '$BLEVR  >>$INCDIR/inp_defdim.h
+  echo '#define _NCLDB_ '$NCLDB  >>$INCDIR/inp_defdim.h
+  echo '#define _NCLD_ '$NCLD  >>$INCDIR/inp_defdim.h
+  echo '#define _CIGRD1_ '$BCIGRD1  >>$INCDIR/inp_defdim.h
+  echo '#define _CJGRD1_ '$BCJGRD1  >>$INCDIR/inp_defdim.h
+#
+# create inpint_defdim.h #BGF unused
+  echo '#define _JCAP_ '$JCAP   >$INCDIR/inpint_defdim.h
+  echo '#define _LEVS_ '$BLEVS  >>$INCDIR/inpint_defdim.h
+  echo '#define _LONF_ '$LONF  >>$INCDIR/inpint_defdim.h
+  echo '#define _LATG_ '$LATG  >>$INCDIR/inpint_defdim.h
+  echo '#define _IGRD_ '$IGRD  >>$INCDIR/inpint_defdim.h
+  echo '#define _JGRD_ '$JGRD  >>$INCDIR/inpint_defdim.h
+  echo '#define _LEVR_ '$LEVR  >>$INCDIR/inpint_defdim.h
+  echo '#define _NCLDB_ '$NCLDB  >>$INCDIR/inpint_defdim.h
+  echo '#define _NCLD_ '$NCLD  >>$INCDIR/inpint_defdim.h
+  echo '#define _CIGRD1_ '$BCIGRD1  >>$INCDIR/inpint_defdim.h
+  echo '#define _CJGRD1_ '$BCJGRD1  >>$INCDIR/inpint_defdim.h
+#
+# create defrkn.h
+#
+/bin/rm $INCDIR/defopt.h
+touch $INCDIR/defopt.h
+if [ do$MP = doyes ] ; then  echo "#define MP"      >>$INCDIR/defopt.h ; fi
+if [ do$IBMSP = doyes ] ; then  echo "#define IBMSP"      >>$INCDIR/defopt.h ; fi
+if [ do$THREAD = doyes ] ; then  echo "#define THREAD"      >>$INCDIR/defopt.h ; fi
+if [ do$SINGLE = doyes ] ; then  echo "#define SINGLE"      >>$INCDIR/defopt.h ; fi
+if [ do$DCRFT = doyes ] ; then  echo "#define DCRFT"      >>$INCDIR/defopt.h ; fi
+if [ do$FFT99M = doyes ] ; then  echo "#define FFT99M"      >>$INCDIR/defopt.h ; fi
+if [ do$FFT99M = doyes ] ; then  echo "#define FT"      >>$INCDIR/defopt.h ; fi
+if [ do$CNT = doyes ] ; then  echo "#define CNT"      >>$INCDIR/defopt.h ; fi
+if [ do${CNT_1} = doyes ] ; then  echo "#define CNT_1"      >>$INCDIR/defopt.h ; fi
+if [ do${CNT_2} = doyes ] ; then  echo "#define CNT_2"      >>$INCDIR/defopt.h ; fi
+if [ do${CNT_3} = doyes ] ; then  echo "#define CNT_3"      >>$INCDIR/defopt.h ; fi
+if [ do${CNT_4} = doyes ] ; then  echo "#define CNT_4"      >>$INCDIR/defopt.h ; fi
+if [ do${CNT_5} = doyes ] ; then  echo "#define CNT_5"      >>$INCDIR/defopt.h ; fi
+if [ do$G2R = doyes ] ; then  echo "#define G2R"      >>$INCDIR/defopt.h ; fi
+if [ do$C2R = doyes ] ; then  echo "#define C2R"      >>$INCDIR/defopt.h ; fi
+if [ do$N2R = doyes ] ; then  echo "#define N2R"      >>$INCDIR/defopt.h ; fi
+if [ do$NONHYD = doyes ] ; then  echo "#define NONHYD"      >>$INCDIR/defopt.h ; fi
+if [ do$RKN = doyes ] ; then  echo "#define RKN"      >>$INCDIR/defopt.h ; fi
+if [ do$RAS = doyes ] ; then  echo "#define RAS"      >>$INCDIR/defopt.h ; fi
+if [ do$SAS = doyes ] ; then  echo "#define SAS"      >>$INCDIR/defopt.h ; fi
+if [ do$NSAS = doyes ] ; then  echo "#define NSAS"      >>$INCDIR/defopt.h ; fi
+if [ do$NTDK = doyes ] ; then  echo "#define NTDK"      >>$INCDIR/defopt.h ; fi
+if [ do$SCASAS = doyes ] ; then  echo "#define SCASAS"  >>$INCDIR/defopt.h ; fi
+if [ do$SAMFSAS = doyes ] ; then  echo "#define SAMFSAS"  >>$INCDIR/defopt.h ; fi
+if [ do$LTN = doyes ] ; then  echo "#define LTN"  >>$INCDIR/defopt.h ; fi
+if [ do${NEW_WSM3} = doyes ] ; then  echo "#define NEW_WSM3"  >>$INCDIR/defopt.h ; fi
+if [ do${NEW_WSM6} = doyes ] ; then  echo "#define NEW_WSM6"  >>$INCDIR/defopt.h ; fi
+if [ do$DCYC2  = doyes ] ; then  echo "#define doDCYC2"  >>$INCDIR/defopt.h ; fi
+if [ do$LSM = doyes ] ; then  echo "#define doLSM"  >>$INCDIR/defopt.h ; fi
+if [ do$NOAHLSM = doyes ] ; then  echo "#define doNOAHLSM"  >>$INCDIR/defopt.h ; fi
+if [ do$CHS = doyes ] ; then  echo "#define CHS"  >>$INCDIR/defopt.h ; fi
+if [ do$spray = doyes ] ; then  echo "#define spray"  >>$INCDIR/defopt.h ; fi
+if [ do$PROGTM = doyes ] ; then  echo "#define doPROGTM"  >>$INCDIR/defopt.h ; fi
+if [ do$wind_fitch = doyes ] ; then  echo "#define wind_fitch"  >>$INCDIR/defopt.h ; fi
+if [ do$YSU = doyes ] ; then  echo "#define doYSU"  >>$INCDIR/defopt.h ; fi
+if [ do$MONI_N = doyes ] ; then  echo "#define doMONI_N"  >>$INCDIR/defopt.h ; fi
+if [ do$MONINP = doyes ] ; then  echo "#define doMONINP"  >>$INCDIR/defopt.h ; fi
+if [ do$GWDPS = doyes ] ; then  echo "#define doGWDPS"  >>$INCDIR/defopt.h ; fi
+if [ do$do3DRT = doyes ] ; then  echo "#define do3DRT"  >>$INCDIR/defopt.h ; fi
+if [ do$OZPHYS = doyes ] ; then  echo "#define doOZPHYS"  >>$INCDIR/defopt.h ; fi
+if [ do$CONCNV = doyes ] ; then  echo "#define doCONCNV"  >>$INCDIR/defopt.h ; fi
+if [ do$SCONCNV = doyes ] ; then  echo "#define doSCONCNV"  >>$INCDIR/defopt.h ; fi
+if [ do$LRGSCL = doyes ] ; then  echo "#define doLRGSCL"  >>$INCDIR/defopt.h ; fi
+if [ do$NEW_WSM3 = doyes ] ; then  echo "#define NEW_WSM3"  >>$INCDIR/defopt.h ; fi
+if [ do$NEW_WSM6 = doyes ] ; then  echo "#define NEW_WSM6"  >>$INCDIR/defopt.h ; fi
+if [ do$PROGT2 = doyes ] ; then  echo "#define doPROGT2"  >>$INCDIR/defopt.h ; fi
+if [ do$DIFDZ = doyes ] ; then  echo "#define DIFDZ"    >>$INCDIR/defopt.h ; fi
+if [ do$RAYLEIFR = doyes ] ; then  echo "#define RAYLEIFR"  >>$INCDIR/defopt.h ; fi
+if [ do$GMTED2010 = doyes ] ; then echo "#define GMTED2010" >>$INCDIR/defopt.h ; fi
+if [ do$GTOPO30 = doyes ] ; then  echo "#define GTOPO30"    >>$INCDIR/defopt.h ; fi
+if [ do$RMTN_STUB_ONLY = doyes ] ; then echo "#define RMTN_STUB_ONLY" >>$INCDIR/defopt.h ; fi
+if [ do$SRTM1ARC = doyes ] ; then  echo "#define SRTM1ARC"   >>$INCDIR/defopt.h ; fi
+if [ do$CHGTLEV = doyes ] ; then  echo "#define CHGTLEV"      >>$INCDIR/defopt.h ; fi
+if [ do$MBC = doyes ] ; then  echo "#define MBC"      >>$INCDIR/defopt.h ; fi
+if [ do$LBC = doyes ] ; then  echo "#define LBC"      >>$INCDIR/defopt.h ; fi
+if [ do$SIGP = doyes ] ; then  echo "#define SIGP"    >>$INCDIR/defopt.h ; fi
+if [ do$ENERGYRD = doyes ] ; then  echo "#define ENERGYRD"      >>$INCDIR/defopt.h ; fi
+if [ do$INTDTB = doyes ] ; then  echo "#define INTDTB"    >>$INCDIR/defopt.h ; fi
+if [ do$HYDPHY = doyes ] ; then  echo "#define HYDPHY"    >>$INCDIR/defopt.h ; fi
+#NDSL >
+if [ do$NDSL = doyes ] ; then  echo "#define NDSL"    >>$INCDIR/defopt.h ; fi
+if [ do$NDSLDYN = doyes ] ; then  echo "#define NDSLDYN"    >>$INCDIR/defopt.h ; fi
+ echo "#define Salpha $Salpha"    >>$INCDIR/defopt.h
+ echo "#define T0SI $T0SI"        >>$INCDIR/defopt.h
+if [ do$UPDAMP = doyes ] ; then  echo "#define UPDAMP"    >>$INCDIR/defopt.h ; fi
+if [ do$DIVDIF = doyes ] ; then  echo "#define DIVDIF"    >>$INCDIR/defopt.h ; fi
+if [ do$DIVDIF = doyes ] ; then  echo "#define TSDIVDIF $TSDIVDIF"    >>$INCDIR/defopt.h ; fi
+if [ do$UPDIFF = doyes ] ; then  echo "#define UPDIFF"    >>$INCDIR/defopt.h ; fi
+if [ do$UPDIFF = doyes ] ; then  echo "#define NHDIFORD $NHDIFORD"   >>$INCDIR/defopt.h ; fi
+if [ do$UPDIFF = doyes ] ; then  echo "#define LEVTOP $LEVTOP"       >>$INCDIR/defopt.h ; fi
+if [ do$DIFFSW = doyes ] ; then  echo "#define DIFFSW"    >>$INCDIR/defopt.h ; fi
+if [ do$SECDIFF = doyes ] ; then  echo "#define SECDIFF"    >>$INCDIR/defopt.h ; fi
+if [ do$NEWLTB = doyes ] ; then  echo "#define NEWLTB"    >>$INCDIR/defopt.h ; fi
+if [ do$STPLTB = doyes ] ; then  echo "#define STPLTB"    >>$INCDIR/defopt.h ; fi
+if [ do$DOINDEX = doyes ] ; then  echo "#define DOINDEX"    >>$INCDIR/defopt.h ; fi
+if [ do$HYDOT = doyes ] ; then  echo "#define HYDOT"    >>$INCDIR/defopt.h ; fi
+if [ do$wwEU = doyes ] ; then  echo "#define wwEU"    >>$INCDIR/defopt.h ; fi
+if [ do$MULPHYS = doyes ] ; then  echo "#define MULPHYS"    >>$INCDIR/defopt.h ; fi
+if [ do$MULPHYS = doyes ] ; then  echo "#define NPHYS $NPHYS"    >>$INCDIR/defopt.h ; fi
+if [ do$NDSLPPM = doyes ] ; then  echo "#define NDSLPPM"    >>$INCDIR/defopt.h ; fi
+if [ do$NDSLPPMV = doyes ] ; then  echo "#define NDSLPPMV"    >>$INCDIR/defopt.h ; fi
+if [ do$dediff = doyes ] ; then  echo "#define dediff"    >>$INCDIR/defopt.h ; fi
+#NDSL <
+if [ do$SQK = doyes ] ; then  echo "#define SQK"      >>$INCDIR/defopt.h ; fi
+if [ do$SPT = doyes ] ; then  echo "#define SPT"      >>$INCDIR/defopt.h ; fi
+if [ do$KEO = doyes ] ; then  echo "#define KEout"      >>$INCDIR/defopt.h ; fi
+if [ do$CWB_MPMD = doyes ] ; then echo "#define CWB_MPMD"  >>$INCDIR/defopt.h ; fi  
+if [ do$CWB_CFS = doyes ] ; then echo "#define CWB_CFS"  >>$INCDIR/defopt.h ; fi
+if [ do$CPL_TIMCOM = doyes ] ; then echo "#define CPL_TIMCOM" >>$INCDIR/defopt.h ; fi
+if [ do$CWBSUM = doyes ] ; then echo "#define CWBSUM"  >>$INCDIR/defopt.h ; fi
+if [ $MACHINE = Fujitsu_fx10 ]||[ $MACHINE = Fujitsu_fx100 ]||[ $MACHINE = Fujitsu_fx1000 ] ; then echo "#define __FUJITSU"  >>$INCDIR/defopt.h ; fi 
+if [ $MACHINE = linux_intel ] ; then echo "#define __INTEL_COMPILER"  >>$INCDIR/defopt.h ; fi  
+if [ do$LAMMPI = doyes ] ; then
+    echo "#define MPIREAL mpi_real"      >>$INCDIR/defopt.h
+    echo "#define MPIKIND 4"      	>>$INCDIR/defopt.h
+fi
+if [ do$MPICH = doyes ] ; then
+    echo "#define MPIREAL mpi_real8"      >>$INCDIR/defopt.h
+    echo "#define MPIKIND 8"      	>>$INCDIR/defopt.h 
+fi
+#
+# create ncpu.h
+#
+echo 'creating ncpu.h'
+echo "      integer ncpu"            >$INCDIR/ncpu.h
+echo "      parameter(ncpu=$NCPUS)" >>$INCDIR/ncpu.h
+#
+# create npesi.h and ncolrowi.h
+#
+if [ do$MP = doyes -o do$HYBRID = doyes ] ; then
+  echo 'creating npesi.h'
+  echo "      integer npesi"           >$INCDIR/npesi.h
+  echo "      parameter(npesi=$NPES)" >>$INCDIR/npesi.h
+  echo 'creating ncolrowi.h'
+  echo "      integer ncoli,nrowi"     >$INCDIR/ncolrowi.h
+  echo "      parameter(ncoli=$NCOL)" >>$INCDIR/ncolrowi.h
+  echo "      parameter(nrowi=$NROW)" >>$INCDIR/ncolrowi.h
+fi
+#
+echo $CMPDIR
+cd $CMPDIR || exit
+set +x
+##### compile non-MPI process
+  echo "#undef MP"      >>$INCDIR/defopt.h
+  echo "#define SINGLE" >>$INCDIR/defopt.h
+  echo "#undef THREAD"  >>$INCDIR/defopt.h
+  echo "#undef HYBRID"  >>$INCDIR/defopt.h
+  cp $INCDIR/defopt.h $INCDIR/inp_defopt.h
+
+#yj######### RINP is merged into the FCST part in mpmd version ###########
+#yj#if [ $RINP = yes ];then
+##################  RINP ####################
+#yj#echo "######  compile global sigma input from global to regional #####"
+#yj#cd $CMPDIR
+#yj#mkdir -p cmp_rinp 
+#yj#cd cmp_rinp || exit
+
+set -x
+#yj#cd $SRCDIR/rsm_rinp.fd  && tar cvf $CMPDIR/cmp_rinp/$$tmp Make* *.F *.h
+#yj#echo "after create tar file"
+#yj#cd $CMPDIR/cmp_rinp
+#yj#tar xvf $$tmp 
+#yj#echo "after untar tar file"
+#yj#rm -rf $$tmp
+#yj#cp -f $INCDIR/*.h  .|| exit   
+#yj#make -f Makefile_rinp  || exit
+#yj#cp rinp.x $EXPEXE/.
+############# end of RINP ########
+#yj#fi
+
+##
+if [ $RLSMDATA = yes ];then
+echo "before rlsmdata"
+##################  RLSMDATA ####################
+echo "######  compile regional land surface data ####"
+cd $CMPDIR
+mkdir -p cmp_rlsmdata
+cd cmp_rlsmdata || exit
+
+set -x
+ cd $SRCDIR/rsm_rlsmdata.fd && tar cvf $CMPDIR/cmp_rlsmdata/$$tmp Make* *.F *.h
+echo "after create tar file"
+cd $CMPDIR/cmp_rlsmdata
+tar xvf $$tmp 
+echo "after untar tar file"
+rm -rf $$tmp
+cp -f $INCDIR/*.h . || exit
+make -f Makefile_rlsmdata clean || exit
+make -f Makefile_rlsmdata  || exit
+cp rlsmdata.x $EXPEXE/rlsmdata.x
+
+############# end of RLSMDATA ########
+echo " finish rlsmdata"
+fi
+
+##
+if [ $R3DRTDATA = yes ];then
+##################  R3DRTDATA ####################
+echo "######  compile regional 3DRT data ####"
+cd $CMPDIR
+mkdir -p cmp_r3drtdata
+cd cmp_r3drtdata || exit
+
+set -x
+ cd $SRCDIR/rsm_3drt.fd && tar cvf $CMPDIR/cmp_r3drtdata/$$tmp Make* *.F *.h
+echo "after create tar file"
+cd $CMPDIR/cmp_r3drtdata
+tar xvf $$tmp 
+echo "after untar tar file"
+rm -rf $$tmp
+cp -f $INCDIR/*.h . || exit
+make -f Makefile_3drt clean || exit
+make -f Makefile_3drt || exit
+cp r3drtdata.x $EXPEXE/r3drtdata.x
+
+############# end of R3DRTDATA ########
+echo " finish r3drtdata"
+fi
+##
+
+echo "before rmtn"
+if [ $RMTN = yes ];then
+##################  RMTN ####################
+echo "######  compile regional mountain ####"
+cd $CMPDIR
+mkdir -p cmp_rmtn 
+cd cmp_rmtn || exit
+
+set -x
+ cd $SRCDIR/rsm_rmtn.fd && tar cvf $CMPDIR/cmp_rmtn/$$tmp Make* *.F *.h
+echo "after create tar file"
+cd $CMPDIR/cmp_rmtn
+tar xvf $$tmp 
+echo "after untar tar file"
+rm -rf $$tmp
+cp -f $INCDIR/*.h . || exit
+make -f Makefile_rmtn clean || exit
+make -f Makefile_rmtn  || exit
+cp rmtn.x $EXPEXE/rmtn_init.x
+
+#yj==note== the *.h files in rmtn is the same as inp_*.h for base ===
+mv inp_defdim.h defdim.h
+mv inp_defopt.h defopt.h
+if [ $SRTM1ARC = yes ]; then
+  sed -i 's/SRTM1ARC/GTOPO30/g' defopt.h
+fi
+make -f Makefile_rmtn clean || exit
+make -f Makefile_rmtn  || exit
+cp rmtn.x $EXPEXE/rmtn_base.x
+
+############# end of RMTN ########
+fi
+##
+
+echo " finish rmtn"
+#exit
+
+if [ $RSMTERRAIN = yes ]; then
+    echo "Compiling rsm terrain (mtnlm7_slm30g)"
+
+    cd "$CMPDIR" || exit
+    rm -frv cmp_rsm_terrain && mkdir -pv cmp_rsm_terrain && cd cmp_rsm_terrain || exit
+
+    cp -arv "$SRCDIR/rsm_terrain.fd/"* . || exit
+    make -f Makefile_slm30g_rsm clean    || exit
+    make -f Makefile_slm30g_rsm          || exit
+    cp -av  mtnlm7_slm30g.exe "$EXPEXE"  || exit
+
+    echo "Finished compiling rsm terrain (mtnlm7_slm30g)"
+fi
+
+# compile muplitple process last
+if [ $FCST = yes ];then
+  tac $INCDIR/defopt.h | sed "1,4{d}" | tac > $INCDIR/tmpdefopt.h
+  mv $INCDIR/tmpdefopt.h $INCDIR/defopt.h
+####################### FCST #########################
+echo "###### compile nested model (t$RESGSM ) #####"
+cd $CMPDIR || exit
+mkdir -p cmp_rsm_4cpl
+cd cmp_rsm_4cpl || exit
+
+#------edit rsm-------------------
+set -x 
+cd $SRCDIR/rsm_fcst_4cpl.fd && tar cvf $CMPDIR/cmp_rsm_4cpl/$$tmp Mak* *.F *.h *.f
+echo "after create tar file"
+cd $CMPDIR/cmp_rsm_4cpl
+tar xvf $$tmp 
+echo "after untar tar file"
+rm -rf $$tmp
+cp -f $SRCDIR/rsm_fcst_4cpl.fd/*.h . || exit
+cp -f $INCDIR/* . || exit
+
+make -f Makefile clean || exit 
+make -f Makefile lib_4cpl   || exit 
+
+cp librsm4cpl.a $EXPEXE/.
+fi
+
+
+cd $EXPEXE
+ls -l
+
+echo "NORMAL END"
+
+exit

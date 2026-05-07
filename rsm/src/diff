@@ -1,0 +1,1364 @@
+Only in ../../tco_timcom/rsm/src/rsm_fcst.fd: .gwdps.f.swp
+diff rsm_fcst.fd/Makefile ../../tco_timcom/rsm/src/rsm_fcst.fd/Makefile
+5c5
+< RM = rm -f
+---
+> RM = rm
+9,11d8
+< RANLIB = ranlib
+< AR = ar cq
+< 
+68c65
+<         sreadwav.o swritewav.o writebase.o readbase.o rmpbf2p.o rmpbp2f.o rsm_cpl_init.o rsm_cpl_send2rocn.o rsm_cpl_recv4rocn.o
+---
+>         sreadwav.o swritewav.o writebase.o readbase.o rmpbf2p.o rmpbp2f.o
+79c76
+< 	gscond_nsas.o precpd_nsas.o rgwdps.o mstcnv.o gsmdrive.o \
+---
+> 	gscond_nsas.o precpd_nsas.o gwdps.o mstcnv.o gsmdrive.o \
+122,138d118
+< lib_4cpl: librsm4cpl.a
+< lib_2cpl: librsm2cpl.a
+< 
+< librsm4cpl.a: ${OBJS}
+< 	@echo
+< 	@echo '==== LINK ===================================================='
+< 	$(RM) $(@)
+< 	$(AR) $(@) $(OBJS)
+< 	$(RANLIB) $(@)
+< librsm2cpl.a: ${OBJS}
+< 	@echo
+< 	@echo '==== LINK ===================================================='
+< 	$(RM) $(@)
+< 	$(AR) $(@) $(OBJS)
+< 	$(RANLIB) $(@)
+< 
+< 
+143c123
+< 	rm -f *.o *.x *.$(F_SUBF) *.mod core *.lst 
+---
+> 	rm -f *.o *.x *.$(F_SUBF) *.mod core *.lst
+149c129
+< 	sed -e '/^\/\*/,/\*\/$$/d' -e '/^ *$$/d' $*.i >$*.$(F_SUBF) ; rm $*.i 
+---
+> 	sed -e '/^\/\*/,/\*\/$$/d' -e '/^ *$$/d' $*.i >$*.$(F_SUBF) ; rm $*.i
+153c133
+< 	sed -e '/^\/\*/,/\*\/$$/d' -e '/^ *$$/d' -e 's/MPI_COMM_WORLD/mpi_comm_rsm/Ig' -e 's/use machine/use rmachine/Ig' -e 's/use physcons/use rphyscons/Ig' -e 's/use funcphys/use rfuncphys/Ig' $*.i >$*.$(F_SUBF) ; rm $*.i
+---
+> 	sed -e '/^\/\*/,/\*\/$$/d' -e '/^ *$$/d' $*.i >$*.$(F_SUBF) ; rm $*.i
+Only in rsm_fcst.fd: Makefile_exe
+diff rsm_fcst.fd/bl_ysu.f ../../tco_timcom/rsm/src/rsm_fcst.fd/bl_ysu.f
+10c10
+<       subroutine rysu2d(ux,vx,tx,qxt,p2d,p2di,prslk,psk,                 &
+---
+>       subroutine ysu2d(ux,vx,tx,qxt,p2d,p2di,prslk,psk,                 &
+22,23c22,23
+<       use rmachine  , only : kind_phys
+<       use rphyscons, g=>con_g, rd=>con_rd, rv=>con_rv, cp=>con_cp,       &
+---
+>       use machine  , only : kind_phys
+>       use physcons, g=>con_g, rd=>con_rd, rv=>con_rv, cp=>con_cp,       &
+1217c1217
+<         end subroutine rysu2d
+---
+>         end subroutine ysu2d
+diff rsm_fcst.fd/cmp.comm.F ../../tco_timcom/rsm/src/rsm_fcst.fd/cmp.comm.F
+49d48
+< #ifdef CWB_CFS
+647d645
+< #endif
+Only in rsm_fcst.fd: cmp.comm.i2
+Only in rsm_fcst.fd: cmp_comm.mod
+Only in rsm_fcst.fd: cnttime.mod
+Only in rsm_fcst.fd: comcd1.mod
+diff rsm_fcst.fd/dcyc2t3.F ../../tco_timcom/rsm/src/rsm_fcst.fd/dcyc2t3.F
+2c2
+<       subroutine rdcyc2t3(im,ix,levs,solhr,slag,                         &
+---
+>       subroutine dcyc2t3(im,ix,levs,solhr,slag,                         &
+diff rsm_fcst.fd/fft99m.F ../../tco_timcom/rsm/src/rsm_fcst.fd/fft99m.F
+148c148
+<       subroutine rfftfax (n,ifax,trigs)
+---
+>       subroutine fftfax (n,ifax,trigs)
+diff rsm_fcst.fd/funcphys.F ../../tco_timcom/rsm/src/rsm_fcst.fd/funcphys.F
+2c2
+<       module rfuncphys
+---
+>       module funcphys
+2914c2914
+<       end module rfuncphys
+---
+>       end module funcphys
+diff rsm_fcst.fd/get_phi.F ../../tco_timcom/rsm/src/rsm_fcst.fd/get_phi.F
+1c1
+<       subroutine rget_phi(im,ix,levs,cp,nu,t,q,prki,prkl,phii,phil)
+---
+>       subroutine get_phi(im,ix,levs,cp,nu,t,q,prki,prkl,phii,phil)
+diff rsm_fcst.fd/getclds.F ../../tco_timcom/rsm/src/rsm_fcst.fd/getclds.F
+141c141
+<       call cldjms(ix, im, levs, nbin, mcld, lcldf,                            &
+---
+>       call cldjms(ix, im, levs, nbin, mcld, lcldf,                      &
+diff rsm_fcst.fd/gscond.F ../../tco_timcom/rsm/src/rsm_fcst.fd/gscond.F
+1c1
+<       subroutine rgscond (im,ix,km,dt,prsl,ps,q,cwm,t                     &   
+---
+>       subroutine gscond (im,ix,km,dt,prsl,ps,q,cwm,t                     &   
+diff rsm_fcst.fd/gsmdrive.F ../../tco_timcom/rsm/src/rsm_fcst.fd/gsmdrive.F
+89c89
+<       use rmodule_microphysics , only : gsmcolumn
+---
+>       use module_microphysics , only : gsmcolumn
+Only in rsm_fcst.fd: hcon.mod
+Only in rsm_fcst.fd: istack.mod
+diff rsm_fcst.fd/machine.F ../../tco_timcom/rsm/src/rsm_fcst.fd/machine.F
+1c1
+<       module rmachine
+---
+>       module machine
+14c14
+<       end module rmachine
+---
+>       end module machine
+diff rsm_fcst.fd/mainrsmf_mrg.F ../../tco_timcom/rsm/src/rsm_fcst.fd/mainrsmf_mrg.F
+2c2
+<       subroutine mainrsmf_mrg(compid, mpi_comm_mct)
+---
+>        program mainrsmf_mrg
+49d48
+<       integer, intent(in) :: compid, mpi_comm_mct
+54c53
+<       integer iclim, ierr
+---
+>       integer iclim
+57d55
+<       real*8 time_stamp, time_spend
+65d62
+<       mpi_comm_rsm = mpi_comm_mct
+67,69d63
+<       root_gfs = 0
+<       if(mype.eq.master) write(*,*) "[RSM] check root_gfs: ", root_gfs
+<       call rsm_cpl_init(compid)
+158,161d151
+< #ifdef CPL_TIMCOM
+<       !call tai_timcom_initialize(mpi_comm_rsm)
+<       if(mype.eq.0) print*, 'check tai_timcom init:', cpl_kdt, cpl_time
+< #endif
+222,223c212
+<         time_stamp = MPI_WTIME()
+< #if defined (CWB_MPMD) || defined (CWBSUM)       
+---
+> #ifdef CWB_MPMD        
+238,242d226
+<         time_spend = MPI_WTIME() - time_stamp
+<         call MPI_ALLREDUCE(time_spend, time_stamp, 1, MPI_REAL8, MPI_MAX, mpi_comm_rsm, ierr)
+<         if(mype.eq.master) then
+<           write(*,'(a,f8.1,a)') '[RSM] recv gfs spends: ', time_stamp, "sec, surf on"
+<         end if
+250,251c234
+<         time_stamp = MPI_WTIME()
+< #if defined (CWB_MPMD) || defined (CWBSUM)        
+---
+> #ifdef CWB_MPMD        
+266,270d248
+<         time_spend = MPI_WTIME() - time_stamp
+<         call MPI_ALLREDUCE(time_spend, time_stamp, 1, MPI_REAL8, MPI_MAX, mpi_comm_rsm, ierr)
+<         if(mype.eq.master) then
+<           write(*,'(a,f8.1,a)') '[RSM] recv gfs spends: ', time_stamp, "sec, surf off"
+<         end if
+334c312
+<         call rsmsmf(fhnxt,compid)
+---
+>         call rsmsmf(fhnxt)
+396c374
+< !c    stop
+---
+>       stop
+diff rsm_fcst.fd/mfpbl.f ../../tco_timcom/rsm/src/rsm_fcst.fd/mfpbl.f
+52c52
+<       subroutine rmfpbl(im,ix,km,ntrac,delt,cnvflg,
+---
+>       subroutine mfpbl(im,ix,km,ntrac,delt,cnvflg,
+56,57c56,57
+<       use rmachine , only : kind_phys
+<       use rphyscons, g => con_g, cp => con_cp
+---
+>       use machine , only : kind_phys
+>       use physcons, g => con_g, cp => con_cp
+diff rsm_fcst.fd/micro_init.F ../../tco_timcom/rsm/src/rsm_fcst.fd/micro_init.F
+8c8
+<       use rmodule_microphysics , only : gsmconst
+---
+>       use module_microphysics , only : gsmconst
+Only in rsm_fcst.fd: mo_constants.mod
+Only in rsm_fcst.fd: mo_cumulus_flux.mod
+Only in rsm_fcst.fd: mod_rndsl.mod
+diff rsm_fcst.fd/module_bfmicrophysics.F ../../tco_timcom/rsm/src/rsm_fcst.fd/module_bfmicrophysics.F
+1c1
+<       module rmodule_microphysics
+---
+>       module module_microphysics
+2864c2864
+<       end module rmodule_microphysics
+---
+>       end module module_microphysics
+diff rsm_fcst.fd/module_gfsdata.F ../../tco_timcom/rsm/src/rsm_fcst.fd/module_gfsdata.F
+68c68
+<       if (ierr/=0) stop "module_gfsdata: allocate horizontal vars error"
+---
+>         if (ierr/=0) stop "module_gfsdata: allocate horizontal vars error"
+112c112
+< #if defined (CWB_MPMD) || defined (CWBSUM)
+---
+> #ifdef CWB_MPMD
+Only in rsm_fcst.fd: module_gfsdata.mod
+diff rsm_fcst.fd/module_mp_radar.F ../../tco_timcom/rsm/src/rsm_fcst.fd/module_mp_radar.F
+23c23
+<        MODULE rmodule_mp_radar
+---
+>        MODULE module_mp_radar
+613c613
+<       END MODULE rmodule_mp_radar
+---
+>       END MODULE module_mp_radar
+diff rsm_fcst.fd/module_mp_wsm3.F ../../tco_timcom/rsm/src/rsm_fcst.fd/module_mp_wsm3.F
+14c14
+< MODULE rmodule_mp_wsm3
+---
+> MODULE module_mp_wsm3
+1598c1598
+< END MODULE rmodule_mp_wsm3
+---
+> END MODULE module_mp_wsm3
+Only in rsm_fcst.fd: module_mp_wsm5.mod
+diff rsm_fcst.fd/module_mp_wsm6_fv3.F ../../tco_timcom/rsm/src/rsm_fcst.fd/module_mp_wsm6_fv3.F
+9c9
+< MODULE rmodule_mp_wsm6
+---
+> MODULE module_mp_wsm6
+11c11
+<    USE rmodule_mp_radar
+---
+>    USE module_mp_radar
+2649c2649
+< END MODULE rmodule_mp_wsm6
+---
+> END MODULE module_mp_wsm6
+Only in rsm_fcst.fd: module_progtm.mod
+Only in rsm_fcst.fd: module_radlw_cntr_para.mod
+Only in rsm_fcst.fd: module_radsw_parameters.mod
+Only in rsm_fcst.fd: module_ras.mod
+Only in rsm_fcst.fd: module_rascnv.mod
+Only in rsm_fcst.fd: module_rinpbase.mod
+Only in rsm_fcst.fd: module_rinpinit.mod
+Only in rsm_fcst.fd: module_surfacealbedo.mod
+Only in rsm_fcst.fd: module_wind_fitch.mod
+diff rsm_fcst.fd/moninedmf.f ../../tco_timcom/rsm/src/rsm_fcst.fd/moninedmf.f
+87c87
+<       subroutine rmoninedmf(ix,im,km,ntrac,ntcw,dv,du,tau,rtg,
+---
+>       subroutine moninedmf(ix,im,km,ntrac,ntcw,dv,du,tau,rtg,
+95,96c95,96
+<       use rmachine  , only : kind_phys
+<       use rphyscons, grav => con_g, rd => con_rd, cp => con_cp,
+---
+>       use machine  , only : kind_phys
+>       use physcons, grav => con_g, rd => con_rd, cp => con_cp,
+854c854
+<       call rmfpbl(im,ix,km,ntrac,dt2,pcnvflg,
+---
+>       call mfpbl(im,ix,km,ntrac,dt2,pcnvflg,
+1182c1182
+<       use rmachine     , only : kind_phys
+---
+>       use machine     , only : kind_phys
+1225c1225
+<       use rmachine     , only : kind_phys
+---
+>       use machine     , only : kind_phys
+Only in rsm_fcst.fd: mpi_def.mod
+diff rsm_fcst.fd/mpi_more.F ../../tco_timcom/rsm/src/rsm_fcst.fd/mpi_more.F
+6d5
+< #ifdef CWB_CFS
+12d10
+< #endif
+Only in rsm_fcst.fd: namelist_soilveg.F
+Only in ../../tco_timcom/rsm/src/rsm_fcst.fd: namelist_soilveg.f
+diff rsm_fcst.fd/npesi.h ../../tco_timcom/rsm/src/rsm_fcst.fd/npesi.h
+2c2
+<       parameter(npesi=432)
+---
+>       parameter(npesi=384)
+diff rsm_fcst.fd/paramodel.h ../../tco_timcom/rsm/src/rsm_fcst.fd/paramodel.h
+24c24
+<       integer num_p3d,num_p2d
+---
+>       integer num_p3d,num_p2d,nmmiph
+81a82
+> !     parameter(nmmiph  = 2)
+86a88
+> !     parameter(nmmiph  = 3)
+89c91,101
+< 
+---
+> !
+> !     for new wsm6 microphysics
+> !     parameter(nmmiph  = 6)
+> !     parameter(num_p3d = 3)
+> !     parameter(num_p2d = 1)
+> !
+> !     for GFDL microphysics
+> !     parameter(nmmiph  = 11)
+> !     parameter(num_p3d = 5)
+> !     parameter(num_p2d = 1)
+> !
+91a104
+>       parameter(nmmiph  = _NMMIPH_ )
+diff rsm_fcst.fd/physcons.F ../../tco_timcom/rsm/src/rsm_fcst.fd/physcons.F
+1c1
+<       module rphyscons
+---
+>       module physcons
+118c118
+<       end module rphyscons                !
+---
+>       end module physcons                !
+diff rsm_fcst.fd/physics_module.F ../../tco_timcom/rsm/src/rsm_fcst.fd/physics_module.F
+191c191
+<       call rset_soilveg(me, isot, ivegsrc, idummy)
+---
+>       call set_soilveg(me, isot, ivegsrc, idummy)
+Only in rsm_fcst.fd: physics_module.mod
+diff rsm_fcst.fd/precpd.F ../../tco_timcom/rsm/src/rsm_fcst.fd/precpd.F
+1c1
+<        subroutine rprecpd (im,ix,km,dt,del,prsl,ps,q,cwm,t,rn             &  
+---
+>        subroutine precpd (im,ix,km,dt,del,prsl,ps,q,cwm,t,rn             &  
+diff rsm_fcst.fd/radiation_module.F ../../tco_timcom/rsm/src/rsm_fcst.fd/radiation_module.F
+16c16
+<       use rmodule_radlw_main,  only : rlwinit
+---
+>       use module_radlw_main,  only : rlwinit
+Only in rsm_fcst.fd: radiation_module.mod
+diff rsm_fcst.fd/radlw_rrtm_datatb.F ../../tco_timcom/rsm/src/rsm_fcst.fd/radlw_rrtm_datatb.F
+76c76
+<       module rmodule_radlw_avplank        !
+---
+>       module module_radlw_avplank        !
+80c80
+<       use rmodule_radlw_parameters, only : nplnk, nbands
+---
+>       use module_radlw_parameters, only : nplnk, nbands
+746c746
+<       end module rmodule_radlw_avplank    !
+---
+>       end module module_radlw_avplank    !
+752c752
+<       module rmodule_radlw_cldprlw        !
+---
+>       module module_radlw_cldprlw        !
+756c756
+<       use rmodule_radlw_parameters, only : nbands
+---
+>       use module_radlw_parameters, only : nbands
+1151c1151
+<       end module rmodule_radlw_cldprlw    !
+---
+>       end module module_radlw_cldprlw    !
+1157c1157
+<       module rmodule_radlw_kgb01          !
+---
+>       module module_radlw_kgb01          !
+1178c1178
+<       use rmodule_radlw_parameters, only : ng01
+---
+>       use module_radlw_parameters, only : ng01
+1754c1754
+<       end module rmodule_radlw_kgb01      !
+---
+>       end module module_radlw_kgb01      !
+1760c1760
+<       module rmodule_radlw_kgb02          !
+---
+>       module module_radlw_kgb02          !
+1764c1764
+<       use rmodule_radlw_parameters, only : ng02
+---
+>       use module_radlw_parameters, only : ng02
+2784c2784
+<       end module rmodule_radlw_kgb02      !
+---
+>       end module module_radlw_kgb02      !
+2790c2790
+<       module rmodule_radlw_kgb03          !
+---
+>       module module_radlw_kgb03          !
+2794c2794
+<       use rmodule_radlw_parameters, only : ng03
+---
+>       use module_radlw_parameters, only : ng03
+8942c8942
+<       end module rmodule_radlw_kgb03      !
+---
+>       end module module_radlw_kgb03      !
+8948c8948
+<       module rmodule_radlw_kgb04          !
+---
+>       module module_radlw_kgb04          !
+8952c8952
+<       use rmodule_radlw_parameters, only : ng04
+---
+>       use module_radlw_parameters, only : ng04
+14767c14767
+<       end module rmodule_radlw_kgb04      !
+---
+>       end module module_radlw_kgb04      !
+14773c14773
+<       module rmodule_radlw_kgb05          !
+---
+>       module module_radlw_kgb05          !
+14777c14777
+<       use rmodule_radlw_parameters, only : ng05
+---
+>       use module_radlw_parameters, only : ng05
+20760c20760
+<       end module rmodule_radlw_kgb05      !
+---
+>       end module module_radlw_kgb05      !
+20766c20766
+<       module rmodule_radlw_kgb06          !
+---
+>       module module_radlw_kgb06          !
+20770c20770
+<       use rmodule_radlw_parameters, only : ng06
+---
+>       use module_radlw_parameters, only : ng06
+20964c20964
+<       end module rmodule_radlw_kgb06      !
+---
+>       end module module_radlw_kgb06      !
+20970c20970
+<       module rmodule_radlw_kgb07          !
+---
+>       module module_radlw_kgb07          !
+20974c20974
+<       use rmodule_radlw_parameters, only : ng07
+---
+>       use module_radlw_parameters, only : ng07
+23138c23138
+<       end module rmodule_radlw_kgb07      !
+---
+>       end module module_radlw_kgb07      !
+23144c23144
+<       module rmodule_radlw_kgb08          !
+---
+>       module module_radlw_kgb08          !
+23148c23148
+<       use rmodule_radlw_parameters, only : ng08
+---
+>       use module_radlw_parameters, only : ng08
+23801c23801
+<       end module rmodule_radlw_kgb08      !
+---
+>       end module module_radlw_kgb08      !
+23807c23807
+<       module rmodule_radlw_kgb09          !
+---
+>       module module_radlw_kgb09          !
+23811c23811
+<       use rmodule_radlw_parameters, only : ng09
+---
+>       use module_radlw_parameters, only : ng09
+26316c26316
+<       end module rmodule_radlw_kgb09      !
+---
+>       end module module_radlw_kgb09      !
+26322c26322
+<       module rmodule_radlw_kgb10          !
+---
+>       module module_radlw_kgb10          !
+26326c26326
+<       use rmodule_radlw_parameters, only : ng10
+---
+>       use module_radlw_parameters, only : ng10
+26755c26755
+<       end module rmodule_radlw_kgb10      !
+---
+>       end module module_radlw_kgb10      !
+26761c26761
+<       module rmodule_radlw_kgb11          !
+---
+>       module module_radlw_kgb11          !
+26765c26765
+<       use rmodule_radlw_parameters, only : ng11
+---
+>       use module_radlw_parameters, only : ng11
+27353c27353
+<       end module rmodule_radlw_kgb11      !
+---
+>       end module module_radlw_kgb11      !
+27359c27359
+<       module rmodule_radlw_kgb12          !
+---
+>       module module_radlw_kgb12          !
+27363c27363
+<       use rmodule_radlw_parameters, only : ng12
+---
+>       use module_radlw_parameters, only : ng12
+28412c28412
+<       end module rmodule_radlw_kgb12      !
+---
+>       end module module_radlw_kgb12      !
+28418c28418
+<       module rmodule_radlw_kgb13          !
+---
+>       module module_radlw_kgb13          !
+28422c28422
+<       use rmodule_radlw_parameters, only : ng13
+---
+>       use module_radlw_parameters, only : ng13
+28966c28966
+<       end module rmodule_radlw_kgb13      !
+---
+>       end module module_radlw_kgb13      !
+28972c28972
+<       module rmodule_radlw_kgb14          !
+---
+>       module module_radlw_kgb14          !
+28976c28976
+<       use rmodule_radlw_parameters, only : ng14
+---
+>       use module_radlw_parameters, only : ng14
+29158c29158
+<       end module rmodule_radlw_kgb14      !
+---
+>       end module module_radlw_kgb14      !
+29164c29164
+<       module rmodule_radlw_kgb15          !
+---
+>       module module_radlw_kgb15          !
+29168c29168
+<       use rmodule_radlw_parameters, only : ng15
+---
+>       use module_radlw_parameters, only : ng15
+29460c29460
+<       end module rmodule_radlw_kgb15      !
+---
+>       end module module_radlw_kgb15      !
+29466c29466
+<       module rmodule_radlw_kgb16          !
+---
+>       module module_radlw_kgb16          !
+29470c29470
+<       use rmodule_radlw_parameters, only : ng16
+---
+>       use module_radlw_parameters, only : ng16
+29762c29762
+<       end module rmodule_radlw_kgb16      !
+---
+>       end module module_radlw_kgb16      !
+diff rsm_fcst.fd/radlw_rrtm_main.F ../../tco_timcom/rsm/src/rsm_fcst.fd/radlw_rrtm_main.F
+115c115
+<       module rmodule_radlw_main           !
+---
+>       module module_radlw_main           !
+119c119
+<       use rmodule_radlw_parameters, only : nbands, ngpt, n5000, n200
+---
+>       use module_radlw_parameters, only : nbands, ngpt, n5000, n200
+374c374
+<       use rmodule_radlw_parameters
+---
+>       use module_radlw_parameters
+824c824
+<       use rmodule_radlw_parameters,  only : n5000, n200
+---
+>       use module_radlw_parameters,  only : n5000, n200
+841c841
+<       
+---
+> 
+857c857
+<       
+---
+> 
+894c894
+<       
+---
+> 
+910c910
+<       
+---
+> 
+987c987
+<       use rmodule_radlw_parameters, only : nbands
+---
+>       use module_radlw_parameters, only : nbands
+989c989
+<       use rmodule_radlw_cldprlw
+---
+>       use module_radlw_cldprlw
+1136,1137c1136,1137
+<       use rmodule_radlw_parameters,  only : nplnk, nbands, ngpt
+<       use rmodule_radlw_avplank
+---
+>       use module_radlw_parameters,  only : nplnk, nbands, ngpt
+>       use module_radlw_avplank
+1447d1446
+<       write(*,*) "check rtrn0:", l, factot
+1458c1457
+<       write(*,*) "check rtrn1:"
+---
+> 
+1510,1511c1509,1510
+<       use rmodule_radlw_parameters,  only : nplnk, nbands, ngpt
+<       use rmodule_radlw_avplank
+---
+>       use module_radlw_parameters,  only : nplnk, nbands, ngpt
+>       use module_radlw_avplank
+2173c2172
+<       use rmodule_radlw_parameters
+---
+>       use module_radlw_parameters
+2263,2264c2262,2263
+<       use rmodule_radlw_parameters, only : ng01
+<       use rmodule_radlw_kgb01
+---
+>       use module_radlw_parameters, only : ng01
+>       use module_radlw_kgb01
+2318,2319c2317,2318
+<       use rmodule_radlw_parameters, only : ng02, ns02
+<       use rmodule_radlw_kgb02
+---
+>       use module_radlw_parameters, only : ng02, ns02
+>       use module_radlw_kgb02
+2408,2409c2407,2408
+<       use rmodule_radlw_parameters, only : ng03, ns03
+<       use rmodule_radlw_kgb03
+---
+>       use module_radlw_parameters, only : ng03, ns03
+>       use module_radlw_kgb03
+2558,2559c2557,2558
+<       use rmodule_radlw_parameters, only : ng04, ns04
+<       use rmodule_radlw_kgb04
+---
+>       use module_radlw_parameters, only : ng04, ns04
+>       use module_radlw_kgb04
+2691,2692c2690,2691
+<       use rmodule_radlw_parameters, only : ng05, ns05
+<       use rmodule_radlw_kgb05
+---
+>       use module_radlw_parameters, only : ng05, ns05
+>       use module_radlw_kgb05
+2804,2805c2803,2804
+<       use rmodule_radlw_parameters, only : ng06, ns06
+<       use rmodule_radlw_kgb06
+---
+>       use module_radlw_parameters, only : ng06, ns06
+>       use module_radlw_kgb06
+2857,2858c2856,2857
+<       use rmodule_radlw_parameters, only : ng07, ns07
+<       use rmodule_radlw_kgb07
+---
+>       use module_radlw_parameters, only : ng07, ns07
+>       use module_radlw_kgb07
+2958,2959c2957,2958
+<       use rmodule_radlw_parameters, only : ng08, ns08
+<       use rmodule_radlw_kgb08
+---
+>       use module_radlw_parameters, only : ng08, ns08
+>       use module_radlw_kgb08
+3034,3035c3033,3034
+<       use rmodule_radlw_parameters, only : ng09, ns09
+<       use rmodule_radlw_kgb09
+---
+>       use module_radlw_parameters, only : ng09, ns09
+>       use module_radlw_kgb09
+3158,3159c3157,3158
+<       use rmodule_radlw_parameters, only : ng10, ns10
+<       use rmodule_radlw_kgb10
+---
+>       use module_radlw_parameters, only : ng10, ns10
+>       use module_radlw_kgb10
+3211,3212c3210,3211
+<       use rmodule_radlw_parameters, only : ng11, ns11
+<       use rmodule_radlw_kgb11
+---
+>       use module_radlw_parameters, only : ng11, ns11
+>       use module_radlw_kgb11
+3269,3270c3268,3269
+<       use rmodule_radlw_parameters, only : ng12, ns12
+<       use rmodule_radlw_kgb12
+---
+>       use module_radlw_parameters, only : ng12, ns12
+>       use module_radlw_kgb12
+3347,3348c3346,3347
+<       use rmodule_radlw_parameters, only : ng13, ns13
+<       use rmodule_radlw_kgb13
+---
+>       use module_radlw_parameters, only : ng13, ns13
+>       use module_radlw_kgb13
+3425,3426c3424,3425
+<       use rmodule_radlw_parameters, only : ng14, ns14
+<       use rmodule_radlw_kgb14
+---
+>       use module_radlw_parameters, only : ng14, ns14
+>       use module_radlw_kgb14
+3483,3484c3482,3483
+<       use rmodule_radlw_parameters, only : ng15, ns15
+<       use rmodule_radlw_kgb15
+---
+>       use module_radlw_parameters, only : ng15, ns15
+>       use module_radlw_kgb15
+3561,3562c3560,3561
+<       use rmodule_radlw_parameters, only : ng16, ns16
+<       use rmodule_radlw_kgb16
+---
+>       use module_radlw_parameters, only : ng16, ns16
+>       use module_radlw_kgb16
+3639c3638
+<       end module rmodule_radlw_main       !
+---
+>       end module module_radlw_main       !
+diff rsm_fcst.fd/radlw_rrtm_param.F ../../tco_timcom/rsm/src/rsm_fcst.fd/radlw_rrtm_param.F
+60c60
+<       module rmodule_radlw_parameters     !
+---
+>       module module_radlw_parameters     !
+86c86
+<       end module rmodule_radlw_parameters !
+---
+>       end module module_radlw_parameters !
+diff rsm_fcst.fd/rbphys.F ../../tco_timcom/rsm/src/rsm_fcst.fd/rbphys.F
+64c64
+<       use rmodule_mp_wsm3,        only: wsm3
+---
+>       use module_mp_wsm3,        only: wsm3
+66c66
+<       use rmodule_mp_wsm3
+---
+>       use module_mp_wsm3
+72c72
+<       use rmodule_mp_wsm6,        only: wsm6
+---
+>       use module_mp_wsm6,        only: wsm6
+74c74
+<       use rmodule_mp_wsm6
+---
+>       use module_mp_wsm6
+617c617
+<       call rdcyc2t3(lonlens,igrd1s,levr,solhr,slag,                       &   
+---
+>       call dcyc2t3(lonlens,igrd1s,levr,solhr,slag,                       &   
+751c751
+<         call rsfc_diff(lonlens,igrd1s,psexp_pa,ugrs,vgrs,tgrs,qgrs,zlvl, &
+---
+>         call sfc_diff(lonlens,igrd1s,psexp_pa,ugrs,vgrs,tgrs,qgrs,zlvl, &
+754c754
+<      &                stress,fm1,fh1,ssu(1,lat),ssv(1,lat),             &
+---
+>      &                stress,fm1,fh1,                                   &
+832c832
+<           call rsfc_ocean                                                &
+---
+>           call sfc_ocean                                                &
+835c835
+<      &       cd,cdq,prsl_pa,work1,islmsk,phy_f2dv(1,num_p2d),flag_iter, ssu(1,lat), ssv(1,lat), &
+---
+>      &       cd,cdq,prsl_pa,work1,islmsk,phy_f2dv(1,num_p2d),flag_iter, &
+854c854
+<           call rsfc_drv                                                  &
+---
+>           call sfc_drv                                                  &
+878c878
+<           call rsfc_land                                                 &
+---
+>           call sfc_land                                                 &
+911c911
+<         call rsfc_sice                                                   &
+---
+>         call sfc_sice                                                   &
+982c982
+<       call rsfc_diag(lonlens,igrd1s,psexp_pa,ugrs,vgrs,tgrs,qgrs,qss,       &
+---
+>       call sfc_diag(lonlens,igrd1s,psexp_pa,ugrs,vgrs,tgrs,qgrs,qss,       &
+1200c1200
+<       call rysu2d (ugrs(1,1),vgrs(1,1),tgrs(1,1),qgrsx,                  &
+---
+>       call ysu2d (ugrs(1,1),vgrs(1,1),tgrs(1,1),qgrsx,                  &
+1212c1212
+<        call rmoninedmf(igrd1s,lonlens,levr,nvdiff,                       &
+---
+>        call moninedmf(igrd1s,lonlens,levr,nvdiff,                       &
+1375c1375
+<       call rgwdps(lonlens,igrd1s,igrd1s,levr,dvdt,dudt,dtdt,   &
+---
+>       call gwdps(lonlens,igrd1s,igrd1s,levr,dvdt,dudt,dtdt,   &
+1555c1555
+<       call rget_phi(lonlens,igrd1s,levr,cp,fv,gt0(1,1),gq0(1,1),          &
+---
+>       call get_phi(lonlens,igrd1s,levr,cp,fv,gt0(1,1),gq0(1,1),          &
+1559c1559
+<       call rget_phi(lonlens,igrd1s,levr,cp,fv,gh0(1,1),gq0(1,1),          &
+---
+>       call get_phi(lonlens,igrd1s,levr,cp,fv,gh0(1,1),gq0(1,1),          &
+1562c1562
+<       call rget_phi(lonlens,igrd1s,levr,cp,fv,gt0(1,1),gq0(1,1),          &
+---
+>       call get_phi(lonlens,igrd1s,levr,cp,fv,gt0(1,1),gq0(1,1),          &
+1730c1730
+<       call rsascnv(1,igrd1s,levr,                                         &  
+---
+>       call sascnv(1,igrd1s,levr,                                         &  
+1778c1778
+<        call rsamfdeepcnv (lonlens,igrd1s,levr,dtp,delp,prsl,psexp,phil    &
+---
+>        call samfdeepcnv (lonlens,igrd1s,levr,dtp,delp,prsl,psexp,phil    &
+1965c1965
+<       call rsamfshalcnv(lonlens,igrd1s,levr,dtp,delp,prsl,psexp,phil,clw  &
+---
+>       call samfshalcnv(lonlens,igrd1s,levr,dtp,delp,prsl,psexp,phil,clw  &
+2203c2203
+<         call rgscond(lonlens, igrd1s, levr,                               &    
+---
+>         call gscond(lonlens, igrd1s, levr,                               &    
+2211c2211
+<         call rprecpd(lonlens, igrd1s, levr,                               &
+---
+>         call precpd(lonlens, igrd1s, levr,                               &
+diff rsm_fcst.fd/rdlwsw.F ../../tco_timcom/rsm/src/rsm_fcst.fd/rdlwsw.F
+78c78
+<       use rmodule_radlw_main,  only : lwrad
+---
+>       use module_radlw_main,  only : lwrad
+diff rsm_fcst.fd/read_data.F ../../tco_timcom/rsm/src/rsm_fcst.fd/read_data.F
+109c109
+<         open(n1,file=filename,status='unknown',convert='little_endian', &
+---
+>         open(n1,file=filename,status='unknown', &
+diff rsm_fcst.fd/recv_idate.F ../../tco_timcom/rsm/src/rsm_fcst.fd/recv_idate.F
+8d7
+<         print*,'recv gfs idate itag=',itag, root_gfs
+12c11
+<         print*,'recv gfs idate =',idate
+---
+>         print*,'recv gfs idate itag=',itag
+Only in rsm_fcst.fd: rfuncphys.mod
+diff rsm_fcst.fd/rfwdstep.F ../../tco_timcom/rsm/src/rsm_fcst.fd/rfwdstep.F
+63d62
+<         if( mype.eq.master ) print*,'check kdt=1:',secphy, fhswr, fhlwr
+diff rsm_fcst.fd/rgetcon_mrg.F ../../tco_timcom/rsm/src/rsm_fcst.fd/rgetcon_mrg.F
+13c13
+<       use rmodule_mp_wsm3,        only: wsm3init
+---
+>       use module_mp_wsm3,        only: wsm3init
+15c15
+<       use rmodule_mp_wsm3
+---
+>       use module_mp_wsm3
+19c19
+<       use rmodule_mp_wsm6,        only: wsm6init
+---
+>       use module_mp_wsm6,        only: wsm6init
+21c21
+<       use rmodule_mp_wsm6
+---
+>       use module_mp_wsm6
+341,348d340
+< #ifdef CPL_TIMCOM
+<       kdt_cpl = nsout
+<       kdt_cpl = kdt_cpl/3
+<       odt_cpl = 1.0/(kdt_cpl*deltim)
+<       if(mype.eq.master) then
+<         print *,'[RSM] kdt_cpl=',kdt_cpl,', dt_cpl=',kdt_cpl*deltim
+<       end if 
+< #endif
+Only in rsm_fcst.fd: rgwdps.F
+Only in rsm_fcst.fd: rmachine.mod
+Only in rsm_fcst.fd: rmodule_microphysics.mod
+Only in rsm_fcst.fd: rmodule_mp_radar.mod
+Only in rsm_fcst.fd: rmodule_mp_wsm3.mod
+Only in rsm_fcst.fd: rmodule_mp_wsm6.mod
+Only in rsm_fcst.fd: rmodule_radlw_avplank.mod
+Only in rsm_fcst.fd: rmodule_radlw_cldprlw.mod
+Only in rsm_fcst.fd: rmodule_radlw_kgb01.mod
+Only in rsm_fcst.fd: rmodule_radlw_kgb02.mod
+Only in rsm_fcst.fd: rmodule_radlw_kgb03.mod
+Only in rsm_fcst.fd: rmodule_radlw_kgb04.mod
+Only in rsm_fcst.fd: rmodule_radlw_kgb05.mod
+Only in rsm_fcst.fd: rmodule_radlw_kgb06.mod
+Only in rsm_fcst.fd: rmodule_radlw_kgb07.mod
+Only in rsm_fcst.fd: rmodule_radlw_kgb08.mod
+Only in rsm_fcst.fd: rmodule_radlw_kgb09.mod
+Only in rsm_fcst.fd: rmodule_radlw_kgb10.mod
+Only in rsm_fcst.fd: rmodule_radlw_kgb11.mod
+Only in rsm_fcst.fd: rmodule_radlw_kgb12.mod
+Only in rsm_fcst.fd: rmodule_radlw_kgb13.mod
+Only in rsm_fcst.fd: rmodule_radlw_kgb14.mod
+Only in rsm_fcst.fd: rmodule_radlw_kgb15.mod
+Only in rsm_fcst.fd: rmodule_radlw_kgb16.mod
+Only in rsm_fcst.fd: rmodule_radlw_main.mod
+Only in rsm_fcst.fd: rmodule_radlw_parameters.mod
+diff rsm_fcst.fd/rmpinit.F ../../tco_timcom/rsm/src/rsm_fcst.fd/rmpinit.F
+56c56
+<      !call mpi_init(info)
+---
+>      call mpi_init(info)
+58d57
+<      info=0
+Only in rsm_fcst.fd: rnamelist_soilveg.mod
+Only in rsm_fcst.fd: rnddta.mod
+diff rsm_fcst.fd/rndslfv_monoadvv.F ../../tco_timcom/rsm/src/rsm_fcst.fd/rndslfv_monoadvv.F
+55c55
+<         call rvertical_cell_advect(lonlens,igrd1p,levr,nvars,          &
+---
+>         call vertical_cell_advect(lonlens,igrd1p,levr,nvars,          &
+69c69
+<         call rvertical_cell_advect(1,1,levr,nvars,                     &
+---
+>         call vertical_cell_advect(1,1,levr,nvars,                     &
+diff rsm_fcst.fd/rndslfv_monoadvv_nonhyd.F ../../tco_timcom/rsm/src/rsm_fcst.fd/rndslfv_monoadvv_nonhyd.F
+96c96
+<         call rvertical_cell_advect (lonlens,igrd1p,levr,nvars,          &
+---
+>         call vertical_cell_advect (lonlens,igrd1p,levr,nvars,          &
+diff rsm_fcst.fd/rndslfv_monoadvv_tau.F ../../tco_timcom/rsm/src/rsm_fcst.fd/rndslfv_monoadvv_tau.F
+39c39
+<         call rvertical_cell_advect (lonlens,igrd1p,levr,nvars,          &
+---
+>         call vertical_cell_advect (lonlens,igrd1p,levr,nvars,          &
+diff rsm_fcst.fd/rndslfv_pack.F ../../tco_timcom/rsm/src/rsm_fcst.fd/rndslfv_pack.F
+378,379c378,379
+< !yj       call rdef_cfl_step(im+5,dist(m1),de(m1),step,nstep)
+<         call rdef_cfl_step(im+3,dist(m0),de(m0),step,nstep)
+---
+> !yj       call def_cfl_step(im+5,dist(m1),de(m1),step,nstep)
+>         call def_cfl_step(im+3,dist(m0),de(m0),step,nstep)
+415c415
+<         call rvertical_cell_ppm_intp(interfi(m1),past(m1,1),    &
+---
+>         call vertical_cell_ppm_intp(interfi(m1),past(m1,1),    &
+429c429
+<         call rvertical_cell_ppm_intp(xnext(m1),da(m1,1),        &
+---
+>         call vertical_cell_ppm_intp(xnext(m1),da(m1,1),        &
+571c571
+<         call rdef_cfl_step(im+5,dist(m1),de(m1),step,nstep)
+---
+>         call def_cfl_step(im+5,dist(m1),de(m1),step,nstep)
+606c606
+<         call rvertical_cell_ppm_intp(interfi(m1),past(m1,1),    &
+---
+>         call vertical_cell_ppm_intp(interfi(m1),past(m1,1),    &
+620c620
+<         call rvertical_cell_ppm_intp(xnext(m1),da(m1,1),        &
+---
+>         call vertical_cell_ppm_intp(xnext(m1),da(m1,1),        &
+745c745
+<         call rdef_cfl_step(jm+5,dist(m1),de(m1),step,nstep)
+---
+>         call def_cfl_step(jm+5,dist(m1),de(m1),step,nstep)
+779c779
+<         call rvertical_cell_ppm_intp(interfi(m1),past(m1,1),    &
+---
+>         call vertical_cell_ppm_intp(interfi(m1),past(m1,1),    &
+791c791
+<         call rvertical_cell_ppm_intp(ynext(m1),da(m1,1),        &
+---
+>         call vertical_cell_ppm_intp(ynext(m1),da(m1,1),        &
+933c933
+<       subroutine rvertical_cell_advect(lons,londim,levs,nvars,           &
+---
+>       subroutine vertical_cell_advect(lons,londim,levs,nvars,           &
+966c966
+<         call rdef_cfl_step(levs+1,dd,ds,step,nstep)
+---
+>         call def_cfl_step(levs+1,dd,ds,step,nstep)
+1004c1004
+<         call rvertical_cell_ppm_intp(ssii,rqmm,ssid,rqda,levs,nvars)
+---
+>         call vertical_cell_ppm_intp(ssii,rqmm,ssid,rqda,levs,nvars)
+1016c1016
+<         call rvertical_cell_ppm_intp(ssia,rqda,ssii,rqnn,levs,nvars)
+---
+>         call vertical_cell_ppm_intp(ssia,rqda,ssii,rqnn,levs,nvars)
+1032c1032
+<       end subroutine rvertical_cell_advect
+---
+>       end subroutine vertical_cell_advect
+1035c1035
+<       subroutine rvertical_cell_ppm_intp(pp,qq,pn,qn,levs,nvars)
+---
+>       subroutine vertical_cell_ppm_intp(pp,qq,pn,qn,levs,nvars)
+1222c1222
+<       end subroutine rvertical_cell_ppm_intp
+---
+>       end subroutine vertical_cell_ppm_intp
+1272c1272
+<       subroutine rdef_cfl_step (im,dist,del,step,nstep)
+---
+>       subroutine def_cfl_step (im,dist,del,step,nstep)
+1319c1319
+<       end subroutine rdef_cfl_step
+---
+>       end subroutine def_cfl_step
+1323c1323
+<       subroutine rmymaxmin(a,im,ix,kx,ch)
+---
+>       subroutine mymaxmin(a,im,ix,kx,ch)
+1345c1345
+<       end subroutine rmymaxmin
+---
+>       end subroutine mymaxmin
+1950c1950
+<         call rdef_cfl_step(im+5,dist(m1),de(m1),step,nstep)
+---
+>         call def_cfl_step(im+5,dist(m1),de(m1),step,nstep)
+1985c1985
+<         call rvertical_cell_ppm_intp(interfi(m1),past(m1,1),    &
+---
+>         call vertical_cell_ppm_intp(interfi(m1),past(m1,1),    &
+2000c2000
+<         call rvertical_cell_ppm_intp(xnext(m1),da(m1,1),        &
+---
+>         call vertical_cell_ppm_intp(xnext(m1),da(m1,1),        &
+2139c2139
+<         call rdef_cfl_step(jm+5,dist(m1),de(m1),step,nstep)
+---
+>         call def_cfl_step(jm+5,dist(m1),de(m1),step,nstep)
+2173c2173
+<         call rvertical_cell_ppm_intp(interfi(m1),past(m1,1),    &
+---
+>         call vertical_cell_ppm_intp(interfi(m1),past(m1,1),    &
+2186c2186
+<         call rvertical_cell_ppm_intp(ynext(m1),da(m1,1),        &
+---
+>         call vertical_cell_ppm_intp(ynext(m1),da(m1,1),        &
+Only in rsm_fcst.fd: rphyscons.mod
+diff rsm_fcst.fd/rscomgrd.h ../../tco_timcom/rsm/src/rsm_fcst.fd/rscomgrd.h
+39d38
+<      &    ssu(IGRD1S,JGRD1S),      ssv(IGRD1S,JGRD1S),           &
+81,84d79
+< #ifdef CPL_TIMCOM
+<       common /rcomgd6/                                           &
+<      & cpl_field(IGRD1S,JGRD1S,9)
+< #endif
+diff rsm_fcst.fd/rscomio.h ../../tco_timcom/rsm/src/rsm_fcst.fd/rscomio.h
+10c10
+<      &                deltim,dt2,dtltb,zhour,phour,fhour,odt_cpl,        &
+---
+>      &                deltim,dt2,dtltb,zhour,phour,fhour,		 &
+14c14
+<      &                kdt,limlow,numsum,nummax,ncldb1,irclim,kdt_cpl
+---
+>      &                kdt,limlow,numsum,nummax,ncldb1,irclim
+diff rsm_fcst.fd/rscomspc.h ../../tco_timcom/rsm/src/rsm_fcst.fd/rscomspc.h
+88,89c88,89
+<      &                 phy_f2d(IGRD1S,JGRD1S,num_p2d),                  &
+<      &                 cldcov(IGRD1S,JGRD1S,levr)                         ! GFDLMP
+---
+>      &                 phy_f2d(IGRD1S,JGRD1S,num_p2d),                  & 
+>      &                 cldcov(IGRD1S,JGRD1S,levr)                         ! GFDLMP       
+Only in rsm_fcst.fd: rsm_cc.mod
+Only in rsm_fcst.fd: rsm_cpl_init.F
+Only in rsm_fcst.fd: rsm_cpl_recv4rocn.F
+Only in rsm_fcst.fd: rsm_cpl_send2rocn.F
+diff rsm_fcst.fd/rsmini_mpi.F ../../tco_timcom/rsm/src/rsm_fcst.fd/rsmini_mpi.F
+183c183
+< #if defined(CWBSUM) || defined(CWB_MPMD)
+---
+> #ifdef CWB_MPMD
+193c193
+<         open(unit=n0,file='rsm_idate',convert='little_endian' &
+---
+>         open(unit=n0,file='rsm_idate'                                &
+441,443d440
+< #ifdef CPL_TIMCOM
+<       cpl_field = 0.0
+< #endif
+474c471
+< #if defined(CWBSUM) || defined(CWB_MPMD)
+---
+> #ifdef CWB_MPMD
+diff rsm_fcst.fd/rsmsmf.F ../../tco_timcom/rsm/src/rsm_fcst.fd/rsmsmf.F
+1c1
+<       subroutine rsmsmf(fhnxt,compid)
+---
+>       subroutine rsmsmf(fhnxt)
+87,88d86
+<       integer :: compid, ncpl, ierr
+<       real :: time_stamp, time_spend
+116,121d113
+< #ifdef CPL_TIMCOM
+<   if(kdt .eq. 0) then
+<     if(mype.eq.master) print *,'[RSM] recv init data from TIMCOM Tai'
+<     call rsm_cpl_recv4rocn(compid, slmsk, tsea, ssu, ssv)
+<   end if
+< #endif
+157,174d148
+< #ifdef CPL_TIMCOM
+<       if(kdt.eq.1) then
+<         if(mype.eq.master) print *,'[RSM] runtime step: ', kdt, '/', nsseg
+<         cpl_field(:,:,1) = u10m
+<         cpl_field(:,:,2) = v10m
+<         cpl_field(:,:,3) = t2m
+<         cpl_field(:,:,4) = q2m
+<         cpl_field(:,:,5) = psurf*1.d3
+<         cpl_field(:,:,6) =-fluxr(:,:,3)/3600.d0
+<         cpl_field(:,:,7) = fluxr(:,:,4)/3600.d0
+<         cpl_field(:,:,8) = dlwsfc/3600.d0
+<         cpl_field(:,:,9) = geshem*1.d3/deltim
+<         call rsm_cpl_send2rocn(compid, cpl_field, tsea) 
+<         cpl_field(:,:,5) = psurf
+<         cpl_field(:,:,6:9) = 0.d0
+<       end if
+<       time_stamp = MPI_WTIME() 
+< #endif
+193,234d166
+< #ifdef CPL_TIMCOM
+<         if(mype.eq.master) print *,'[RSM] runtime step: ', kdt, '/', nsseg
+< 
+<         cpl_field(:,:,1) = cpl_field(:,:,1) + u10m
+<         cpl_field(:,:,2) = cpl_field(:,:,2) + v10m
+<         cpl_field(:,:,3) = cpl_field(:,:,3) + t2m
+<         cpl_field(:,:,4) = cpl_field(:,:,4) + q2m
+<         cpl_field(:,:,5) = cpl_field(:,:,5) + psurf
+< 
+<         if(mod(kdt,kdt_cpl).eq.0) then
+<           time_spend = MPI_WTIME() - time_stamp
+<           call MPI_ALLREDUCE(time_spend, time_stamp, 1, MPI_REAL8, MPI_MAX, mpi_comm_rsm, ierr)
+<           if(mype.eq.master) then
+<             write(*,'(a,f8.1,a)') '[RSM] runtime spends: ', time_stamp, "sec in a cpl loop"
+<           end if
+<    
+<           ncpl = kdt/kdt_cpl
+<           if(mype.eq.master) print *,'[RSM] couple step: ', kdt, '/', nsseg
+< 
+<           cpl_field(:,:,1:5) = cpl_field(:,:,1:5)/dble(kdt_cpl)
+<           cpl_field(:,:,5)   = cpl_field(:,:,5)*1.d3  ! Pa to hPa
+<           cpl_field(:,:,6)   =-odt_cpl*(fluxr(:,:,3) - cpl_field(:,:,6))
+<           cpl_field(:,:,7)   = odt_cpl*(fluxr(:,:,4) - cpl_field(:,:,7))
+<           cpl_field(:,:,8)   = odt_cpl*(dlwsfc - cpl_field(:,:,8))
+<           cpl_field(:,:,9)   = odt_cpl*(geshem - cpl_field(:,:,9))*1.d3
+< 
+<           call rsm_cpl_recv4rocn(compid, slmsk, tsea, ssu, ssv)
+<           call rsm_cpl_send2rocn(compid, cpl_field, tsea)
+< 
+<           if(lsout) then
+<             cpl_field = 0.d0
+<           else
+<             cpl_field(:,:,1:5) = 0.d0
+<             cpl_field(:,:,6)   = fluxr(:,:,3)
+<             cpl_field(:,:,7)   = fluxr(:,:,4)
+<             cpl_field(:,:,8)   = dlwsfc
+<             cpl_field(:,:,9)   = geshem
+<           end if
+<           
+<           time_stamp = MPI_WTIME()
+<         end if
+< #endif
+245c177
+<        if(mype.eq.master) print *,'in rsmsmf lsout=',lsout,'kdt=',kdt       &   
+---
+>        if ( mype.eq.0) print *,'in rsmsmf lsout=',lsout,'kdt=',kdt       &   
+diff rsm_fcst.fd/samfdeepcnv.F ../../tco_timcom/rsm/src/rsm_fcst.fd/samfdeepcnv.F
+82c82
+<       subroutine rsamfdeepcnv(im,ix,km,delt,delp,prslp,psp,phil,ql,       &
+---
+>       subroutine samfdeepcnv(im,ix,km,delt,delp,prslp,psp,phil,ql,       &
+diff rsm_fcst.fd/samfshalcnv.F ../../tco_timcom/rsm/src/rsm_fcst.fd/samfshalcnv.F
+61c61
+<       subroutine rsamfshalcnv(im,ix,km,delt,delp,prslp,psp,phil,ql, &
+---
+>       subroutine samfshalcnv(im,ix,km,delt,delp,prslp,psp,phil,ql, &
+diff rsm_fcst.fd/sascnv.F ../../tco_timcom/rsm/src/rsm_fcst.fd/sascnv.F
+1c1
+<       SUBROUTINE RSASCNV(IM,IX,KM,JCAP,DELT,DEL,PRSL,PS,PHIL,QL,          &  
+---
+>       SUBROUTINE SASCNV(IM,IX,KM,JCAP,DELT,DEL,PRSL,PS,PHIL,QL,          &  
+Only in rsm_fcst.fd: set_soilveg.F
+Only in ../../tco_timcom/rsm/src/rsm_fcst.fd: set_soilveg.f
+diff rsm_fcst.fd/sfc_cice.f ../../tco_timcom/rsm/src/rsm_fcst.fd/sfc_cice.f
+47,49c47,49
+<       use rmachine , only : kind_phys
+<       use rfuncphys, only : fpvs
+<       use rphyscons, only : hvap => con_hvap,  cp => con_cp,             &
+---
+>       use machine , only : kind_phys
+>       use funcphys, only : fpvs
+>       use physcons, only : hvap => con_hvap,  cp => con_cp,             &
+diff rsm_fcst.fd/sfc_diag.f ../../tco_timcom/rsm/src/rsm_fcst.fd/sfc_diag.f
+1c1
+<       subroutine rsfc_diag(im,ix,ps,u1,v1,t1,q1,qss,
+---
+>       subroutine sfc_diag(im,ix,ps,u1,v1,t1,q1,qss,
+5,7c5,7
+<       use rmachine , only : kind_phys
+<       use rfuncphys, only : fpvs
+<       use rphyscons, grav => con_g,  cp => con_cp,
+---
+>       use machine , only : kind_phys
+>       use funcphys, only : fpvs
+>       use physcons, grav => con_g,  cp => con_cp,
+diff rsm_fcst.fd/sfc_diff.f ../../tco_timcom/rsm/src/rsm_fcst.fd/sfc_diff.f
+1c1
+<       subroutine rsfc_diff(im,ix,ps,u1,v1,t1,q1,z1,
+---
+>       subroutine sfc_diff(im,ix,ps,u1,v1,t1,q1,z1,
+4c4
+<      &                    stress,fm,fh,ssu,ssv,
+---
+>      &                    stress,fm,fh,
+10,12c10,12
+<       use rmachine , only : kind_phys
+<       use rfuncphys, only : fpvs
+<       use rphyscons, grav => con_g,       cp => con_cp
+---
+>       use machine , only : kind_phys
+>       use funcphys, only : fpvs
+>       use physcons, grav => con_g,       cp => con_cp
+22,23c22
+<      &,                                      fm, fh, ssu, ssv
+<      &,                                      ustar, wind, ddvel
+---
+>      &,                                      fm, fh, ustar, wind, ddvel
+77c76
+<           wind(i) = max(sqrt((u1(i)-ssu(i))**2 + (v1(i)-ssv(i))**2)  
+---
+>           wind(i) = max(sqrt(u1(i)*u1(i) + v1(i)*v1(i))
+diff rsm_fcst.fd/sfc_drv.f ../../tco_timcom/rsm/src/rsm_fcst.fd/sfc_drv.f
+136c136
+<       subroutine rsfc_drv                                                &
+---
+>       subroutine sfc_drv                                                &
+154,156c154,156
+<       use rmachine , only : kind_phys
+<       use rfuncphys, only : fpvs
+<       use rphyscons, only : grav   => con_g,    cp   => con_cp,          &
+---
+>       use machine , only : kind_phys
+>       use funcphys, only : fpvs
+>       use physcons, only : grav   => con_g,    cp   => con_cp,          &
+454c454
+<           call rsflx                                                     &
+---
+>           call sflx                                                     &
+604c604
+<       end subroutine rsfc_drv
+---
+>       end subroutine sfc_drv
+diff rsm_fcst.fd/sfc_land.f ../../tco_timcom/rsm/src/rsm_fcst.fd/sfc_land.f
+2c2
+<       subroutine rsfc_land                                               &
+---
+>       subroutine sfc_land                                               &
+117,119c117,119
+<       use rmachine , only : kind_phys
+<       use rfuncphys, only : fpvs
+<       use rphyscons, only : grav => con_g, sbc => con_sbc, cp => con_cp, &
+---
+>       use machine , only : kind_phys
+>       use funcphys, only : fpvs
+>       use physcons, only : grav => con_g, sbc => con_sbc, cp => con_cp, &
+diff rsm_fcst.fd/sfc_ocean.f ../../tco_timcom/rsm/src/rsm_fcst.fd/sfc_ocean.f
+2c2
+<       subroutine rsfc_ocean                                             &
+---
+>       subroutine sfc_ocean                                              &
+5,6c5,6
+<      &     ( im, ix, ps, u1, v1, t1, q1, tskin, cm, ch,                 &
+<      &       prsl1, prslki, islimsk, ddvel, flag_iter, ssu, ssv,        &
+---
+>      &     ( im, ix, ps, u1, v1, t1, q1, tskin, cm, ch,                     &
+>      &       prsl1, prslki, islimsk, ddvel, flag_iter,                  &
+65,67c65,67
+<       use rmachine , only : kind_phys
+<       use rfuncphys, only : fpvs
+<       use rphyscons, only : cp => con_cp, rd => con_rd, eps => con_eps,  &
+---
+>       use machine , only : kind_phys
+>       use funcphys, only : fpvs
+>       use physcons, only : cp => con_cp, rd => con_rd, eps => con_eps,  &
+82c82
+<      &      t1, q1, tskin, cm, ch, prsl1, prslki, ddvel, ssu, ssv
+---
+>      &      t1, q1, tskin, cm, ch, prsl1, prslki, ddvel
+111c111
+<           wind     = max(sqrt((u1(i)-ssu(i))**2 + (v1(i)-ssv(i))**2)    & 
+---
+>           wind     = max(sqrt(u1(i)*u1(i) + v1(i)*v1(i))                &
+146c146
+<       end subroutine rsfc_ocean
+---
+>       end subroutine sfc_ocean
+diff rsm_fcst.fd/sfc_sice.f ../../tco_timcom/rsm/src/rsm_fcst.fd/sfc_sice.f
+21c21
+<       subroutine rsfc_sice                                               &
+---
+>       subroutine sfc_sice                                               &
+116,118c116,118
+<       use rmachine , only : kind_phys
+<       use rfuncphys, only : fpvs
+<       use rphyscons, only : sbc => con_sbc, hvap => con_hvap,            &
+---
+>       use machine , only : kind_phys
+>       use funcphys, only : fpvs
+>       use physcons, only : sbc => con_sbc, hvap => con_hvap,            &
+674c674
+<       end subroutine rsfc_sice
+---
+>       end subroutine sfc_sice
+Only in rsm_fcst.fd: sfccyc_module.mod
+diff rsm_fcst.fd/sflx.f ../../tco_timcom/rsm/src/rsm_fcst.fd/sflx.f
+2c2
+<       subroutine rsflx                                                   &
+---
+>       subroutine sflx                                                   &
+158c158
+<       use rmachine ,   only : kind_phys
+---
+>       use machine ,   only : kind_phys
+160c160
+<       use rphyscons,   only : con_cp, con_rd, con_t0c, con_g, con_pi,    &
+---
+>       use physcons,   only : con_cp, con_rd, con_t0c, con_g, con_pi,    &
+1648c1648
+<       use rnamelist_soilveg
+---
+>       use namelist_soilveg
+5500c5500
+<       end subroutine rsflx
+---
+>       end subroutine sflx
+Only in rsm_fcst.fd: sigmap_cons.mod
+diff rsm_fcst.fd/sread.F ../../tco_timcom/rsm/src/rsm_fcst.fd/sread.F
+312c312
+<       call getptb(grid,rqb(1,1,nc),wsltb,levr)
+---
+> !     call getptb(grid,rqb(1,1,nc),wsltb,levr)
+diff rsm_fcst.fd/sub_ysu.f ../../tco_timcom/rsm/src/rsm_fcst.fd/sub_ysu.f
+85c85
+<       subroutine rtridin_ysu(cl,cm,cu,r2,au,f2,its,ite,kts,kte,nt)
+---
+>       subroutine tridin_ysu(cl,cm,cu,r2,au,f2,its,ite,kts,kte,nt)
+141c141
+<         end subroutine rtridin_ysu
+---
+>         end subroutine tridin_ysu
+145c145
+<       subroutine rysuinit(rublten,rvblten,rthblten,rqvblten,
+---
+>       subroutine ysuinit(rublten,rvblten,rthblten,rqvblten,
+192c192
+<         end subroutine rysuinit
+---
+>         end subroutine ysuinit
+195c195
+<       SUBROUTINE RGET_PBLH(KTS,KTE,zi,thetav1D,qke1D,zw1D,dz1D,landsea)
+---
+>       SUBROUTINE GET_PBLH(KTS,KTE,zi,thetav1D,qke1D,zw1D,dz1D,landsea)
+303c303
+<       END SUBROUTINE RGET_PBLH
+---
+>       END SUBROUTINE GET_PBLH

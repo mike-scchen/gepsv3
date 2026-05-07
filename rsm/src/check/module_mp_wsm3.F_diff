@@ -1,0 +1,8 @@
+14c14
+< MODULE rmodule_mp_wsm3
+---
+> MODULE module_mp_wsm3
+1598c1598
+< END MODULE rmodule_mp_wsm3
+---
+> END MODULE module_mp_wsm3

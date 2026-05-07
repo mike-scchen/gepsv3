@@ -1,0 +1,13 @@
+#!/bin/sh
+set -x
+# compile options for ibm_xlf, mac_intel, mac_absoft, mac_xlf, linux_pgi, linux_gfortran
+export MACHINE=Fujitsu_frtpx10
+#export MACHINE=linux_intel
+export MACHINE=${MACHINE:-Fujitsu_frtpx10}
+. ../opt/compile.option
+./fhour.s
+cd src/ndate.fd
+make
+cd ../nhour.fd
+make
+cd ../../

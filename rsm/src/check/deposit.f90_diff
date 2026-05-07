@@ -1,0 +1,8 @@
+7,9c7,9
+<       use rmachine , only : kind_phys
+<       use rfuncphys , only : fpvsi
+<       use rphyscons, cp => con_cp, rd => con_rd, rv => con_rv &
+---
+>       use machine , only : kind_phys
+>       use funcphys , only : fpvsi
+>       use physcons, cp => con_cp, rd => con_rd, rv => con_rv &

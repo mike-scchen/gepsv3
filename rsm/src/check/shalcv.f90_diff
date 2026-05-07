@@ -1,0 +1,6 @@
+3,4c3,4
+<       use rmachine , only : kind_phys
+<       use rphyscons, grav => con_g, cp => con_cp, hvap => con_hvap &
+---
+>       use machine , only : kind_phys
+>       use physcons, grav => con_g, cp => con_cp, hvap => con_hvap &

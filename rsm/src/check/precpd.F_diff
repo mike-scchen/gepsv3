@@ -1,0 +1,4 @@
+1c1
+<        subroutine rprecpd (im,ix,km,dt,del,prsl,ps,q,cwm,t,rn             &  
+---
+>        subroutine precpd (im,ix,km,dt,del,prsl,ps,q,cwm,t,rn             &  

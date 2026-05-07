@@ -1,0 +1,8 @@
+6,8c6,8
+<       use rmachine , only : kind_phys,kind_rad,kind_io4
+<       use rfuncphys , only : fpkap
+<       use rphyscons, rocp => con_rocp, pi => con_pi
+---
+>       use machine , only : kind_phys,kind_rad,kind_io4
+>       use funcphys , only : fpkap
+>       use physcons, rocp => con_rocp, pi => con_pi

@@ -1,0 +1,8 @@
+68c68
+<       if (ierr/=0) stop "module_gfsdata: allocate horizontal vars error"
+---
+>         if (ierr/=0) stop "module_gfsdata: allocate horizontal vars error"
+112c112
+< #if defined (CWB_MPMD) || defined (CWBSUM)
+---
+> #ifdef CWB_MPMD

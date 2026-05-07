@@ -1,0 +1,20 @@
+3c3
+<       use rphyscons, rerth => con_rerth
+---
+>       use physcons, rerth => con_rerth
+76a77
+> ! parameter(nmmiph = 2)
+81a83
+> ! parameter(nmmiph = 3)
+83a86,96
+> !
+> ! for new wsm6 microphysics
+> ! parameter(nmmiph = 6)
+> ! parameter(num_p3d = 3)
+> ! parameter(num_p2d = 1)
+> !
+> ! for GFDL microphysics
+> ! parameter(nmmiph = 11)
+> ! parameter(num_p3d = 5)
+> ! parameter(num_p2d = 1)
+> !

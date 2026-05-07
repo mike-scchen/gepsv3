@@ -1,0 +1,194 @@
+112c112
+<       module rmodule_radlw_main !
+---
+>       module module_radlw_main !
+115,116c115,116
+<       use rmachine, only : kind_rad
+<       use rmodule_radlw_parameters, only : nbands, ngpt, n5000, n200
+---
+>       use machine, only : kind_rad
+>       use module_radlw_parameters, only : nbands, ngpt, n5000, n200
+350,352c350,352
+<       use rmachine, only : kind_rad
+<       use rphyscons, only : con_g
+<       use rmodule_radlw_parameters
+---
+>       use machine, only : kind_rad
+>       use physcons, only : con_g
+>       use module_radlw_parameters
+730,732c730,732
+<       use rmachine, only : kind_rad
+<       use rphyscons, only : con_g, con_cp
+<       use rmodule_radlw_parameters, only : n5000, n200
+---
+>       use machine, only : kind_rad
+>       use physcons, only : con_g, con_cp
+>       use module_radlw_parameters, only : n5000, n200
+871,872c871,872
+<       use rmachine, only : kind_rad
+<       use rmodule_radlw_parameters, only : nbands
+---
+>       use machine, only : kind_rad
+>       use module_radlw_parameters, only : nbands
+874c874
+<       use rmodule_radlw_cldprlw
+---
+>       use module_radlw_cldprlw
+994,996c994,996
+<       use rmachine, only : kind_rad
+<       use rmodule_radlw_parameters, only : nplnk, nbands, ngpt
+<       use rmodule_radlw_avplank
+---
+>       use machine, only : kind_rad
+>       use module_radlw_parameters, only : nplnk, nbands, ngpt
+>       use module_radlw_avplank
+1239d1238
+<       write(*,*) "check rtrn0:", l, factot
+1248d1246
+<       write(*,*) "check rtrn1:"
+1292,1294c1290,1292
+<       use rmachine, only : kind_rad
+<       use rmodule_radlw_parameters, only : nplnk, nbands, ngpt
+<       use rmodule_radlw_avplank
+---
+>       use machine, only : kind_rad
+>       use module_radlw_parameters, only : nplnk, nbands, ngpt
+>       use module_radlw_avplank
+1845,1846c1843,1844
+<       use rmachine, only : kind_rad
+<       use rmodule_radlw_parameters
+---
+>       use machine, only : kind_rad
+>       use module_radlw_parameters
+1925,1927c1923,1925
+<       use rmachine, only : kind_rad
+<       use rmodule_radlw_parameters, only : ng01
+<       use rmodule_radlw_kgb01
+---
+>       use machine, only : kind_rad
+>       use module_radlw_parameters, only : ng01
+>       use module_radlw_kgb01
+1970,1972c1968,1970
+<       use rmachine, only : kind_rad
+<       use rmodule_radlw_parameters, only : ng02, ns02
+<       use rmodule_radlw_kgb02
+---
+>       use machine, only : kind_rad
+>       use module_radlw_parameters, only : ng02, ns02
+>       use module_radlw_kgb02
+2044,2046c2042,2044
+<       use rmachine, only : kind_rad
+<       use rmodule_radlw_parameters, only : ng03, ns03
+<       use rmodule_radlw_kgb03
+---
+>       use machine, only : kind_rad
+>       use module_radlw_parameters, only : ng03, ns03
+>       use module_radlw_kgb03
+2174,2176c2172,2174
+<       use rmachine, only : kind_rad
+<       use rmodule_radlw_parameters, only : ng04, ns04
+<       use rmodule_radlw_kgb04
+---
+>       use machine, only : kind_rad
+>       use module_radlw_parameters, only : ng04, ns04
+>       use module_radlw_kgb04
+2286,2288c2284,2286
+<       use rmachine, only : kind_rad
+<       use rmodule_radlw_parameters, only : ng05, ns05
+<       use rmodule_radlw_kgb05
+---
+>       use machine, only : kind_rad
+>       use module_radlw_parameters, only : ng05, ns05
+>       use module_radlw_kgb05
+2381,2383c2379,2381
+<       use rmachine, only : kind_rad
+<       use rmodule_radlw_parameters, only : ng06, ns06
+<       use rmodule_radlw_kgb06
+---
+>       use machine, only : kind_rad
+>       use module_radlw_parameters, only : ng06, ns06
+>       use module_radlw_kgb06
+2424,2426c2422,2424
+<       use rmachine, only : kind_rad
+<       use rmodule_radlw_parameters, only : ng07, ns07
+<       use rmodule_radlw_kgb07
+---
+>       use machine, only : kind_rad
+>       use module_radlw_parameters, only : ng07, ns07
+>       use module_radlw_kgb07
+2506,2508c2504,2506
+<       use rmachine, only : kind_rad
+<       use rmodule_radlw_parameters, only : ng08, ns08
+<       use rmodule_radlw_kgb08
+---
+>       use machine, only : kind_rad
+>       use module_radlw_parameters, only : ng08, ns08
+>       use module_radlw_kgb08
+2569,2571c2567,2569
+<       use rmachine, only : kind_rad
+<       use rmodule_radlw_parameters, only : ng09, ns09
+<       use rmodule_radlw_kgb09
+---
+>       use machine, only : kind_rad
+>       use module_radlw_parameters, only : ng09, ns09
+>       use module_radlw_kgb09
+2676,2678c2674,2676
+<       use rmachine, only : kind_rad
+<       use rmodule_radlw_parameters, only : ng10, ns10
+<       use rmodule_radlw_kgb10
+---
+>       use machine, only : kind_rad
+>       use module_radlw_parameters, only : ng10, ns10
+>       use module_radlw_kgb10
+2719,2721c2717,2719
+<       use rmachine, only : kind_rad
+<       use rmodule_radlw_parameters, only : ng11, ns11
+<       use rmodule_radlw_kgb11
+---
+>       use machine, only : kind_rad
+>       use module_radlw_parameters, only : ng11, ns11
+>       use module_radlw_kgb11
+2766,2768c2764,2766
+<       use rmachine, only : kind_rad
+<       use rmodule_radlw_parameters, only : ng12, ns12
+<       use rmodule_radlw_kgb12
+---
+>       use machine, only : kind_rad
+>       use module_radlw_parameters, only : ng12, ns12
+>       use module_radlw_kgb12
+2831,2833c2829,2831
+<       use rmachine, only : kind_rad
+<       use rmodule_radlw_parameters, only : ng13, ns13
+<       use rmodule_radlw_kgb13
+---
+>       use machine, only : kind_rad
+>       use module_radlw_parameters, only : ng13, ns13
+>       use module_radlw_kgb13
+2896,2898c2894,2896
+<       use rmachine, only : kind_rad
+<       use rmodule_radlw_parameters, only : ng14, ns14
+<       use rmodule_radlw_kgb14
+---
+>       use machine, only : kind_rad
+>       use module_radlw_parameters, only : ng14, ns14
+>       use module_radlw_kgb14
+2943,2945c2941,2943
+<       use rmachine, only : kind_rad
+<       use rmodule_radlw_parameters, only : ng15, ns15
+<       use rmodule_radlw_kgb15
+---
+>       use machine, only : kind_rad
+>       use module_radlw_parameters, only : ng15, ns15
+>       use module_radlw_kgb15
+3008,3010c3006,3008
+<       use rmachine, only : kind_rad
+<       use rmodule_radlw_parameters, only : ng16, ns16
+<       use rmodule_radlw_kgb16
+---
+>       use machine, only : kind_rad
+>       use module_radlw_parameters, only : ng16, ns16
+>       use module_radlw_kgb16
+3073c3071
+<       end module rmodule_radlw_main !
+---
+>       end module module_radlw_main !

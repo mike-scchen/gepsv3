@@ -1,0 +1,20 @@
+41c41
+<       use rphyscons, cp => con_cp, rd => con_rd
+---
+>       use physcons, cp => con_cp, rd => con_rd
+114a115
+> ! parameter(nmmiph = 2)
+119a121
+> ! parameter(nmmiph = 3)
+121a124,134
+> !
+> ! for new wsm6 microphysics
+> ! parameter(nmmiph = 6)
+> ! parameter(num_p3d = 3)
+> ! parameter(num_p2d = 1)
+> !
+> ! for GFDL microphysics
+> ! parameter(nmmiph = 11)
+> ! parameter(num_p3d = 5)
+> ! parameter(num_p2d = 1)
+> !
