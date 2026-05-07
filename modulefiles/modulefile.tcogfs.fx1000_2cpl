@@ -63,7 +63,7 @@ setenv MPMD_LIB "-L/data/common/gfs/GEPSv3_lib/fx1000/cwb_mpmd -lmpmd"
 
 # Known conflicts
 module use /data/common/gfs/modulefiles/x86_64
-module load tcsds
+module load tcsds/1.2.40
 module unuse /data/common/gfs/modulefiles/x86_64
 
 # Loading gfs modules

@@ -14,7 +14,7 @@
 if [ $# -ne 3 ]; then
   echo "Usage: $0 [MACHINE] [CPL_MODE] [TCo???]"
   echo "Allowed combinations:"
-  echo "  a100 2cpl TCo383/TCo199"
+  echo "  gpu 2cpl TCo383/TCo199"
   echo "  fx1000 2cpl TCo383/TCo199"
   echo "  fx1000 4cpl TCo383/TCo199"
   echo "  fx1000 2cpl_CICE TCo383/TCo199"
@@ -25,7 +25,7 @@ MACHINE=$1
 CPL_MODE=$2
 RESN=$3
 # 驗證合法組合
-if [[ "$MACHINE" == "a100" && "$CPL_MODE" == "2cpl" ]]; then
+if [[ "$MACHINE" == "gpu" && "$CPL_MODE" == "2cpl" ]]; then
   :
 elif [[ "$MACHINE" == "fx1000" && ( "$CPL_MODE" == "2cpl" || "$CPL_MODE" == "4cpl"  || "$CPL_MODE" == "2cpl_CICE" ) ]]; then
   :
@@ -49,13 +49,16 @@ set -x
 export FRAME=$CPL_MODE
 export MACHINE=$MACHINE
 export atmres=$RESN
-if [ "$MACHINE" == "a100" ]; then
-  # A100: 載入 NVIDIA HPC SDK module
+if [ "$MACHINE" == "gpu" ]; then
+  # GPU: NVIDIA HPC SDK 
+  . $MODULESHOME/init/bash
+  #. $LMOD_ROOT/lmod/init/bash
   module use /package/x86_64/nvidia/hpc_sdk/modulefiles
   module load nvhpc-hpcx-cuda12/24.11
+  module use ../modulefiles/modulefile.tcogfs.gpu
   echo "LD_LIBRARY_PATH=$LD_LIBRARY_PATH"
 else
-  # FX1000: 載入專案 module
+  # FX1000: Fujitsu
   MDIR=$(cd ../tco639l72 && pwd)
   . /usr/share/Modules/init/bash
   module purge

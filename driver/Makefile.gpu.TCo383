@@ -1,6 +1,6 @@
 COUPLERPATH  = /data/common/gfs/GEPSv3_lib/coupler/a100
-TIMCOMLIBPATH = ../timcom_glb/build_a100/src
-CWBGFSLIBPATH = ../tco639l72/build_a100/lib
+TIMCOMLIBPATH = ../timcom_glb/build_gpu/src
+CWBGFSLIBPATH = ../tco639l72/build_gpu/lib
 TAILIBPATH   = ../rsm/src/timcom.fd
 RSMLIBPATH   = ../rsm/run/exe
 MCTPATH      = /package/x86_64/nvidia/mct-2.11.0
@@ -9,6 +9,7 @@ ZLIB         = /users/xa09/pkg/x86_64/zlib-1.2.11
 PNETCDF      = /package/x86_64/nvidia/pnetcdf-1.12.3
 NETCDF       = /package/x86_64/nvidia/netcdf-4.9.0
 FFTW         = /usr/lib64
+FFTW_INC     = /usr/include
 W3           = /package/x86_64/w3lib-2.0.2
 OPER         = /package/x86_64/operlib
 DMS          = /users/xa09/pkg/x86_64/dms38key

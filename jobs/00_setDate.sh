@@ -14,7 +14,7 @@ export gap=24
 
 export RESTRHR=0        #output initial time
 export FCSTGAP=24        #output frequency (ocn)-> ../tco639l72/etc_4cpl/ocards (atm)
-export FCSTHR=48       #forecast hour-> Must be consistent with ../tco639l72/etc_4cpl/gfsctl
+export FCSTHR=24       #forecast hour-> Must be consistent with ../tco639l72/etc_4cpl/gfsctl
 
 export FRE_R=24        #restart output freq.
 
@@ -33,7 +33,7 @@ fi
 
 #set something
 export JCAP="383" #199 383 639
-export mach="fx1000" #a100 fx1000
+export mach="gpu" #a100 fx1000
 export struc="2cpl" #2cpl(a100) 2cpl、4cpl、2cpl_CICE(fx1000) 
 export tai_v='_op'  #Regional Version
 export FCT_MODEL=${kshpath}/../driver/TCoTIMCOM_${struc}_${mach}_TCo${JCAP}

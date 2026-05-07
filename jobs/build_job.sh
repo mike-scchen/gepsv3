@@ -32,7 +32,7 @@ mkdir -p ${GLBOUT}
 mkdir -p ${TAIOUT}
 mkdir -p ${CICEOUT}/restart
 ######################################################################
-if [ ${mach} = a100 -a ${struc} = 2cpl ] ;then
+if [ ${mach} = gpu -a ${struc} = 2cpl ] ;then
   if [ $JCAP = 383  ] ; then
     n_proc_gfs=8
     n_proc_rsm=0
@@ -140,7 +140,7 @@ elif [ "${mach}" = "fx1000" ]; then
         echo "GFS : in EM case"
         /usr/bin/bash "${kshpath}/config_gfs_fx1000_em.sh" "${JCAP}" "${RESTRHR}" "${FCSTGAP}" "${FCSTHR}"
     fi 
-elif [ "${mach}" = "a100" ]; then
+elif [ "${mach}" = "gpu" ]; then
     /usr/bin/bash "${kshpath}/config_gfs.sh" "${JCAP}" "${RESTRHR}" "${FCSTGAP}" "${FCSTHR}"
 fi 
 
@@ -171,7 +171,7 @@ if [ "${struc}" = "2cpl_CICE" ]; then
     /usr/bin/bash "${kshpath}/config_glb_cice_fx1000.sh" "${JCAP}" "${RESTRHR}" "${FCSTGAP}" "${FCSTHR}"
 elif [ "${mach}" = "fx1000" ]; then
     /usr/bin/bash "${kshpath}/config_glb_fx1000.sh" "${JCAP}" "${RESTRHR}" "${FCSTGAP}" "${FCSTHR}"
-elif [ "${mach}" = "a100" ]; then
+elif [ "${mach}" = "gpu" ]; then
     /usr/bin/bash "${kshpath}/config_glb.sh" "${JCAP}" "${RESTRHR}" "${FCSTGAP}" "${FCSTHR}"
 fi
 
@@ -197,7 +197,7 @@ glb_path=${kshpath}
 TIMCOMr_bcneed=${glb_path}/${dtg}_${suffix}.ufs/TIMCOM_glb
 ln -fs ${TIMCOMr_bcneed} ${RSMOUT}/
 
-if [ ${mach} = a100 ] ;then
+if [ ${mach} = gpu ] ;then
 cat > ${MDIR}.ufs/submit_job.sh <<EOF
 #!/bin/bash
 #PJM -L vnode=1

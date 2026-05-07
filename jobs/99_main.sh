@@ -62,10 +62,14 @@ eof
 
 	 if [ ${em_det} -eq 0 ]; then
 #---------------submit det---------------------------------------------------------
-           /usr/bin/pjsub ${dtg_d2}_000.ufs/submit_job.sh
+           echo "Auto-submission disabled."
+	   echo "submit the job by: pjsub (date)_000.ufs/submit_job.sh"
+           #/usr/bin/pjsub ${dtg_d2}_000.ufs/submit_job.sh
          else
 #---------------submit em---------------------------------------------------------
-           /usr/bin/pjsub ${dtg_d2}_${Case_a[$mem]}.ufs/submit_job.sh
+           echo "Auto-submission disabled."
+	   echo "submit the job by: pjsub (date)_(member).ufs/submit_job.sh"
+           #/usr/bin/pjsub ${dtg_d2}_${Case_a[$mem]}.ufs/submit_job.sh
          fi
       fi
     done

@@ -1,17 +1,19 @@
 #!/bin/bash
 set -e
 
-# Set the machine type, default is "fx1000"
-MACHINE=${1:-"fx1000"}
-
 # Initialize the Modules system
-. /usr/share/Modules/init/bash
+. $MODULESHOME/init/bash
+#. $LMOD_ROOT/lmod/init/bash
+
+# Set the machine type, default is "gpu"
+MACHINE=${1:-"gpu"}
+
 
 # Clear and reload the required modules
 module purge
 
 # Load the GFS modules
-module use modulefiles
+module use ../modulefiles
 module load modulefile.tcogfs.${MACHINE}
 module unuse modulefiles
 
@@ -19,19 +21,9 @@ module unuse modulefiles
 BLD_DIR=build_${MACHINE}
 [[ -e ${BLD_DIR} ]] && rm -rf ${BLD_DIR}
 
-# Compile based on the selected MACHINE
-if [[ ${MACHINE} == 'fx1000' ]] ; then
-    # Build settings for the fx1000 machine
-    cmake -B${BLD_DIR} -S. \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DUSE_RSM=OFF \
-        -DCWBSUM=OFF  \
-        -DTIMCOMCPL=OFF  \
-        -DUSE_aeroclx=OFF
 
-    	cmake --build ${BLD_DIR} -j $(($(nproc)/2))
-
-elif [[ ${MACHINE} == 'a100' ]] ; then
+#Compile based on the selected MACHINE
+if [[ ${MACHINE} == 'gpu' ]] ; then
     # Build settings for the a100 machine
     cmake -B${BLD_DIR} -S. \
         -DCMAKE_BUILD_TYPE=Release \
@@ -41,7 +33,7 @@ elif [[ ${MACHINE} == 'a100' ]] ; then
         -DUSE_PAR=OFF \
         -DUSE_SP=OFF  \
         -DCWBSUM=OFF  \
-        -DTIMCOMCPL=OFF  \
+        -DTIMCOMCPL=ON  \
         -DUSE_aeroclx=OFF
     cmake --build ${BLD_DIR} -j $(($(nproc)/2)) -v
 else
