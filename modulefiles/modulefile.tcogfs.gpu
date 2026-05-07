@@ -7,7 +7,9 @@
 module-whatis "TCoGFS Modules for NVIDIA HPC SDK"
 
 set ver v1.0.0
-set machine a100
+set machine gpu
+
+setenv GEPS_DATA /nwpr/gfs/com132/github/gepsv3_data
 
 # Load NVIDIA HPC SDK 24.11
 module use /package/x86_64/nvidia/hpc_sdk/modulefiles

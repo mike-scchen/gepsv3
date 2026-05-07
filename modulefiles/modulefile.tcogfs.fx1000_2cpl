@@ -12,6 +12,8 @@ module-whatis " TCoGFS whatis description"
 set ver v1.0.0
 set machine fx1000
 
+setenv GEPS_DATA /nwpr/gfs/com132/github/gepsv3_data
+
 set LANG_HOME /opt/FJSVxtclanga/tcsds-1.2.33
 setenv COMP      $LANG_HOME/bin/mpifrtpx
 setenv COMP_MP   $LANG_HOME/bin/mpifrtpx
