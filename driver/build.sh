@@ -3,14 +3,14 @@
 #
 #  build GFS forecast model
 #
-# 使用方式（僅支援以下三種）：
-#   ./build.sh a100 2cpl
+# �Allowed machine / couple mode:
+#   ./build.sh gpu 2cpl
 #   ./build.sh fx1000 2cpl
 #   ./build.sh fx1000 4cpl
 #
 #------------------------------------------------------------------------------
 
-# 檢查參數
+# Check for number of arguments
 if [ $# -ne 3 ]; then
   echo "Usage: $0 [MACHINE] [CPL_MODE] [TCo???]"
   echo "Allowed combinations:"
@@ -24,7 +24,7 @@ fi
 MACHINE=$1
 CPL_MODE=$2
 RESN=$3
-# 驗證合法組合
+# Check for legal machine / couple modes
 if [[ "$MACHINE" == "gpu" && "$CPL_MODE" == "2cpl" ]]; then
   :
 elif [[ "$MACHINE" == "fx1000" && ( "$CPL_MODE" == "2cpl" || "$CPL_MODE" == "4cpl"  || "$CPL_MODE" == "2cpl_CICE" ) ]]; then
@@ -35,17 +35,19 @@ else
   exit 1
 fi
 
-# FX1000 特殊登入節點檢查
-if [ "$MACHINE" == "fx1000" ]; then
-  if [[ ! "$HOSTNAME" =~ ^h6ln[0-9][0-9]$ ]]; then
-    echo "Fatal Error: Build fx1000 executable must be done on h6ln?? login node!"
-    exit 1
-  fi
-fi
+# FX1000 
+# Check if building on fx1000 login node
+# You may enable the check / modify the hostname 
+#if [ "$MACHINE" == "fx1000" ]; then
+#  if [[ ! "$HOSTNAME" =~ ^h6ln[0-9][0-9]$ ]]; then
+#    echo "Fatal Error: Build fx1000 executable must be done on h6ln?? login node!"
+#    exit 1
+#  fi
+#fi
 
 set -x
 
-# 設定 FRAME
+# Set arguments
 export FRAME=$CPL_MODE
 export MACHINE=$MACHINE
 export atmres=$RESN
@@ -53,24 +55,23 @@ if [ "$MACHINE" == "gpu" ]; then
   # GPU: NVIDIA HPC SDK 
   . $MODULESHOME/init/bash
   #. $LMOD_ROOT/lmod/init/bash
+  module purge
   module use /package/x86_64/nvidia/hpc_sdk/modulefiles
   module load nvhpc-hpcx-cuda12/24.11
   module use ../modulefiles/modulefile.tcogfs.gpu
   echo "LD_LIBRARY_PATH=$LD_LIBRARY_PATH"
 else
   # FX1000: Fujitsu
-  MDIR=$(cd ../tco639l72 && pwd)
-  . /usr/share/Modules/init/bash
-  module purge
-  module use ${MDIR}/modulefiles
+  . $MODULESHOME/init/bash
+  #. $LMOD_ROOT/lmod/init/bash
 
-  module show modulefile.tcogfs.${MACHINE}_${FRAME}
+  module purge
+  module use ../modulefiles
   module load modulefile.tcogfs.${MACHINE}_${FRAME}
   module list
-  module unuse ${MDIR}/modulefiles
 fi
 
-# 編譯
+# Building
 if [ "$FRAME" == "2cpl_CICE" ]; then
   make -f Makefile.${MACHINE}.${atmres}ice
 else
@@ -82,5 +83,5 @@ if [[ $? -ne 0 ]]; then
   exit 1
 fi
 
-echo "✅ Build successful: $MACHINE $FRAME $atmres"
+echo "Build successful: $MACHINE $FRAME $atmres"
 

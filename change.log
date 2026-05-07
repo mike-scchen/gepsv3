@@ -1,0 +1,12 @@
+--- 2026/05/07 20:30
+Cleanup the fx1000 script in tco and driver, also includes adjustments from the modulefiles location move
+Add the 2cpl_CICE check in tco/build.sh
+(which is actually identical to 2cpl; the difference is on the TIMCOM's side)
+fx1000 CPU 2cpl_CICE job run successful in CWA confirmed
+
+--- 2026/05/07 18:30
+Move modulefiles from gepsv3/tco to gepsv3
+Rename machine name a100 to gpu in tco, timcom, driver and jobs
+Change namelist default for gpu/2cpl/tco383 to enable GPU radiation port
+GPU 2cpl job run successful in CWA confirmed
+
