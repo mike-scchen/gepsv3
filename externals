@@ -1,0 +1,10 @@
+###### External files ######
+Some components has static data.
+We've moved them to NTU server for download.
+rsm/fix: http://140.112.69.67/downloads/gepsv3/rsm_fix.tar.xz
+tco/fix: http://140.112.69.67/downloads/gepsv3/tco_fix.tar.xz
+jobs/diag: http://140.112.69.67/downloads/gepsv3/jobs_diag.tar.xz
+
+Also, a copy if TCo383 2025010100 initial condition (IC) data, alone with shared libraries for x86 / fx1000 machines has been packed and available for download on NTU server.
+Download this package, unpack it somewhere, and modify the gepsv3/modulefiles/modulefile.geps.(machine) to let it know where to find these file.
+GEPSv3 shared data: http://140.112.69.67/downloads/gepsv3/gepsv3_share.tar.xz
