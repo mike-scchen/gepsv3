@@ -12,19 +12,22 @@
 #
 if [ $# -lt 1 ] || [ $# -gt 2 ]; then
   echo "Usage: $0 [MACHINE] [OPTION: 2cpl 4cpl 2cpl_CICE]"
+  echo "Allowed MACHINEs: fx1000"
   exit 1
 fi
 
 export MACHINE=$1
 OPTION=$2
 
-machines='fx1000 fx100 fx10 pcc'
+machines='fx1000'
 [[ $machines =~ (^|[[:space:]])$MACHINE($|[[:space:]]) ]] && known='True' || known='False'
 if [ "${known}" == 'False' ]; then
   echo "Fatal Error: Unknown machine --> ${MACHINE}"
   exit 1
 fi
 
+# Check if building on fx1000 login node
+# You may enable the check / modify the hostname
 if [ "${MACHINE}" == 'fx1000' ]; then
   if ! [[ $HOSTNAME =~ h6ln[0-9][0-9] ]]; then
     echo "Fatal Error: Please build on login node of HPC Gen6 (h6ln??)"
@@ -35,15 +38,19 @@ fi
 set -x
 
 # load libs
-export MDIR=$(pwd)
-. /usr/share/Modules/init/bash
+. $MODULESHOME/init/bash
+#. $LMOD_ROOT/lmod/init/bash
 module purge
-module use  ${MDIR}/modulefiles
-module av
+module use ../modulefiles
 
 # Decide module to load
 case "$OPTION" in
   2cpl)
+    module load modulefile.tcogfs.${MACHINE}_2cpl
+    export TIMCOMCPL=TRUE
+    export clpath=/data/common/gfs/GEPSv3_lib/coupler/fx1000
+    ;;
+  2cpl_CICE)
     module load modulefile.tcogfs.${MACHINE}_2cpl
     export TIMCOMCPL=TRUE
     export clpath=/data/common/gfs/GEPSv3_lib/coupler/fx1000
@@ -78,7 +85,7 @@ if [[ $? -ne 0 ]]; then
 fi
 
 # Echo current build info
-echo "✅ Build completed for:"
+echo "Build completed for:"
 echo "   MACHINE : $MACHINE"
 if [[ "$OPTION" == "2cpl_CICE" || "$OPTION" == "4cpl" || "$OPTION" == "2cpl" ]]
 then

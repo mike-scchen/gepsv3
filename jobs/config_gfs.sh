@@ -12,7 +12,7 @@ if [ $1 = 639  ] ; then
 elif [ $1 = 383  ] ; then
   MODEL_BASIC='nco=384,'
   MODLST_RES="dt=600., hfilt=1., cgwd=2.4, cmbk=0.6, tofd=t, ksgeo=1, outdms=0, outgrb2=1,
-              domfc=1080., out_green=t, otgreen=3., nmmiph=12, nmgwcv=1, two_loop=t,
+              domfc=1080., out_green=t, otgreen=3., nmmiph=15, nmgwcv=2, two_loop=t,
               nmcup=7, nmshl=4,factop=80.,mass_dp=t,itter=1,alpha=0.65,doclx=t,dorst=f,"
   DMSFLAG=GI
   NPEX=1
