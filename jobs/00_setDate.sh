@@ -33,7 +33,7 @@ fi
 
 #set something
 export JCAP="383" #199 383 639
-export mach="gpu" #a100 fx1000
-export struc="2cpl" #2cpl(gpu), 2cpl / 4cpl / 2cpl_CICE(fx1000) 
+export mach="fx1000" #gpu fx1000
+export struc="2cpl_CICE" #2cpl(gpu), 2cpl / 4cpl / 2cpl_CICE(fx1000) 
 export tai_v='_op'  #Regional Version
 export FCT_MODEL=${kshpath}/../driver/TCoTIMCOM_${struc}_${mach}_TCo${JCAP}

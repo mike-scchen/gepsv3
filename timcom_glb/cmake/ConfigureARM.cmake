@@ -5,22 +5,23 @@
 # ##############################################################################
 
 set(CMAKE_Fortran_COMPILER mpifrtpx)
+set(GEPS_LIBS $ENV{GEPS_LIBS})
 
-set(NETCDF_PATH "/data/common/gfs/GEPSv3_lib/fx1000/netcdf-4.7.4")
-set(HDF5_PATH "/data/common/gfs/GEPSv3_lib/fx1000/hdf5-1.10.7")
+set(NETCDF_PATH "${GEPS_LIBS}/fx1000/netcdf-4.7.4")
+set(HDF5_PATH "${GEPS_LIBS}/fx1000/hdf5-1.10.7")
 if(${USE_OMIP})
-    set(ZLIB_PATH "/data/common/gfs/GEPSv3_lib/fx1000/zlib-1.2.11_fastest")
+    set(ZLIB_PATH "${GEPS_LIBS}/fx1000/zlib-1.2.11_fastest")
 else()
-    set(ZLIB_PATH "/data/common/gfs/GEPSv3_lib/fx1000/zlib-1.2.8")
+    set(ZLIB_PATH "${GEPS_LIBS}/fx1000/zlib-1.2.8")
 endif()
-set(PNETCDF_PATH "/data/common/gfs/GEPSv3_lib/fx1000/pnetcdf-1.12.3")
-set(MCT_PATH "/data/common/gfs/GEPSv3_lib/fx1000/MCT")
+set(PNETCDF_PATH "${GEPS_LIBS}/fx1000/pnetcdf-1.12.3")
+set(MCT_PATH "${GEPS_LIBS}/fx1000/MCT")
 
 set(CURRENT_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
 #file(REAL_PATH "${CURRENT_DIR}/../" opath)
 #set(CPL_PATH "${opath}/coupler/fx1000")
-set(CPL_PATH "/data/common/gfs/GEPSv3_lib/coupler/fx1000")
-set(CICE_PATH "/data/common/gfs/GEPSv3_lib/cice/cpl_lib_musoac")
+set(CPL_PATH "${GEPS_LIBS}/fx1000/coupler")
+set(CICE_PATH "${GEPS_LIBS}/fx1000/cpl_lib_musoac")
 
 message("CPL_PATH=${CPL_PATH}")
 

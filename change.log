@@ -1,9 +1,16 @@
+--- 2026/05/08 16:10
+Had shared libraries packed up.
+Add GEPS_LIBS setting in fx1000 modules, and expand all library modules into environment variables.
+(fx1000 uses make, and the makefile loads the library paths from environment variables)
+Share libs packed and available on NTU server.
+fx1000 CPU 2cpl_CICE job run successfully.
+
 --- 2026/05/07 23:50
 Cleanup some old remarked lines in build_job.sh
 Remove obsolete module files for fx10, fx100 and pcc
 Copy data for 2025010100 TCo199 and TCo383 to gepsv3_data
 Add the path of gepsv3_data to modulefiles (fx1000, gpu), and modify build_job.sh to get its path for data source.
-fx1000 CPU 2cpl_CICE and GPU 2cpl job run successful in CWA confirmed - packing gepsv3_data for download from NTU server. (29GB -> 14GB)
+fx1000 CPU 2cpl_CICE and GPU 2cpl job run successful in CWA confirmed - packing gepsv3_data for download from NTU server. (29GB -> 12GB)
 
 --- 2026/05/07 20:30
 Cleanup the fx1000 script in tco and driver, also includes adjustments from the modulefiles location move
