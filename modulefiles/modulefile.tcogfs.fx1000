@@ -75,9 +75,6 @@ module load cmake/3.21.4
 module unuse /data/common/gfs/modulefiles/x86_64
 
 # Loading gfs modules
-module use /data/common/gfs/modulefiles/$machine
-module av
-
 setenv NETCDF $GEPS_LIBS/fx1000/netcdf-4.7.4
 setenv NETCDF_DIR $GEPS_LIBS/fx1000/netcdf-4.7.4
 setenv NETCDF_INC $GEPS_LIBS/fx1000/netcdf-4.7.4/include

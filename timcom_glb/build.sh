@@ -62,6 +62,8 @@ if [ "$MACHINE" == 'gpu' ]; then
   module list
   USE_ARM="OFF"
   USE_GPU="ON"
+  USE_CLM="OFF"  # =ON(with clm_r, restart)
+  USE_ICE="OFF"  # =ON(with cpl_cice, GPU does NOT support this for now)
 elif [ "$MACHINE" == 'fx1000' ]; then
   echo "Loading Fujitsu for fx1000..."
   . $MODULESHOME/init/bash
@@ -71,13 +73,12 @@ elif [ "$MACHINE" == 'fx1000' ]; then
   module list
   USE_ARM="ON"
   USE_GPU="OFF"
+  USE_CLM="OFF"  # =ON(with clm_r, restart)
+  USE_ICE="ON"  # =ON(with cpl_cice)
 fi
 
 # Run cmake and build
 echo "Building with CMake..."
 
-USE_CLM="OFF"  # =ON(with clm_r, restart) 
-USE_ICE="OFF"  # =ON(with cpl_cice)
-
 cmake -B build_${MACHINE} -S . -DUSE_OMIP=${USE_OMIP} -DUSE_ARM=${USE_ARM} -DUSE_GPU=${USE_GPU} -DUSE_CLM=${USE_CLM} -DUSE_ICE=${USE_ICE}
-cmake --build build_${MACHINE} -j $(($(nproc) / 2))
+cmake --build build_${MACHINE} -j $(($(nproc) / 2)) -v

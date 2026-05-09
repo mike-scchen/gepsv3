@@ -1,28 +1,31 @@
-COUPLERPATH  = /data/common/gfs/GEPSv3_lib/coupler/a100
-TIMCOMLIBPATH = ../timcom_glb/build_a100/src
-CWBGFSLIBPATH = ../tco639l72/build_a100/lib
+COUPLERPATH  = $(GEPS_LIBS)/x86_64/nvidia/coupler
+TIMCOMLIBPATH = ../timcom_glb/build_gpu/src
+CWBGFSLIBPATH = ../tco639l72/build_gpu/lib
 TAILIBPATH   = ../rsm/src/timcom.fd
 RSMLIBPATH   = ../rsm/run/exe
-MCTPATH      = /package/x86_64/nvidia/mct-2.11.0
-HDF5         = /package/x86_64/nvidia/hdf5-1.13.2
-ZLIB         = /users/xa09/pkg/x86_64/zlib-1.2.11
-PNETCDF      = /package/x86_64/nvidia/pnetcdf-1.12.3
-NETCDF       = /package/x86_64/nvidia/netcdf-4.9.0
+MCTPATH      = $(GEPS_LIBS)/x86_64/nvidia/mct-2.11.0
+HDF5         = $(GEPS_LIBS)/x86_64/nvidia/hdf5-1.13.2
+ZLIB         = $(GEPS_LIBS)/x86_64/zlib-1.2.11
+PNETCDF      = $(GEPS_LIBS)/x86_64/nvidia/pnetcdf-1.12.3
+NETCDF       = $(GEPS_LIBS)/x86_64/nvidia/netcdf-4.9.0
 FFTW         = /usr/lib64
-W3           = /package/x86_64/w3lib-2.0.2
-OPER         = /package/x86_64/operlib
-DMS          = /users/xa09/pkg/x86_64/dms38key
+FFTW_INC     = /usr/include
+W3           = $(GEPS_LIBS)/x86_64/w3lib-2.0.2
+OPER         = $(GEPS_LIBS)/x86_64/operlib
+DMS          = $(GEPS_LIBS)/x86_64/dms38key
+### This assumes you use default module files in NVHPC
+### which exports
 CUDA         = /package/x86_64/nvidia/cuda/12.2.2
 CUDA2        = /package/x86_64/nvidia/cuda/12.2.2/lib64/stubs
 NVF          = /package/x86_64/nvidia/hpc_sdk/Linux_x86_64/24.11/compilers
 NCCL         = /package/x86_64/nvidia/hpc_sdk/Linux_x86_64/24.11/comm_libs/nccl
 PKG          = /nwpr/gfs/xb157/pkg
 
-PPATH        = /package/x86_64/libpng-1.6.37/lib -lpng
-JPATH        = /package/x86_64/nvidia/jasper-1.900.1/lib -ljasper
-NPATH        = /package/x86_64/nvidia/g2lib-1.4.0_cwb/lib -lg2
+PPATH        = $(GEPS_LIBS)/x86_64/libpng-1.6.37/lib -lpng
+JPATH        = $(GEPS_LIBS)/x86_64/nvidia/jasper-1.900.1/lib -ljasper
+NPATH        = $(GEPS_LIBS)/x86_64/nvidia/g2lib-1.4.0_cwb/lib -lg2
 
-WPATH        = /users/xa09/x86_64/nceplibs/lib -lw3emc_d -lw3nco_d -lw3nco_4 -lbacio_4
+WPATH        = $(GEPS_LIBS)/x86_64/nceplibs/lib -lw3emc_d -lw3nco_d -lw3nco_4 -lbacio_4
 
 F90COMPILER  = /IFS/package/x86_64/nvidia/hpc_sdk/Linux_x86_64/24.11/comm_libs/12.6/hpcx/hpcx-2.20/ompi/bin/mpif90
 F90LINKER    = $(F90COMPILER)
@@ -47,18 +50,18 @@ ifeq ($(FRAME), 4cpl)
                    -L${RSMLIBPATH} -lrsm4cpl \
                    -L${TAILIBPATH} -ltimcom_tai \
                    -L${COUPLERPATH} -lcpl ${LIBS}
-    DRIVER_SRC = driver_a100_4cpl_TCo199.F90
+    DRIVER_SRC = driver_gpu_4cpl_TCo199.F90
 else ifeq ($(FRAME), 2cpl)
     F90LINKPATHS = -L${TIMCOMLIBPATH} -ltimcom \
                    -L${CWBGFSLIBPATH} -ltcogfs -lmod_ndslfv_monoadv_gpu \
                    -L${COUPLERPATH} -lcpl ${LIBS}
-    DRIVER_SRC = driver_a100_2cpl_TCo199.F90
+    DRIVER_SRC = driver_gpu_2cpl_TCo199.F90
 else
     $(error "Unsupported FRAME value: $(FRAME). Use 4cpl or 2cpl")
 endif
 
 F90LINKLIBS= -L$(NVF)/lib -L${CUDA}/lib64 -L${CUDA2} -lcuda -lcusparse -lcudart -lnvf -lmct -lmpeu -lhdf5_hl -lhdf5 -lz -ldl -lblas -llapack \
-             -L/users/xa09/x86_64/nceplibs/lib -lw3emc_d -lw3nco_d -lw3nco_4 -lbacio_4 \
+             -L$(GEPS_LIBS)/x86_64/nceplibs/lib -lw3emc_d -lw3nco_d -lw3nco_4 -lbacio_4 \
              -L/usr/lib/gcc/x86_64-redhat-linux/8/ -lgfortran 
 
 SRCDIR =  src

@@ -5,14 +5,16 @@
 # ##############################################################################
 
 set(CMAKE_Fortran_COMPILER mpif90)
+set(GEPS_LIBS $ENV{GEPS_LIBS})
 
-set(NETCDF_PATH "/package/x86_64/nvidia/netcdf-4.9.0")
-set(PNETCDF_PATH "/package/x86_64/nvidia/pnetcdf-1.12.3")
-set(MCT_PATH "/package/x86_64/nvidia/mct-2.11.0")
+set(NETCDF_PATH "${GEPS_LIBS}/x86_64/nvidia/netcdf-4.9.0")
+set(PNETCDF_PATH "${GEPS_LIBS}/x86_64/nvidia/pnetcdf-1.12.3")
+set(MCT_PATH "${GEPS_LIBS}/x86_64/nvidia/mct-2.11.0")
 #file(REAL_PATH "${CURRENT_DIR}/../" opath)
 #set(CPL_PATH "${opath}/coupler/a100")
-set(CPL_PATH "/data/common/gfs/GEPSv3_lib/coupler/a100")
-set(CICE_PATH "/data/common/gfs/GEPSv3_lib/cice/cpl_lib_musoac_a100")
+set(CPL_PATH "${GEPS_LIBS}/x86_64/nvidia/coupler")
+#GPU port can't use CICE for now
+#set(CICE_PATH "${GEPS_LIBS}/x86_64/nvidia/cpl_lib_musoac_a100")
 
 message("CPL_PATH=${CPL_PATH}")
 

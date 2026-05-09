@@ -58,13 +58,13 @@ if [ "$MACHINE" == "gpu" ]; then
   module purge
   module use /package/x86_64/nvidia/hpc_sdk/modulefiles
   module load nvhpc-hpcx-cuda12/24.11
-  module use ../modulefiles/modulefile.tcogfs.gpu
+  module use ../modulefiles
+  module load modulefile.tcogfs.gpu
   echo "LD_LIBRARY_PATH=$LD_LIBRARY_PATH"
-else
+elif [ "$MACHINE" == "fx1000" ]; then
   # FX1000: Fujitsu
   . $MODULESHOME/init/bash
   #. $LMOD_ROOT/lmod/init/bash
-
   module purge
   module use ../modulefiles
   module load modulefile.tcogfs.${MACHINE}_${FRAME}

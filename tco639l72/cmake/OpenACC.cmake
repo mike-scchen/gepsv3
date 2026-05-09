@@ -10,6 +10,7 @@ add_compile_options("$<$<COMPILE_LANGUAGE:Fortran>:SHELL:-r8>")
 add_compile_options("$<$<COMPILE_LANGUAGE:Fortran>:SHELL:-Mpreprocess>")
 add_compile_options(
   "$<$<COMPILE_LANGUAGE:Fortran>:SHELL:-Mbyteswapio -Minline>")
+set (GEPS_LIBS $ENV{GEPS_LIBS})
 
 # Auto-parallel and OpenMP
 if(${USE_OMP})
@@ -20,17 +21,17 @@ if(${USE_PAR})
 endif()
 
 # Set variable for NetCDF and W3 libraries
-set(NetCDF_Fortran_INCLUDE_DIRS "/package/x86_64/nvidia/netcdf-4.9.0/include")
-set(W3_LIBRARIES "/package/x86_64/w3lib-2.0.2/lib/libw3.a")
-set(CPL_INCLUDE_DIR "/data/common/gfs/GEPSv3_lib/coupler/a100")
-set(MCT_INCLUDE_DIR "/package/x86_64/nvidia/mct-2.11.0/include")
+set(NetCDF_Fortran_INCLUDE_DIRS "${GEPS_LIBS}/x86_64/nvidia/netcdf-4.9.0/include")
+set(W3_LIBRARIES "${GEPS_LIBS}/x86_64/w3lib-2.0.2/lib/libw3.a")
+set(CPL_INCLUDE_DIR "${GEPS_LIBS}/x86_64/nvidia/coupler")
+set(MCT_INCLUDE_DIR "${GEPS_LIBS}/x86_64/nvidia/mct-2.11.0/include")
 
 # Link library for dgemm
-link_directories(/home/xa09/pkg/openmpi-4.0.1/lib)
+#link_directories(/home/xa09/pkg/openmpi-4.0.1/lib)
 link_libraries(-lblas -llapack)
 
 # Link library dms library
-link_directories(/users/xa09/pkg/x86_64/dms38key/lib)
+link_directories(${GEPS_LIBS}/x86_64/dms38key/lib)
 link_libraries(-lrdms -lgdbm)
 
 # Link library zlib
@@ -38,7 +39,7 @@ link_directories(/usr/lib64)
 link_libraries(-lz)
 
 # Link library NetCDF
-link_directories(/package/x86_64/nvidia/netcdf-4.9.0/lib)
+link_directories(${GEPS_LIBS}/x86_64/nvidia/netcdf-4.9.0/lib)
 link_libraries(-lnetcdf -lnetcdff)
 
 # Link library FFTW
@@ -46,13 +47,13 @@ link_directories(/usr/lib64)
 link_libraries(-lfftw3_threads -lfftw3 -lfftw3f_threads -lfftw3f)
 
 # Link library operlib
-link_directories(/package/x86_64/operlib/lib)
+link_directories(${GEPS_LIBS}/x86_64/operlib/lib)
 link_libraries(-lnwp)
 
-link_directories(/package/x86_64/nvidia/geps_coupler/lib)
+link_directories(${GEPS_LIBS}/x86_64/nvidia/geps_coupler/lib)
 link_libraries(-lcpl)
 
-link_directories(/package/x86_64/nvidia/mct-2.11.0/lib)
+link_directories(${GEPS_LIBS}/x86_64/nvidia/mct-2.11.0/lib)
 link_libraries(-lmct -lmpeu)
 
 # Additional link
