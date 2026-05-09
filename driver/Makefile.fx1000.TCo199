@@ -1,18 +1,9 @@
-COUPLERPATH=/data/common/gfs/GEPSv3_lib/coupler/fx1000
+include Make.include.fx1000
+
 TIMCOMLIBPATH=../timcom_glb/build_fx1000/src
 CWBGFSLIBPATH=../tco639l72/src
 TAILIBPATH=../rsm/src/timcom.fd
 RSMLIBPATH=../rsm/run/exe
-MCTPATH=/data/common/gfs/GEPSv3_lib/$(MACHINE)/MCT
-HDF5=/package/$(MACHINE)/hdf5-1.10.7
-#ZLIB=/nwpr/gfs/xb124/package/$(MACHINE)/zlib-1.2.8
-ZLIB=/users/xa09/pkg/fx1000/zlib-1.2.11_fastest
-PNETCDF=/data/common/gfs/GEPSv3_lib/$(MACHINE)/pnetcdf-1.12.3
-
-PPATH=/package/fx1000//libpng-1.6.37/lib -lpng
-JPATH=/package/fx1000/jasper-1.900.1/lib -ljasper
-NPATH=/package/fx1000/g2lib-1.4.0_cwb/lib -lg2
-WPATH=/data/common/gfs/GEPSv3_lib/NCEPLIB/lib -lw3emc_d -lw3nco_d -lw3nco_4 -lbacio_4
 
 # -------------------Compiler & Flags------------------------------------------
 F90COMPILER = ${COMP_MPI}
@@ -31,6 +22,7 @@ F90LINKOPTS=${FFLAGS_COM} ${LIBS_COM} ${OMP_COM} ${DEFINE_FLAGS} ${MSG_COM}
 
 ifeq ($(FRAME), 4cpl)
     F90LINKPATHS = -L${TIMCOMLIBPATH} -ltimcom \
+		   -L${CICEPATH} -lcice \
                    -L${CWBGFSLIBPATH} -ltco \
                    -L${RSMLIBPATH} -lrsm4cpl \
                    -L${TAILIBPATH} -ltimcom_tai \
@@ -38,6 +30,7 @@ ifeq ($(FRAME), 4cpl)
     DRIVER_SRC = driver_4cpl_TCo199.F90
 else ifeq ($(FRAME), 2cpl)
     F90LINKPATHS = -L${TIMCOMLIBPATH} -ltimcom \
+		   -L${CICEPATH} -lcice \
                    -L${CWBGFSLIBPATH} -ltco \
                    -L${COUPLERPATH} -lcpl ${LIBS}
     DRIVER_SRC = driver_2cpl_TCo199.F90

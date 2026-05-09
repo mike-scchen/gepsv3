@@ -1,0 +1,31 @@
+COUPLERPATH  = $(GEPS_LIBS)/x86_64/nvidia/coupler
+MCTPATH      = $(GEPS_LIBS)/x86_64/nvidia/mct-2.11.0
+HDF5         = $(GEPS_LIBS)/x86_64/nvidia/hdf5-1.13.2
+ZLIB         = $(GEPS_LIBS)/x86_64/zlib-1.2.11
+PNETCDF      = $(GEPS_LIBS)/x86_64/nvidia/pnetcdf-1.12.3
+NETCDF       = $(GEPS_LIBS)/x86_64/nvidia/netcdf-4.9.0
+FFTW         = /usr/lib64
+FFTW_INC     = /usr/include
+W3           = $(GEPS_LIBS)/x86_64/w3lib-2.0.2
+OPER         = $(GEPS_LIBS)/x86_64/operlib
+DMS          = $(GEPS_LIBS)/x86_64/dms38key
+### This assumes you use default module files in NVHPC
+### which exports NVHPC_ROOT
+CUDA         = $(NVHPC_ROOT)/cuda/12.2.2
+CUDA2        = $(NVHPC_ROOT)/cuda/12.2.2/lib64/stubs
+#CUDA         = /package/x86_64/nvidia/cuda/12.2.2
+#CUDA2        = /package/x86_64/nvidia/cuda/12.2.2/lib64/stubs
+NVF          = $(NVHPC_ROOT)/compilers
+#NVF          = /package/x86_64/nvidia/hpc_sdk/Linux_x86_64/24.11/compilers
+NCCL         = $(NVHPC_ROOT)/nccl
+#NCCL         = /package/x86_64/nvidia/hpc_sdk/Linux_x86_64/24.11/comm_libs/nccl
+PKG          = /nwpr/gfs/xb157/pkg
+
+PPATH        = $(GEPS_LIBS)/x86_64/libpng-1.6.37/lib -lpng
+JPATH        = $(GEPS_LIBS)/x86_64/nvidia/jasper-1.900.1/lib -ljasper
+NPATH        = $(GEPS_LIBS)/x86_64/nvidia/g2lib-1.4.0_cwb/lib -lg2
+
+WPATH        = $(GEPS_LIBS)/x86_64/nceplibs/lib -lw3emc_d -lw3nco_d -lw3nco_4 -lbacio_4
+
+F90COMPILER  = $(NVHPC_ROOT)/comm_libs/12.6/hpcx/hpcx-2.20/ompi/bin/mpif90
+

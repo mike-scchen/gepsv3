@@ -1,19 +1,9 @@
-COUPLERPATH=$(GEPS_LIBS)/fx1000/coupler
+include Make.include.fx1000
+
 TIMCOMLIBPATH=../timcom_glb/build_fx1000/src
-CICEPATH=$(GEPS_LIBS)/fx1000/cpl_lib_musoac
 CWBGFSLIBPATH=../tco639l72/src
 TAILIBPATH=../rsm/src/timcom.fd
 RSMLIBPATH=../rsm/run/exe
-MCTPATH=$(GEPS_LIBS)/fx1000/MCT
-HDF5=$(GEPS_LIBS)/fx1000/hdf5-1.10.7
-#ZLIB=/nwpr/gfs/xb124/package/$(MACHINE)/zlib-1.2.8
-ZLIB=$(GEPS_LIBS)/fx1000/zlib-1.2.11_fastest
-PNETCDF=$(GEPS_LIBS)/fx1000/pnetcdf-1.12.3
-
-PPATH=$(GEPS_LIBS)/fx1000//libpng-1.6.37/lib -lpng
-JPATH=$(GEPS_LIBS)/fx1000/jasper-1.900.1/lib -ljasper
-NPATH=$(GEPS_LIBS)/fx1000/g2lib-1.4.0_cwb/lib -lg2
-WPATH=$(GEPS_LIBS)/fx1000/NCEPLIB/lib -lw3emc_d -lw3nco_d -lw3nco_4 -lbacio_4
 
 # -------------------Compiler & Flags------------------------------------------
 F90COMPILER = ${COMP_MPI}
