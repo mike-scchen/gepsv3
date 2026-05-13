@@ -1,8 +1,13 @@
 kshpath=`pwd `
 . ${kshpath}/00_setDate.sh
 
+#. $MODULESHOME/init/bash
+. $LMOD_ROOT/lmod/init/bash
+module purge
+module use ../modulefiles
+module load modulefile.tcogfs.${mach}
  
- Caldtg=/data/common/gfs/scripts/Caldtg.ksh
+ Caldtg=../bin/caldtg.sh
  cd ${kshpath}
 #######################################################################
 # 3. Set date and update hours

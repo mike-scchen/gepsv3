@@ -1,3 +1,13 @@
+--- 2026/05/14 02:30
+Remove the extra -lrpc in makefile.
+It was introduced by dms38key, but that library has been rebuilt with libtirpc instead.
+So -lrpc is no longer needed - only -ltirpc is required.
+The NCHC Nano5 machine does not have libtirpc installed, which the original makefile assumed, so a copy of libtirpc was added to the geps_libs. (package not tracked in git)
+Also, rewrite the caldtg.ksh (Nano5 does NOT have ksh!) with sh and date command, instead of math formula for leap years, etc. for better readability / robustness.
+Copy the original job/build_job.sh (uses PJM) to job/build_job.sh.cwa
+Edit the gpu section to use NCHC Nano5 (uses Slurm) instead.
+Also, add LD_LIBRARY_PATH for NetCDF in modulefiles/modulefile.tcogfs.gpu so the executable can find it in runtime.
+
 --- 2026/05/10 03:20
 Packup the GPU port libraries and modify the makefile / cmake files.
 Also consolidate the common library paths in each Makefile to Make.include.machine

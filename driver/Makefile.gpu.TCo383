@@ -12,7 +12,7 @@ INCLUDE      = -I${FFTW_INC} -I${NETCDF}/include -I${COUPLERPATH} -I${MCTPATH}/i
 LIBS         = -L${NPATH} -L${PPATH} -L${WPATH} -L${JPATH} \
                -L${PNETCDF}/lib -lpnetcdf -L${NETCDF}/lib -lnetcdf -lnetcdff \
                -L${W3}/lib -L${DMS}/lib -lrdms -lgdbm -L${OPER}/lib -L${FFTW} -lfftw3 -lfftw3f -lfftw3_threads \
-               -L${HDF5}/lib -L${ZLIB}/lib -L$(MCTPATH)/lib -L$(PKG)/lib -lrpc -L/lib64/ -ltirpc
+               -L${HDF5}/lib -L${ZLIB}/lib -L$(MCTPATH)/lib -L$(TIRPC)/lib64/ -ltirpc
 
 FFLAGS_COM   = -O3 -Mpreprocess -Minfo=all -fast -mp -cuda -cudalib -acc
 

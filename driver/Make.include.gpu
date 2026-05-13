@@ -9,6 +9,7 @@ FFTW_INC     = /usr/include
 W3           = $(GEPS_LIBS)/x86_64/w3lib-2.0.2
 OPER         = $(GEPS_LIBS)/x86_64/operlib
 DMS          = $(GEPS_LIBS)/x86_64/dms38key
+TIRPC        = $(GEPS_LIBS)/x86_64/libtirpc-1.1.4
 ### This assumes you use default module files in NVHPC
 ### which exports NVHPC_ROOT
 CUDA         = $(NVHPC_ROOT)/cuda/12.2.2
@@ -19,7 +20,6 @@ NVF          = $(NVHPC_ROOT)/compilers
 #NVF          = /package/x86_64/nvidia/hpc_sdk/Linux_x86_64/24.11/compilers
 NCCL         = $(NVHPC_ROOT)/nccl
 #NCCL         = /package/x86_64/nvidia/hpc_sdk/Linux_x86_64/24.11/comm_libs/nccl
-PKG          = /nwpr/gfs/xb157/pkg
 
 PPATH        = $(GEPS_LIBS)/x86_64/libpng-1.6.37/lib -lpng
 JPATH        = $(GEPS_LIBS)/x86_64/nvidia/jasper-1.900.1/lib -ljasper

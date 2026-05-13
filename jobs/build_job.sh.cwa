@@ -192,14 +192,21 @@ ln -fs ${TIMCOMr_bcneed} ${RSMOUT}/
 if [ ${mach} = gpu ] ;then
 cat > ${MDIR}.ufs/submit_job.sh <<EOF
 #!/bin/bash
-#SBATCH -N 1
-#SBATCH -n ${MPI}
-#SBATCH --gpus-per-node=8
-#SBATCH -J op_${dtg}
-#SBATCH -p dev
-#SBATCH -A MST112425
-#SBATCH -o %j.log
-#SBATCH -e %j.err
+#PJM -L vnode=1
+#PJM -L vnode-core=32
+#PJM -L gpu-share=8
+#PJM -L rscunit=rscunit_pg01
+#PJM -L rscgrp=gpu-rd-small
+#PJM -x PJM_CACHE_MODE=4
+#PJM -L elapse=03:00:00
+#PJM -L node-mem=unlimited
+#PJM --no-stging
+#PJM --mpi "proc=${MPI}"
+#PJM -j
+#PJM -g sum
+#PJM -N op_${dtg}
+#PJM -o ${MDIR}.ufs/%j.log
+#PJM -e ${MDIR}.ufs/%j.err
 
 . /usr/share/Modules/init/bash
 module use /package/x86_64/nvidia/hpc_sdk/modulefiles
