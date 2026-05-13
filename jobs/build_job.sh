@@ -1,5 +1,4 @@
-/bin/bash
-set -x
+#!/bin/bash
 kshpath=`pwd `
 . ${kshpath}/00_setDate.sh
 
@@ -8,6 +7,7 @@ kshpath=`pwd `
 module purge
 module use ../modulefiles
 module load modulefile.tcogfs.${mach}
+module list
 
 export caldtg="../bin/caldtg.sh"
 export dtg=$(echo ${op_date}|cut -c 3-10)
@@ -201,12 +201,10 @@ cat > ${MDIR}.ufs/submit_job.sh <<EOF
 #SBATCH -o %j.log
 #SBATCH -e %j.err
 
-. /usr/share/Modules/init/bash
-module use /package/x86_64/nvidia/hpc_sdk/modulefiles
-module load nvhpc-hpcx-cuda12/24.11
-module unuse /package/x86_64/nvidia/hpc_sdk/modulefiles
-
-export LD_LIBRARY_PATH=/package/x86_64/nvidia/netcdf-4.9.0/lib:\$LD_LIBRARY_PATH
+. $LMOD_ROOT/lmod/init/sh
+module use ../../modulefiles
+module load modlefile.tcogfs.gpu
+module list
 
 export n_proc_gfs=${n_proc_gfs}
 export n_proc_rsm=${n_proc_rsm}
