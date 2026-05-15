@@ -1,3 +1,9 @@
+--- 2026/05/15 17:30
+Add fftw3 to ubndled libraries.
+Update the GPU makefiles / modulefiles to use bundled libtirpc and fftw3.
+(NCHC has fftw installed on login node, but not on computing nodes.
+So building is okay but will have undefined refence error on runtime.)
+
 --- 2026/05/14 02:30
 Remove the extra -lrpc in makefile.
 It was introduced by dms38key, but that library has been rebuilt with libtirpc instead.

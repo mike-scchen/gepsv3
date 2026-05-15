@@ -25,6 +25,7 @@ prepend-path PATH $GEPS_LIBS/x86_64/cmake-3.21.4/bin/
 
 # NetCDF
 prepend-path LD_LIBRARY_PATH $GEPS_LIBS/x86_64/nvidia/netcdf-4.9.0/lib
+prepend-path LD_LIBRARY_PATH $GEPS_LIBS/x86_64/fftw-3.3.5/lib64
 
 # Add for grib2 output
 set G2_PATH "$GEPS_LIBS/x86_64/nvidia/g2lib-1.4.0_cwb"

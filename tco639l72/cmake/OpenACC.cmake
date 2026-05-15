@@ -40,10 +40,10 @@ link_libraries(-lz)
 
 # Link library NetCDF
 link_directories(${GEPS_LIBS}/x86_64/nvidia/netcdf-4.9.0/lib)
-link_libraries(-lnetcdf -lnetcdff)
+link_libraries(-lnetcdff -lnetcdf -lhdf5_hl -lhdf5 -lcurl)
 
 # Link library FFTW
-link_directories(/usr/lib64)
+link_directories(${GEPS_LIBS}/x86_64/fftw-3.3.5/lib64)
 link_libraries(-lfftw3_threads -lfftw3 -lfftw3f_threads -lfftw3f)
 
 # Link library operlib
@@ -57,7 +57,10 @@ link_directories(${GEPS_LIBS}/x86_64/nvidia/mct-2.11.0/lib)
 link_libraries(-lmct -lmpeu)
 
 # Additional link
-link_libraries(-ltirpc -lm -lcurl -lhdf5_hl -lhdf5 -lgfortran -lcusparse -lcudart)
+link_directories(${GEPS_LIBS}/x86_64/libtirpc-1.1.4/lib64)
+link_libraries(-ltirpc)
+
+link_libraries(-lm -lgfortran -lcusparse -lcudart)
 
 # Add OpenACC options
 add_compile_options(-DUSE_CUDA=1)
