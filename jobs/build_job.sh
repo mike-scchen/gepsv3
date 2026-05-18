@@ -234,6 +234,8 @@ export NVCOMPILER_ACC_CUDA_MEMALLOCASYNC_POOLSIZE="40G"
 export NVCOMPILER_ACC_USE_GRAPH="1"
 export NVCOMPILER_ACC_CUDA_NOCOPY="1"
 
+# NCHC nano5 setting
+export UCX_TLS=self,cuda_copy,cuda_ipc,shm,mm
 
 FCT_MODEL=${FCT_MODEL}
 /usr/bin/time -p mpiexec -n ${MPI} ${FCT_MODEL} 000
