@@ -203,7 +203,7 @@ cat > ${MDIR}.ufs/submit_job.sh <<EOF
 
 . $LMOD_ROOT/lmod/init/sh
 module use ../../modulefiles
-module load modlefile.tcogfs.gpu
+module load modulefile.tcogfs.gpu
 module list
 
 export n_proc_gfs=${n_proc_gfs}

@@ -1,3 +1,7 @@
+--- 2026/05/19 03:00
+GPU run on NCHC nano5 successdful - need extra UCX_TLS setting in build_job.sh.
+Also a typo in build_job.sh was fixed.
+
 --- 2026/05/18 17:10
 Modify bin/caldtg.sh so it accepts both 8-digit and 10-digit date string.
 
