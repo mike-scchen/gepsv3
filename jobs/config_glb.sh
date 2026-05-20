@@ -65,7 +65,7 @@ EOF
 
 cat > ${GFSWRK}/namelist000.ice << EOF
 &dice_ifrac
- fpath = '/data/common/gfs/GEPSv3_lib/data/'
+ fpath = '${GEPS_DATA}/'
  fname = 'TIMCOM_dice_frac.nc'
  gridx = 'lon'
  gridy = 'lat'
@@ -76,7 +76,7 @@ EOF
 
 cat > ${GFSWRK}/namelist000.rof << EOF
 &drof_roff
- fpath = '/data/common/gfs/GEPSv3_lib/data/'
+ fpath = '${GEPS_DATA}/'
  fname = 'TIMCOM_drof_roff.nc'
  gridx = 'lon'
  gridy = 'lat'
@@ -89,7 +89,7 @@ EOF
 
 cat > ${GFSWRK}/namelist000.tco << EOF
 &datm_uwnd
- fpath = '/data/common/gfs/GEPSv3_lib/data/'
+ fpath = '${GEPS_DATA}/'
  fname = 'TCo383_2001010100_atmo.nc'
  gridx = 'lon'
  gridy = 'lat'
@@ -98,7 +98,7 @@ cat > ${GFSWRK}/namelist000.tco << EOF
 &end
 
 &datm_vwnd
- fpath = '/data/common/gfs/GEPSv3_lib/data/'
+ fpath = '${GEPS_DATA}/'
  fname = 'TCo383_2001010100_atmo.nc'
  gridx = 'lon'
  gridy = 'lat'
@@ -107,7 +107,7 @@ cat > ${GFSWRK}/namelist000.tco << EOF
 &end
 
 &datm_temp
- fpath = '/data/common/gfs/GEPSv3_lib/data/'
+ fpath = '${GEPS_DATA}/'
  fname = 'TCo383_2001010100_atmo.nc'
  gridx = 'lon'
  gridy = 'lat'
@@ -116,7 +116,7 @@ cat > ${GFSWRK}/namelist000.tco << EOF
 &end
 
 &datm_qhum
- fpath = '/data/common/gfs/GEPSv3_lib/data/'
+ fpath = '${GEPS_DATA}/'
  fname = 'TCo383_2001010100_atmo.nc'
  gridx = 'lon'
  gridy = 'lat'
@@ -125,7 +125,7 @@ cat > ${GFSWRK}/namelist000.tco << EOF
 &end
 
 &datm_pslv
- fpath = '/data/common/gfs/GEPSv3_lib/data/'
+ fpath = '${GEPS_DATA}/'
  fname = 'TCo383_2001010100_atmo.nc'
  gridx = 'lon'
  gridy = 'lat'
@@ -134,7 +134,7 @@ cat > ${GFSWRK}/namelist000.tco << EOF
 &end
 
 &datm_swup
- fpath = '/data/common/gfs/GEPSv3_lib/data/'
+ fpath = '${GEPS_DATA}/'
  fname = 'TCo383_2001010100_atmo.nc'
  gridx = 'lon'
  gridy = 'lat'
@@ -143,7 +143,7 @@ cat > ${GFSWRK}/namelist000.tco << EOF
 &end
 
 &datm_swdn
- fpath = '/data/common/gfs/GEPSv3_lib/data/'
+ fpath = '${GEPS_DATA}/'
  fname = 'TCo383_2001010100_atmo.nc'
  gridx = 'lon'
  gridy = 'lat'
@@ -152,7 +152,7 @@ cat > ${GFSWRK}/namelist000.tco << EOF
 &end
 
 &datm_lwdn
- fpath = '/data/common/gfs/GEPSv3_lib/data/'
+ fpath = '${GEPS_DATA}/'
  fname = 'TCo383_2001010100_atmo.nc'
  gridx = 'lon'
  gridy = 'lat'
@@ -161,7 +161,7 @@ cat > ${GFSWRK}/namelist000.tco << EOF
 &end
 
 &datm_rain
- fpath = '/data/common/gfs/GEPSv3_lib/data/'
+ fpath = '${GEPS_DATA}/'
  fname = 'TCo383_2001010100_atmo.nc'
  gridx = 'lon'
  gridy = 'lat'
@@ -170,7 +170,7 @@ cat > ${GFSWRK}/namelist000.tco << EOF
 &end
 
 &datm_snow
- fpath = '/data/common/gfs/GEPSv3_lib/data/'
+ fpath = '${GEPS_DATA}/'
  fname = 'TCo383_2001010100_atmo.nc'
  gridx = 'lon'
  gridy = 'lat'

@@ -136,8 +136,8 @@ subroutine timcom_fs(itf, it0, syng_mon, mxit, dt_cpl)
   call check_incompressibility
   call eliminate_arbitrary_pressure
   call interp_Cgrid_to_Agrid
-  call adjust_seaice_ts(itf,mxit,dt_cpl)
   call modified_filter
+  call adjust_seaice_ts(itf,mxit,dt_cpl)
 
 end subroutine timcom_fs
 

@@ -1,5 +1,10 @@
+--- 2026/05/20 15:00
+1. Fix the timcom/src/timcom_drv.F90 for adjust_seaice_ts call location - leaded to incorrect sea ice thickness
+2. Fix the jobs/config_glb.sh for wrong timcom input path (should be ok but test job pending at the moment)
+
 --- 2026/05/19 03:00
 GPU run on NCHC nano5 successdful - need extra UCX_TLS setting in build_job.sh.
+(Correct: fixed the MPI_INIT problem but wrong input path leads to NaN crash. Should be fixed in next change.)
 Also a typo in build_job.sh was fixed.
 
 --- 2026/05/18 17:10

@@ -64,6 +64,8 @@ if [ "$MACHINE" == 'gpu' ]; then
   USE_GPU="ON"
   USE_CLM="OFF"  # =ON(with clm_r, restart)
   USE_ICE="OFF"  # =ON(with cpl_cice, GPU does NOT support this for now)
+  GPU_ARCH="90"
+  CUDA_RUNTIME_VERSION="12.4"
 elif [ "$MACHINE" == 'fx1000' ]; then
   echo "Loading Fujitsu for fx1000..."
   . $MODULESHOME/init/bash
@@ -80,5 +82,5 @@ fi
 # Run cmake and build
 echo "Building with CMake..."
 
-cmake -B build_${MACHINE} -S . -DUSE_OMIP=${USE_OMIP} -DUSE_ARM=${USE_ARM} -DUSE_GPU=${USE_GPU} -DUSE_CLM=${USE_CLM} -DUSE_ICE=${USE_ICE}
+cmake -B build_${MACHINE} -S . -DUSE_OMIP=${USE_OMIP} -DUSE_ARM=${USE_ARM} -DUSE_GPU=${USE_GPU} -DUSE_CLM=${USE_CLM} -DUSE_ICE=${USE_ICE} -DGPU_ARCH=${GPU_ARCH} #-DCUDA_RUNTIME_VERSION=${CUDA_RUNTIME_VERSION} 
 cmake --build build_${MACHINE} -j $(($(nproc) / 2)) -v
