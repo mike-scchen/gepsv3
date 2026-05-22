@@ -1,0 +1,81 @@
+#%Module####################################################
+proc ModulesHelp { } {
+puts stderr "Set environment veriables for TCoGFS"
+puts stderr "This module initializes the environment "
+}
+module-whatis " TCoGFS whatis description"
+
+set ver v1.0.0
+set machine cpu
+
+setenv GEPS_DATA /work1/u8935479/github/geps_data
+set GEPS_LIBS /work1/u8935479/github/gepsv3_libs
+setenv GEPS_LIBS $GEPS_LIBS
+
+module use /work1/u8935479/nvidia/hpc_sdk/modulefiles
+module load nvhpc-hpcx/24.11
+
+setenv COMP      mpifort
+setenv COMP_MP   mpifort
+setenv COMP_MPI  mpifort
+
+setenv C_COMP    mpicc
+setenv C_COMP_MP mpicc
+
+setenv CXX_COMP_MP mpic++
+
+#setenv FFLAGS_COM "-c -X9 -Free -CcdRR8 -Cpp -Kfast,parallel,openmp,ocl,autoobjstack -x- -fw -Knofp_relaxed"
+setenv FFLAGS_COM "-c -Mfree -Mbyteswapio -r8 -mp=multicore -O3"
+setenv DEFINE_FLAGS "-DTIMING -DUSE_FFTW -DW3TAG "
+#setenv MSG_COM "-Ec -Nlst=a,lst=d,lst=i,lst=p,lst=t,lst=x -Koptmsg=2"
+setenv MSG_COM "-Minfo=all -Mneginfo"
+#setenv LIBS_COM "-SSL2BLAMP"
+setenv LIBS_COM "-llapack -lblas"
+#setenv OMP_COM "-Kopenmp,parallel"
+setenv OMP_COM "-mp=multicore"
+#setenv CFLAGS_COM "-c -Xg"
+setenv CFLAGS_COM "-c"
+#setenv MPMD_LIB "-L$GEPS_LIBS/fx1000/cwb_mpmd -lmpmd"
+
+# Load CMake 3.21.4
+prepend-path PATH $GEPS_LIBS/x86_64/cmake-3.21.4/bin
+
+# NetCDF
+prepend-path LD_LIBRARY_PATH $GEPS_LIBS/x86_64/nvidia/netcdf-4.9.0/lib
+prepend-path LD_LIBRARY_PATH $GEPS_LIBS/x86_64/fftw-3.3.5/lib64
+
+# Loading gfs modules
+setenv NETCDF $GEPS_LIBS/x86_64/nvidia/netcdf-4.9.0
+setenv NETCDF_DIR $GEPS_LIBS/x86_64/nvidia/netcdf-4.9.0
+setenv NETCDF_INC $GEPS_LIBS/x86_64/nvidia/netcdf-4.9.0/include
+setenv NETCDF_LIB "-L$GEPS_LIBS/x86_64/nvidia/netcdf-4.9.0/lib -lnetcdff -lnetcdf"
+
+setenv HDF5_LIB "-lhdf5_hl -lhdf5"
+
+setenv FFTW_DIR $GEPS_LIBS/x86_64/fftw-3.3.5
+setenv FFTW $GEPS_LIBS/x86_64/fftw-3.3.5
+setenv FFTW_INC $GEPS_LIBS/x86_64/fftw-3.3.5/include
+setenv FFTW_LIB "-L$GEPS_LIBS/x86_64/fftw-3.3.5/lib64 -lfftw3f_threads -lfftw3f -lfftw3_threads -lfftw3"
+
+prepend-path PATH $GEPS_LIBS/bin
+setenv DMS_LIB "-L$GEPS_LIBS/x86_64/dms38key/lib -lrdms -lgdbm -L$GEPS_LIBS/x86_64/libtirpc-1.1.4/lib64 -ltirpc"
+setenv DMS $GEPS_LIBS/x86_64/dms38key
+prepend-path LD_LIBRARY_PATH $GEPS_LIBS/x86_64/dms38key/lib
+
+setenv OPERLIB_LIB "-L$GEPS_LIBS/x86_64/operlib/lib -lnwp"
+
+setenv W3LIB $GEPS_LIBS/x86_64/w3lib-2.0.2
+setenv W3LIB_LIB $GEPS_LIBS/x86_64/w3lib-2.0.2/lib/libw3.a
+
+#===add for grib2 output
+set G2_PATH "$GEPS_LIBS/x86_64/nvidia/g2lib-1.4.0_cwb"
+set PNG_PATH "$GEPS_LIBS/x86_64/libpng-1.6.37"
+set JASPER_PATH "$GEPS_LIBS/x86_64/nvidia/jasper-1.900.1"
+setenv G2_LIB "-L${G2_PATH}/lib -lg2 "
+setenv G2_INC_PATH "${G2_PATH}/include"
+setenv G2_INC "${G2_PATH}/include"
+setenv G2_LIB_PATH "${G2_PATH}/lib"
+setenv PNG_LIB "-L${PNG_PATH}/lib -lpng"
+setenv PNG_LIB_PATH "${PNG_PATH}/lib"
+setenv JASPER_LIB "-L${JASPER_PATH}/lib -ljasper"
+setenv JASPER_LIB_PATH "${JASPER_PATH}/lib"

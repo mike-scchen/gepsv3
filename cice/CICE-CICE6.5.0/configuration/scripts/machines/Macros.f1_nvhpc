@@ -1,0 +1,61 @@
+#==============================================================================
+# Makefile macros for generic test machine, nvhpc compiler
+#==============================================================================
+
+CPP        := nvc -Mcpp
+CPPDEFS    := -DFORTRANUNDERSCORE -DNO_R16 ${ICE_CPPDEFS}
+CFLAGS     := -c -Kieee
+
+FIXEDFLAGS := -Mfixed
+FREEFLAGS  := -Mfree
+FFLAGS     := -Kieee -byteswapio -traceback
+FFLAGS_NOOPT:= -O0
+
+ifeq ($(ICE_BLDDEBUG), true)
+  FFLAGS     += -O0 -Ktrap=fp
+  CFLAGS     += -O0
+else
+  FFLAGS     += -O2
+  CFLAGS     += -O2
+endif
+
+SCC   := nvc
+SFC   := nvfortran
+MPICC := mpicc
+MPIFC := mpif90
+
+ifeq ($(ICE_COMMDIR), mpi)
+  FC := $(MPIFC)
+  CC := $(MPICC)
+else
+  FC := $(SFC)
+  CC := $(SCC)
+endif
+LD:= $(FC)
+
+NETCDF_PATH := ${GEPS_LIBS}/x86_64/nvidia/netcdf-4.9.0
+
+#PIO_CONFIG_OPTS:= --enable-filesystem-hints=gpfs 
+
+#PNETCDF_PATH := $(PNETCDF)
+PNETCDF_PATH := ${GEPS_LIBS}/x86_64/nvidia/pnetcdf-1.12.3
+
+#Disable PNETCDF, reference on Derecho setup
+#INCLDIR := $(INCLDIR) -I$(NETCDF_PATH)/include -I$(PNETCDF_PATH)/include
+INCLDIR := $(INCLDIR) -I$(NETCDF_PATH)/include 
+
+LIB_NETCDF := $(NETCDF_PATH)/lib
+LIB_PNETCDF := $(PNETCDF_PATH)/lib
+LIB_MPI := $(IMPILIBDIR)
+
+SLIBS   := -L$(LIB_NETCDF) -lnetcdf -lnetcdff -L$(LIB_PNETCDF) -lpnetcdf 
+#-lgptl
+
+ifeq ($(ICE_THREADED), true) 
+   LDFLAGS += -mp
+   CFLAGS += -mp
+   FFLAGS += -mp 
+endif
+
+
+

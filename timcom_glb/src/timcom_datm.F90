@@ -233,7 +233,7 @@ subroutine datm_to_timcom
   ocn_grid(i)%t_10 = dble(atm_grid(i)%flx(idx_a2x_temp)%srcm(x1:x2,y1:y2))
   ocn_grid(i)%q_10 = dble(atm_grid(i)%flx(idx_a2x_qhum)%srcm(x1:x2,y1:y2))
   ocn_grid(i)%pslv = dble(atm_grid(i)%flx(idx_a2x_pslv)%srcm(x1:x2,y1:y2))
-  ocn_grid(i)%swup = dble(-atm_grid(i)%flx(idx_a2x_swup)%srcm(x1:x2,y1:y2))
+!  ocn_grid(i)%swup = dble(-atm_grid(i)%flx(idx_a2x_swup)%srcm(x1:x2,y1:y2))
   ocn_grid(i)%swdn = dble(atm_grid(i)%flx(idx_a2x_swdn)%srcm(x1:x2,y1:y2))
   ocn_grid(i)%lwdn = dble(atm_grid(i)%flx(idx_a2x_lwdn)%srcm(x1:x2,y1:y2))
   ocn_grid(i)%rain = dble(atm_grid(i)%flx(idx_a2x_rain)%srcm(x1:x2,y1:y2))

@@ -1,3 +1,7 @@
+--- 2026/05/20 16:05
+Change the timcom/cmake to use the same coupler lib as tco
+Keep the library files for now and remove from package of test successful
+
 --- 2026/05/20 15:00
 1. Fix the timcom/src/timcom_drv.F90 for adjust_seaice_ts call location - leaded to incorrect sea ice thickness
 2. Fix the jobs/config_glb.sh for wrong timcom input path (should be ok but test job pending at the moment)

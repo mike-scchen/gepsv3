@@ -12,14 +12,14 @@
 #
 if [ $# -lt 1 ] || [ $# -gt 2 ]; then
   echo "Usage: $0 [MACHINE] [OPTION: 2cpl 4cpl 2cpl_CICE]"
-  echo "Allowed MACHINEs: fx1000"
+  echo "Allowed MACHINEs: fx1000 cpu"
   exit 1
 fi
 
 export MACHINE=$1
 OPTION=$2
 
-machines='fx1000'
+machines='fx1000 cpu'
 [[ $machines =~ (^|[[:space:]])$MACHINE($|[[:space:]]) ]] && known='True' || known='False'
 if [ "${known}" == 'False' ]; then
   echo "Fatal Error: Unknown machine --> ${MACHINE}"
@@ -72,7 +72,6 @@ case "$OPTION" in
 esac
 
 module list
-module unuse ${MDIR}/modulefiles
 
 # compile
 cd src/
